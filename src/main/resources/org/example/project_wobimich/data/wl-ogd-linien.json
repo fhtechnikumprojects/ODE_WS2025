@@ -1,0 +1,1409 @@
+[
+ {
+   "LineID": 301,
+   "LineText": "U1",
+   "SortingHelp": 1,
+   "Realtime": 0,
+   "MeansOfTransport": "ptMetro"
+ },
+ {
+   "LineID": 302,
+   "LineText": "U2",
+   "SortingHelp": 2,
+   "Realtime": 0,
+   "MeansOfTransport": "ptMetro"
+ },
+ {
+   "LineID": 303,
+   "LineText": "U3",
+   "SortingHelp": 3,
+   "Realtime": 0,
+   "MeansOfTransport": "ptMetro"
+ },
+ {
+   "LineID": 304,
+   "LineText": "U4",
+   "SortingHelp": 4,
+   "Realtime": 0,
+   "MeansOfTransport": "ptMetro"
+ },
+ {
+   "LineID": 306,
+   "LineText": "U6",
+   "SortingHelp": 6,
+   "Realtime": 0,
+   "MeansOfTransport": "ptMetro"
+ },
+ {
+   "LineID": 101,
+   "LineText": "1",
+   "SortingHelp": 101,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 102,
+   "LineText": "2",
+   "SortingHelp": 102,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 105,
+   "LineText": "5",
+   "SortingHelp": 105,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 106,
+   "LineText": "6",
+   "SortingHelp": 106,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 109,
+   "LineText": "9",
+   "SortingHelp": 109,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 110,
+   "LineText": "10",
+   "SortingHelp": 110,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 111,
+   "LineText": "11",
+   "SortingHelp": 111,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 112,
+   "LineText": "12",
+   "SortingHelp": 112,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 115,
+   "LineText": "E4",
+   "SortingHelp": 115,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 118,
+   "LineText": "18",
+   "SortingHelp": 118,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 125,
+   "LineText": "25",
+   "SortingHelp": 125,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 126,
+   "LineText": "26",
+   "SortingHelp": 126,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 127,
+   "LineText": "27",
+   "SortingHelp": 127,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 130,
+   "LineText": "30",
+   "SortingHelp": 130,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 131,
+   "LineText": "31",
+   "SortingHelp": 131,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 137,
+   "LineText": "37",
+   "SortingHelp": 137,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 138,
+   "LineText": "38",
+   "SortingHelp": 138,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 140,
+   "LineText": "40",
+   "SortingHelp": 140,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 141,
+   "LineText": "41",
+   "SortingHelp": 141,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 142,
+   "LineText": "42",
+   "SortingHelp": 142,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 143,
+   "LineText": "43",
+   "SortingHelp": 143,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 144,
+   "LineText": "44",
+   "SortingHelp": 144,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 146,
+   "LineText": "46",
+   "SortingHelp": 146,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 149,
+   "LineText": "49",
+   "SortingHelp": 149,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 152,
+   "LineText": "52",
+   "SortingHelp": 152,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 160,
+   "LineText": "60",
+   "SortingHelp": 160,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 162,
+   "LineText": "62",
+   "SortingHelp": 162,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 171,
+   "LineText": "71",
+   "SortingHelp": 171,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 136,
+   "LineText": "D",
+   "SortingHelp": 201,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 170,
+   "LineText": "O",
+   "SortingHelp": 202,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTram"
+ },
+ {
+   "LineID": 399,
+   "LineText": "WLB",
+   "SortingHelp": 204,
+   "Realtime": 1,
+   "MeansOfTransport": "ptTramWLB"
+ },
+ {
+   "LineID": 825,
+   "LineText": "25BR",
+   "SortingHelp": 225,
+   "Realtime": 1,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 844,
+   "LineText": "44BR",
+   "SortingHelp": 244,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 849,
+   "LineText": "49BR",
+   "SortingHelp": 249,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 401,
+   "LineText": "1A",
+   "SortingHelp": 401,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 402,
+   "LineText": "2A",
+   "SortingHelp": 402,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 403,
+   "LineText": "3A",
+   "SortingHelp": 403,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 404,
+   "LineText": "4A",
+   "SortingHelp": 404,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 405,
+   "LineText": "5A",
+   "SortingHelp": 405,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 407,
+   "LineText": "7A",
+   "SortingHelp": 407,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 408,
+   "LineText": "8A",
+   "SortingHelp": 408,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 409,
+   "LineText": "9A",
+   "SortingHelp": 409,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 410,
+   "LineText": "10A",
+   "SortingHelp": 410,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 411,
+   "LineText": "11A",
+   "SortingHelp": 411,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 412,
+   "LineText": "12A",
+   "SortingHelp": 412,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 413,
+   "LineText": "13A",
+   "SortingHelp": 413,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 414,
+   "LineText": "14A",
+   "SortingHelp": 414,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 415,
+   "LineText": "15A",
+   "SortingHelp": 415,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 416,
+   "LineText": "16A",
+   "SortingHelp": 416,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 417,
+   "LineText": "17A",
+   "SortingHelp": 417,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 419,
+   "LineText": "19A",
+   "SortingHelp": 419,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 420,
+   "LineText": "20A",
+   "SortingHelp": 420,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 422,
+   "LineText": "22A",
+   "SortingHelp": 422,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 424,
+   "LineText": "24A",
+   "SortingHelp": 424,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 425,
+   "LineText": "25A",
+   "SortingHelp": 425,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 426,
+   "LineText": "26A",
+   "SortingHelp": 426,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 427,
+   "LineText": "27A",
+   "SortingHelp": 427,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 428,
+   "LineText": "28A",
+   "SortingHelp": 428,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 429,
+   "LineText": "29A",
+   "SortingHelp": 429,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 430,
+   "LineText": "30A",
+   "SortingHelp": 430,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 431,
+   "LineText": "31A",
+   "SortingHelp": 431,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 432,
+   "LineText": "32A",
+   "SortingHelp": 432,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 433,
+   "LineText": "33A",
+   "SortingHelp": 433,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 434,
+   "LineText": "34A",
+   "SortingHelp": 434,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 435,
+   "LineText": "35A",
+   "SortingHelp": 435,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 436,
+   "LineText": "36A",
+   "SortingHelp": 436,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 437,
+   "LineText": "37A",
+   "SortingHelp": 437,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 438,
+   "LineText": "38A",
+   "SortingHelp": 438,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 439,
+   "LineText": "39A",
+   "SortingHelp": 439,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 440,
+   "LineText": "40A",
+   "SortingHelp": 440,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 441,
+   "LineText": "41A",
+   "SortingHelp": 441,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 841,
+   "LineText": "41AR",
+   "SortingHelp": 441,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 442,
+   "LineText": "42A",
+   "SortingHelp": 442,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 443,
+   "LineText": "43A",
+   "SortingHelp": 443,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 444,
+   "LineText": "44A",
+   "SortingHelp": 444,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 445,
+   "LineText": "45A",
+   "SortingHelp": 445,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 446,
+   "LineText": "46A",
+   "SortingHelp": 446,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 447,
+   "LineText": "47A",
+   "SortingHelp": 447,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 448,
+   "LineText": "48A",
+   "SortingHelp": 448,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 449,
+   "LineText": "49A",
+   "SortingHelp": 449,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 450,
+   "LineText": "50A",
+   "SortingHelp": 450,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 451,
+   "LineText": "51A",
+   "SortingHelp": 451,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 452,
+   "LineText": "52A",
+   "SortingHelp": 452,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 453,
+   "LineText": "53A",
+   "SortingHelp": 453,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 454,
+   "LineText": "54A",
+   "SortingHelp": 454,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 456,
+   "LineText": "56A",
+   "SortingHelp": 456,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 457,
+   "LineText": "57A",
+   "SortingHelp": 457,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 458,
+   "LineText": "58A",
+   "SortingHelp": 458,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 459,
+   "LineText": "59A",
+   "SortingHelp": 459,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 460,
+   "LineText": "60A",
+   "SortingHelp": 460,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 461,
+   "LineText": "61A",
+   "SortingHelp": 461,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 462,
+   "LineText": "62A",
+   "SortingHelp": 462,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 463,
+   "LineText": "63A",
+   "SortingHelp": 463,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 464,
+   "LineText": "64A",
+   "SortingHelp": 464,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 465,
+   "LineText": "65A",
+   "SortingHelp": 465,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 466,
+   "LineText": "66A",
+   "SortingHelp": 466,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 467,
+   "LineText": "67A",
+   "SortingHelp": 467,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 468,
+   "LineText": "68A",
+   "SortingHelp": 468,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 469,
+   "LineText": "69A",
+   "SortingHelp": 469,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 470,
+   "LineText": "70A",
+   "SortingHelp": 470,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 471,
+   "LineText": "71A",
+   "SortingHelp": 471,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 472,
+   "LineText": "72A",
+   "SortingHelp": 472,
+   "Realtime": 0,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 473,
+   "LineText": "73A",
+   "SortingHelp": 473,
+   "Realtime": 0,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 474,
+   "LineText": "74A",
+   "SortingHelp": 474,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 476,
+   "LineText": "76A",
+   "SortingHelp": 476,
+   "Realtime": 0,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 477,
+   "LineText": "77A",
+   "SortingHelp": 477,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 479,
+   "LineText": "79A",
+   "SortingHelp": 479,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 480,
+   "LineText": "80A",
+   "SortingHelp": 480,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 482,
+   "LineText": "82A",
+   "SortingHelp": 482,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 484,
+   "LineText": "84A",
+   "SortingHelp": 484,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 485,
+   "LineText": "85A",
+   "SortingHelp": 485,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 486,
+   "LineText": "86A",
+   "SortingHelp": 486,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 886,
+   "LineText": "86AR",
+   "SortingHelp": 486,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 487,
+   "LineText": "87A",
+   "SortingHelp": 487,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 488,
+   "LineText": "88A",
+   "SortingHelp": 488,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 489,
+   "LineText": "89A",
+   "SortingHelp": 489,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 889,
+   "LineText": "89AR",
+   "SortingHelp": 489,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 492,
+   "LineText": "92A",
+   "SortingHelp": 492,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 493,
+   "LineText": "93A",
+   "SortingHelp": 493,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 494,
+   "LineText": "94A",
+   "SortingHelp": 494,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 495,
+   "LineText": "95A",
+   "SortingHelp": 495,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 496,
+   "LineText": "96A",
+   "SortingHelp": 496,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 497,
+   "LineText": "97A",
+   "SortingHelp": 497,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 498,
+   "LineText": "98A",
+   "SortingHelp": 498,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 499,
+   "LineText": "99A",
+   "SortingHelp": 499,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 205,
+   "LineText": "5B",
+   "SortingHelp": 505,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 207,
+   "LineText": "7B",
+   "SortingHelp": 507,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 817,
+   "LineText": "N17R",
+   "SortingHelp": 517,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 220,
+   "LineText": "20B",
+   "SortingHelp": 520,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 824,
+   "LineText": "N24R",
+   "SortingHelp": 524,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 227,
+   "LineText": "27B",
+   "SortingHelp": 527,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 229,
+   "LineText": "29B",
+   "SortingHelp": 529,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 830,
+   "LineText": "N30R",
+   "SortingHelp": 530,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 835,
+   "LineText": "N35R",
+   "SortingHelp": 535,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 236,
+   "LineText": "36B",
+   "SortingHelp": 536,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 836,
+   "LineText": "N36R",
+   "SortingHelp": 536,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 238,
+   "LineText": "38B",
+   "SortingHelp": 538,
+   "Realtime": 0,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 239,
+   "LineText": "39B",
+   "SortingHelp": 539,
+   "Realtime": 0,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 243,
+   "LineText": "43B",
+   "SortingHelp": 543,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 246,
+   "LineText": "46B",
+   "SortingHelp": 546,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 247,
+   "LineText": "47B",
+   "SortingHelp": 547,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 250,
+   "LineText": "50B",
+   "SortingHelp": 550,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 252,
+   "LineText": "52B",
+   "SortingHelp": 552,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 254,
+   "LineText": "54B",
+   "SortingHelp": 554,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 854,
+   "LineText": "N54R",
+   "SortingHelp": 554,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 256,
+   "LineText": "56B",
+   "SortingHelp": 556,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 258,
+   "LineText": "58B",
+   "SortingHelp": 558,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 261,
+   "LineText": "61B",
+   "SortingHelp": 561,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 861,
+   "LineText": "N61R",
+   "SortingHelp": 561,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 264,
+   "LineText": "64B",
+   "SortingHelp": 564,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 864,
+   "LineText": "N64R",
+   "SortingHelp": 564,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 267,
+   "LineText": "67B",
+   "SortingHelp": 567,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 268,
+   "LineText": "68B",
+   "SortingHelp": 568,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 868,
+   "LineText": "N68R",
+   "SortingHelp": 568,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 271,
+   "LineText": "71B",
+   "SortingHelp": 571,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 273,
+   "LineText": "73B",
+   "SortingHelp": 573,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 276,
+   "LineText": "76B",
+   "SortingHelp": 576,
+   "Realtime": 0,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 279,
+   "LineText": "79B",
+   "SortingHelp": 579,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 881,
+   "LineText": "N81R",
+   "SortingHelp": 581,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 884,
+   "LineText": "N84R",
+   "SortingHelp": 584,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 288,
+   "LineText": "88B",
+   "SortingHelp": 588,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 890,
+   "LineText": "N90R",
+   "SortingHelp": 590,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 891,
+   "LineText": "N91R",
+   "SortingHelp": 591,
+   "Realtime": 0,
+   "MeansOfTransport": "ptRufBus"
+ },
+ {
+   "LineID": 292,
+   "LineText": "92B",
+   "SortingHelp": 592,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 295,
+   "LineText": "95B",
+   "SortingHelp": 595,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 299,
+   "LineText": "99B",
+   "SortingHelp": 599,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusCity"
+ },
+ {
+   "LineID": 701,
+   "LineText": "S1",
+   "SortingHelp": 701,
+   "Realtime": 0,
+   "MeansOfTransport": "ptTrainS"
+ },
+ {
+   "LineID": 702,
+   "LineText": "S2",
+   "SortingHelp": 702,
+   "Realtime": 0,
+   "MeansOfTransport": "ptTrainS"
+ },
+ {
+   "LineID": 703,
+   "LineText": "S3",
+   "SortingHelp": 703,
+   "Realtime": 0,
+   "MeansOfTransport": "ptTrainS"
+ },
+ {
+   "LineID": 704,
+   "LineText": "S4",
+   "SortingHelp": 704,
+   "Realtime": 0,
+   "MeansOfTransport": "ptTrainS"
+ },
+ {
+   "LineID": 506,
+   "LineText": "N6",
+   "SortingHelp": 706,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 707,
+   "LineText": "S7",
+   "SortingHelp": 707,
+   "Realtime": 0,
+   "MeansOfTransport": "ptTrainS"
+ },
+ {
+   "LineID": 508,
+   "LineText": "N8",
+   "SortingHelp": 708,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 520,
+   "LineText": "N20",
+   "SortingHelp": 720,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 523,
+   "LineText": "N23",
+   "SortingHelp": 723,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 525,
+   "LineText": "N25",
+   "SortingHelp": 725,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 529,
+   "LineText": "N29",
+   "SortingHelp": 729,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 531,
+   "LineText": "N31",
+   "SortingHelp": 731,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 535,
+   "LineText": "N35",
+   "SortingHelp": 735,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 538,
+   "LineText": "N38",
+   "SortingHelp": 738,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 541,
+   "LineText": "N41",
+   "SortingHelp": 741,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 543,
+   "LineText": "N43",
+   "SortingHelp": 743,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 745,
+   "LineText": "S45",
+   "SortingHelp": 745,
+   "Realtime": 0,
+   "MeansOfTransport": "ptTrainS"
+ },
+ {
+   "LineID": 546,
+   "LineText": "N46",
+   "SortingHelp": 746,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 549,
+   "LineText": "N49",
+   "SortingHelp": 749,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 750,
+   "LineText": "S50",
+   "SortingHelp": 750,
+   "Realtime": 0,
+   "MeansOfTransport": "ptTrainS"
+ },
+ {
+   "LineID": 560,
+   "LineText": "N60",
+   "SortingHelp": 760,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 760,
+   "LineText": "S60",
+   "SortingHelp": 760,
+   "Realtime": 0,
+   "MeansOfTransport": "ptTrainS"
+ },
+ {
+   "LineID": 562,
+   "LineText": "N62",
+   "SortingHelp": 762,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 565,
+   "LineText": "N65",
+   "SortingHelp": 765,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 566,
+   "LineText": "N66",
+   "SortingHelp": 766,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 567,
+   "LineText": "N67",
+   "SortingHelp": 767,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 571,
+   "LineText": "N71",
+   "SortingHelp": 771,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 575,
+   "LineText": "N75",
+   "SortingHelp": 775,
+   "Realtime": 1,
+   "MeansOfTransport": "ptBusNight"
+ },
+ {
+   "LineID": 780,
+   "LineText": "S80",
+   "SortingHelp": 780,
+   "Realtime": 0,
+   "MeansOfTransport": "ptTrainS"
+ },
+ {
+   "LineID": 740,
+   "LineText": "S40",
+   "SortingHelp": 940,
+   "Realtime": 0,
+   "MeansOfTransport": "ptTrainS"
+ }
+]

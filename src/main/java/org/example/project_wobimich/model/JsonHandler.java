@@ -8,9 +8,9 @@ import org.example.project_wobimich.Location;
 import java.io.File;
 import java.io.IOException;
 
-public class JsonIterator {
+public class JsonHandler {
 
-    public JsonIterator(){};
+    public JsonHandler(){};
 
     ObjectMapper mapper = new ObjectMapper();
 
@@ -28,6 +28,7 @@ public class JsonIterator {
                     System.out.println("Hausnummer: " + location.getStreetNumber());
                     System.out.println("Longitude: " + location.getLongitude());
                     System.out.println("Latitude: " + location.getLatitude());
+
                     return;
                 }
             }

@@ -1,21 +1,21 @@
 package org.example.project_wobimich;
 
-import org.example.project_wobimich.model.JsonHandler;
-
-import java.io.File;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import javafx.application.Application;
+import java.io.*;
+import java.net.Socket;
 
 public class Launcher {
-    public static void main(String[] args) throws Exception {
-        //Application.launch(HelloApplication.class, args);
+    public static void main(String[] args) {
+        //Application.launch(WobimichApplication.class, args);
 
-        String street = "";
-        String number = "";
-        Location location = new Location(street, number);
+        AdressAPIClient address = new AdressAPIClient("Kierling Banhof", "2");
+        System.out.println(address.fetchAPIResponse());
+        System.out.println(address.parseAPIResponse(address.fetchAPIResponse()).toPrettyString());
 
-        File filePath = new File("D:/Users/Kharim/ODE_WS25/src/main/resources/org/example/project_wobimich/data/");
 
-        JsonHandler iter = new JsonHandler();
-        iter.loadJsonFile(filePath,location);
+
 
     }
 }

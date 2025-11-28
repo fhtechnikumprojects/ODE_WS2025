@@ -3,6 +3,7 @@ package org.example.project_wobimich;
 public class Location {
     private String streetName;
     private String streetNumber;
+    private String zipCode;
     private double longitude;
     private double latitude;
 

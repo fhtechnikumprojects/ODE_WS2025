@@ -1,9 +1,7 @@
-package org.example.project_wobimich.model;
+package org.example.project_wobimich;
 
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.project_wobimich.Address;
-import org.example.project_wobimich.Location;
 
 import java.io.File;
 import java.io.IOException;

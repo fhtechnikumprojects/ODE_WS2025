@@ -17,4 +17,5 @@ public class Line {
         this.direction = direction;
         this.departures = new ArrayList<>();
     }
+
 }

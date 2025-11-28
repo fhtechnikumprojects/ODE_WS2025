@@ -1,8 +1,6 @@
 package org.example.project_wobimich;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import javafx.application.Application;
-import org.example.project_wobimich.model.JsonIterator;
+import org.example.project_wobimich.model.JsonHandler;
 
 import java.io.File;
 
@@ -16,7 +14,7 @@ public class Launcher {
 
         File filePath = new File("D:/Users/Kharim/ODE_WS25/src/main/resources/org/example/project_wobimich/data/ADRESSENOGD_1010_filtered.json");
 
-        JsonIterator iter = new JsonIterator();
+        JsonHandler iter = new JsonHandler();
         iter.loadJsonFile(filePath,location);
 
     }

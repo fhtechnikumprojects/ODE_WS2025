@@ -8,11 +8,11 @@ public class Launcher {
     public static void main(String[] args) throws Exception {
         //Application.launch(HelloApplication.class, args);
 
-        String street = "Neuer Markt";
-        String number = "3";
+        String street = "";
+        String number = "";
         Location location = new Location(street, number);
 
-        File filePath = new File("D:/Users/Kharim/ODE_WS25/src/main/resources/org/example/project_wobimich/data/ADRESSENOGD_1010_filtered.json");
+        File filePath = new File("D:/Users/Kharim/ODE_WS25/src/main/resources/org/example/project_wobimich/data/");
 
         JsonHandler iter = new JsonHandler();
         iter.loadJsonFile(filePath,location);

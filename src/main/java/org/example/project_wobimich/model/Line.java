@@ -6,16 +6,13 @@ import java.util.List;
 public class Line {
     private String id;
     private String name;
-    private String type;
     private String direction;
-    private List<Departure> departures;
+    private String departure;
 
-    public Line(String id, String name, String type, String direction) {
+    public Line(String id, String name, String direction) {
         this.id = id;
         this.name = name;
-        this.type = type;
         this.direction = direction;
-        this.departures = new ArrayList<>();
     }
 
 }

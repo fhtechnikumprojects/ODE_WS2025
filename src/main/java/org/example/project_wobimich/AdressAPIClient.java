@@ -17,7 +17,7 @@ such as longitude,latitude, district, district name and so on...
  */
 
 public class AdressAPIClient {
-    private static final String HOST = "data.wien.gv.at";
+    private static final String HOST = "www.data.wien.gv.at";
     private static final int PORT = 80;
     private String path;
     private String streetName;

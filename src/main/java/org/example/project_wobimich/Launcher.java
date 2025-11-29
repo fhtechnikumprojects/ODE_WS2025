@@ -14,5 +14,11 @@ public class Launcher {
         AdressAPIClient address = new AdressAPIClient(userAddress.getStreetName(), userAddress.getStreetNumber());
         System.out.println(address.parseAPIResponse(address.fetchAPIResponse()).toPrettyString());
 
+
+        DepartureTimeAPIClient departureTimeAPIClient = new DepartureTimeAPIClient("60200657");
+        String response = departureTimeAPIClient.fetchAPIResponse();
+        System.out.println(response);
+        //System.out.println(departureTimeAPIClient.parseAPIResponse(response).toPrettyString());
+
     }
 }

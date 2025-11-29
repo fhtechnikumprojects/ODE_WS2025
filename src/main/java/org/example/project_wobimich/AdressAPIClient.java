@@ -11,21 +11,29 @@ import java.net.Socket;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 
+/*
+This class and its methods are used to request to the WEB-API of data.wien.gv.at and get the response about a specific address
+such as longitude,latitude, district, district name and so on...
+ */
+
 public class AdressAPIClient {
     private static final String HOST = "data.wien.gv.at";
     private static final int PORT = 80;
-    private String guiInputStreetName;
-    private String guiInputStreetNumber;
+    private String path;
+    private String streetName;
+    private String streetNumber;
     private String address;
 
-    public AdressAPIClient(String guiInputStreetName, String guiInputStreetNumber) {
-        this.guiInputStreetName = guiInputStreetName;
-        this.guiInputStreetNumber = guiInputStreetNumber;
-        this.address = URLEncoder.encode(guiInputStreetName + " " + guiInputStreetNumber, StandardCharsets.UTF_8);
+    public AdressAPIClient(String streetName, String streetNumber) {
+        this.streetName = streetName;
+        this.streetNumber = streetNumber;
+        this.address = URLEncoder.encode(streetName + " " + streetNumber, StandardCharsets.UTF_8);
+        this.path = "/daten/OGDAddressService.svc/GetAddressInfo?Address=" + this.address + "&crs=EPSG:4326";
     }
 
+    //send a request to the API
+    //get request and return it as a string
     public String fetchAPIResponse() {
-        String path = "/daten/OGDAddressService.svc/GetAddressInfo?Address=" + this.address + "&crs=EPSG:4326";
         StringBuilder response = new StringBuilder();
 
         try (Socket socket = new Socket(HOST, PORT)) {
@@ -56,6 +64,8 @@ public class AdressAPIClient {
         return response.toString();
     }
 
+    //response of API request is transformed to JSON-format
+    //set given UserAddress-object with longitude and latitude
     public JsonNode parseAPIResponse(String response) {
         ObjectMapper mapper = new ObjectMapper();
         JsonNode filteredResponse = mapper.createObjectNode();

@@ -12,7 +12,8 @@ public class JsonHandler {
 
     ObjectMapper mapper = new ObjectMapper();
 
-    public void loadJsonFile(File filePath, Location location) {
+    /*
+    public void loadJsonFile(File filePath, UserAddress location) {
         try(MappingIterator<Address> iter = mapper.readerFor(Address.class).readValues(filePath)) {
 
             while(iter.hasNext()) {
@@ -35,4 +36,5 @@ public class JsonHandler {
             e.printStackTrace();
         }
     }
+     */
 }

@@ -10,12 +10,9 @@ public class Launcher {
     public static void main(String[] args) {
         //Application.launch(WobimichApplication.class, args);
 
-        AdressAPIClient address = new AdressAPIClient("Kierling Banhof", "2");
-        System.out.println(address.fetchAPIResponse());
+        UserAddress userAddress = new UserAddress("Jägerstraße", "10");
+        AdressAPIClient address = new AdressAPIClient(userAddress.getStreetName(), userAddress.getStreetNumber());
         System.out.println(address.parseAPIResponse(address.fetchAPIResponse()).toPrettyString());
-
-
-
 
     }
 }

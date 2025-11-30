@@ -2,6 +2,7 @@ package org.example.project_wobimich;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import javafx.application.Application;
 import java.io.*;
 import java.net.Socket;
@@ -14,11 +15,8 @@ public class Launcher {
         AdressAPIClient address = new AdressAPIClient(userAddress.getStreetName(), userAddress.getStreetNumber());
         System.out.println(address.parseAPIResponse(address.fetchAPIResponse()).toPrettyString());
 
-
         DepartureTimeAPIClient departureTimeAPIClient = new DepartureTimeAPIClient("60200657");
         String response = departureTimeAPIClient.fetchAPIResponse();
-        System.out.println(response);
-        //System.out.println(departureTimeAPIClient.parseAPIResponse(response).toPrettyString());
-
+        System.out.println(departureTimeAPIClient.parseAPIResponse(response).toPrettyString());
     }
 }

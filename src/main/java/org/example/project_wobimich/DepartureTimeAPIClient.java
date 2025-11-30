@@ -3,14 +3,10 @@ package org.example.project_wobimich;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 
 
 public class DepartureTimeAPIClient {
@@ -59,9 +55,14 @@ public class DepartureTimeAPIClient {
                     continue;
                 }
                 if (isBody) {
+                    // Skip chunk size lines  ==> start at body
+                    if (line.matches("^[0-9a-fA-F]+$")) {
+                        continue;
+                    }
                     response.append(line);
                 }
             }
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -70,35 +71,35 @@ public class DepartureTimeAPIClient {
 
     //response of API request is transformed to JSON-format
     //set given UserAddress-object with longitude and latitude
-    public JsonNode parseAPIResponse(String response) {
+    public ArrayNode parseAPIResponse(String response) {
         ObjectMapper mapper = new ObjectMapper();
-        //JsonNode filteredResponse = mapper.createObjectNode();
-        ArrayNode filteredResponse = mapper.createArrayNode(); // Array für alle Linien
+        ArrayNode filteredResponseArray = mapper.createArrayNode();
 
         try {
             JsonNode rootNode = mapper.readTree(response);
+            JsonNode monitors = rootNode.get("data").get("monitors");
 
-            //only important field of response ==> mapping
-            //fields need to be inserted to an object
-            if (rootNode.has("data") && !rootNode.get("data").isEmpty()) {
-                JsonNode dataArray = rootNode.get("data");
+            if (monitors.isArray() && !monitors.isEmpty()) {
+                for (JsonNode mon : monitors) {
+                    JsonNode lines = mon.get("lines");
+                    if (lines.isArray() && !lines.isEmpty()) {
+                        for (JsonNode line : lines) {
+                            String name = line.get("name").asText();
+                            String direction = line.get("towards").asText();
+                            boolean barrierFree = line.get("barrierFree").asBoolean();
+                            boolean realtimeSupported = line.get("realtimeSupported").asBoolean();
+                            String typeOfTransportation = line.get("type").asText();
+                            String lineId = line.get("lineId").asText();
 
-                for (JsonNode data : dataArray) {
-                    if (data.has("monitors") && data.get("monitors").isArray()) {
-                        for (JsonNode monitor : data.get("monitors")) {
-                            if (monitor.has("lines") && monitor.get("lines").isArray()) {
-                                for (JsonNode line : monitor.get("lines")) {
-                                    ObjectNode lineNode = mapper.createObjectNode();
-                                    lineNode.put("lineId", line.get("lineId").asText());
-                                    lineNode.put("lineName", line.get("name").asText());
-                                    lineNode.put("lineDirection", line.get("towards").asText());
-                                    lineNode.put("lineBarrierereFree", line.get("barrierFree").asText());
-                                    lineNode.put("realtimeSupported", line.get("realtimeSupported").asText());
-                                    lineNode.put("lineType", line.get("type").asText());
-                                    lineNode.put("lineID", line.get("lineId").asText());
-                                    filteredResponse.add(lineNode);
-                                }
-                            }
+                            JsonNode currentNode = mapper.createObjectNode()
+                                    .put("lineId",lineId)
+                                    .put("name",name)
+                                    .put("direction",direction)
+                                    .put("barrierFree",barrierFree)
+                                    .put("realtimeSupported",realtimeSupported)
+                                    .put("typeOfTransportation",typeOfTransportation);
+
+                            filteredResponseArray.add(currentNode);
                         }
                     }
                 }
@@ -106,7 +107,7 @@ public class DepartureTimeAPIClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return filteredResponse;
+        return filteredResponseArray;
     }
 
 

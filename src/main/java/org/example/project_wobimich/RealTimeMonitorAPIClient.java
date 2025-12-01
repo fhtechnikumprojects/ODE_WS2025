@@ -9,14 +9,14 @@ import javax.net.ssl.SSLSocketFactory;
 import java.io.*;
 
 
-public class DepartureTimeAPIClient {
+public class RealTimeMonitorAPIClient {
     private static final String HOST = "www.wienerlinien.at";
     private static final int PORT = 443;
     private String path;
     private String divaID; //for station that has lines assigned to it
     private String stopID; //for station point where lines are departure
 
-    public DepartureTimeAPIClient(String divaID) {
+    public RealTimeMonitorAPIClient(String divaID) {
         this.divaID = divaID;
         this.path ="/ogd_realtime/monitor?diva=" + divaID;
     }

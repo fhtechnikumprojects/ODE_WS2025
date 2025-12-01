@@ -7,13 +7,17 @@ This class is used to store user input as address (street name and street number
 public class UserAddress {
     private String streetName;
     private String streetNumber;
-    private String zipCode;
+    private String postalCode;
     private double longitude;
     private double latitude;
 
     public UserAddress(String streetName, String streetNumber) {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
+    }
+
+    public void setPostalCode(String postalCode) {
+        this.postalCode = postalCode;
     }
 
     public void setLongitude(double longitude) {

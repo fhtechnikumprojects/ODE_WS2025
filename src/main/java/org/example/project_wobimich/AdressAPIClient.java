@@ -28,7 +28,7 @@ public class AdressAPIClient {
     public AdressAPIClient(String streetName, String streetNumber) {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
-        this.address = URLEncoder.encode(streetName + " " + streetNumber, StandardCharsets.UTF_8);
+        this.address = URLEncoder.encode(this.streetName + " " + this.streetNumber, StandardCharsets.UTF_8);
         this.path = "/daten/OGDAddressService.svc/GetAddressInfo?Address=" + this.address + "&crs=EPSG:4326";
     }
 
@@ -65,6 +65,7 @@ public class AdressAPIClient {
         return response.toString();
     }
 
+    /*
     //response of API request is transformed to JSON-format
     //set given UserAddress-object with longitude and latitude
     public JsonNode parseAPIResponse(String response) {
@@ -100,6 +101,31 @@ public class AdressAPIClient {
             e.printStackTrace();
         }
         return filteredResponse;
+    }
+*/
+
+    public AddressDTO parseAPIResponse(String response) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        try {
+            AddressDTO.ApiResponse api = mapper.readValue(response, AddressDTO.ApiResponse.class);
+            AddressDTO.Feature feature = api.features.getFirst();
+
+            AddressDTO addressDTO = new AddressDTO();
+            addressDTO.setStreetName(feature.properties.StreetName);
+            addressDTO.setStreetNumber(feature.properties.StreetNumber);
+            addressDTO.setPostalCode(feature.properties.PostalCode);
+            addressDTO.setCity(feature.properties.Municipality);
+            addressDTO.setLongitude(feature.geometry.coordinates.get(0));
+            addressDTO.setLatitude(feature.geometry.coordinates.get(1));
+
+            return addressDTO;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        return null;
     }
 
 }

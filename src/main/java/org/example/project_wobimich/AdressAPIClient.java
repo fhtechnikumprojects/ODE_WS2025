@@ -2,6 +2,7 @@ package org.example.project_wobimich;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.project_wobimich.model.Line;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -100,16 +101,5 @@ public class AdressAPIClient {
         }
         return filteredResponse;
     }
-
-
-
-
-
-
-
-
-
-
-
 
 }

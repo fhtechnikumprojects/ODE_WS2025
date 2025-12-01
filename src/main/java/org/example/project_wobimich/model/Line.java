@@ -18,6 +18,14 @@ public class Line {
         this.typeOfTransportation = typeOfTransportation;
     }
 
+    public Line() {}
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {}
+
     public void setDeparture(String departure) {
         this.departure = departure;
     }

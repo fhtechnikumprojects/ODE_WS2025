@@ -109,9 +109,5 @@ public class DepartureTimeAPIClient {
         }
         return filteredResponseArray;
     }
-
-
-
-
 }
 

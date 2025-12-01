@@ -21,9 +21,9 @@ public class RealTimeMonitorAPIClient {
         this.path ="/ogd_realtime/monitor?diva=" + divaID;
     }
 
-    //send a request to the API
-    //get request and return it as a string
     /*
+    Send a request to the API.
+    Get request and return it as a string
     The Wiener Linien OGD Realtime API can only be accessed using HTTPS.
     A normal socket uses HTTP on port 80, so it receives a 302 redirect.
     A raw socket cannot perform the SSL/TLS handshake, so it cannot follow the redirect to HTTPS.

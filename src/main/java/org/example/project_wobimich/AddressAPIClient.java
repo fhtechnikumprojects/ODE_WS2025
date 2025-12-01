@@ -1,9 +1,7 @@
 package org.example.project_wobimich;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.project_wobimich.model.Line;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,7 +15,7 @@ This class and its methods are used to request to the WEB-API of data.wien.gv.at
 such as longitude,latitude, district, district name and so on...
  */
 
-public class AdressAPIClient {
+public class AddressAPIClient {
     private static final String HOST = "www.data.wien.gv.at";
     private static final int PORT = 80;
     private String path;
@@ -25,7 +23,7 @@ public class AdressAPIClient {
     private String streetNumber;
     private String address;
 
-    public AdressAPIClient(String streetName, String streetNumber) {
+    public AddressAPIClient(String streetName, String streetNumber) {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
         this.address = URLEncoder.encode(this.streetName + " " + this.streetNumber, StandardCharsets.UTF_8);
@@ -64,45 +62,6 @@ public class AdressAPIClient {
         }
         return response.toString();
     }
-
-    /*
-    //response of API request is transformed to JSON-format
-    //set given UserAddress-object with longitude and latitude
-    public JsonNode parseAPIResponse(String response) {
-        ObjectMapper mapper = new ObjectMapper();
-        JsonNode filteredResponse = mapper.createObjectNode();
-
-        try {
-            JsonNode rootNode = mapper.readTree(response);
-
-            //only important field of response ==> mapping
-            //fields need to be inserted to an object
-            if (rootNode.has("features") && !rootNode.get("features").isEmpty()) {
-                JsonNode feature = rootNode.get("features").get(0);
-                JsonNode geometry = feature.get("geometry");
-                JsonNode properties = feature.get("properties");
-
-                double longitude = geometry.get("coordinates").get(0).asDouble();
-                double latitude = geometry.get("coordinates").get(1).asDouble();
-                String streetName = properties.get("StreetName").asText();
-                String streetNumber = properties.get("StreetNumber").asText();
-                String zipcode = properties.get("PostalCode").asText();
-                String city = properties.get("Municipality").asText();
-
-                filteredResponse = mapper.createObjectNode()
-                        .put("StreetName", streetName)
-                        .put("StreetNumber", streetNumber)
-                        .put("PostalCode", zipcode)
-                        .put("City", city)
-                        .put("Longitude", longitude)
-                        .put("Latitude", latitude);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return filteredResponse;
-    }
-*/
 
     public AddressDTO parseAPIResponse(String response) {
         ObjectMapper mapper = new ObjectMapper();

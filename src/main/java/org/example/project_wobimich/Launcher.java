@@ -8,7 +8,7 @@ public class Launcher {
         Following Code is only for testing purpose:
          */
         UserLocationAddress userAddress = new UserLocationAddress("Klosterneuburger Straße", "2");
-        AdressAPIClient address = new AdressAPIClient(userAddress.getStreetName(), userAddress.getStreetNumber());
+        AddressAPIClient address = new AddressAPIClient(userAddress.getStreetName(), userAddress.getStreetNumber());
         String responseAPI = address.fetchAPIResponse();
         System.out.println("Raw API response:" + responseAPI + "\n");
 

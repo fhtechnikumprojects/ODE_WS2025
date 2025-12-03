@@ -7,6 +7,7 @@ public class Launcher {
         /*
         Following Code is only for testing purpose:
          */
+        /*
         UserLocationAddress userAddress = new UserLocationAddress("Klosterneuburger Straße", "2");
         AddressAPIClient address = new AddressAPIClient(userAddress.getStreetName(), userAddress.getStreetNumber());
         String responseAPI = address.fetchAPIResponse();
@@ -20,11 +21,12 @@ public class Launcher {
         System.out.println("Postleitzahl: " + addressDTO.getPostalCode());
         System.out.println("Longitude: " + addressDTO.getLongitude());
         System.out.println("Latitude: " + addressDTO.getLatitude());
+         */
 
-        /*
+
         RealTimeMonitorAPIClient departureTimeAPIClient = new RealTimeMonitorAPIClient("60200657");
         String response = departureTimeAPIClient.fetchAPIResponse();
-        System.out.println(departureTimeAPIClient.parseAPIResponse(response).toPrettyString());
-         */
+        //System.out.println(departureTimeAPIClient.parseAPIResponse(response).toPrettyString());
+
     }
 }

@@ -78,31 +78,36 @@ public class RealTimeMonitorAPIClient {
         try {
             RealTimeMonitorDTO.ApiResponse api = mapper.readValue(response, RealTimeMonitorDTO.ApiResponse.class);
             for (RealTimeMonitorDTO.Monitors monitor : api.data.monitors) {
-                for (RealTimeMonitorDTO.Line line : monitor.locationStop.lines) {
-                    RealTimeMonitorDTO lineDTO = new RealTimeMonitorDTO();
-                    lineDTO.setLineID(line.lineId);
-                    lineDTO.setTowards(line.towards);
-                    lineDTO.setLineName(line.name);
-                    lineDTO.setTypeOfTransportation(line.type);
-                    lineDTO.setBarrierFree(line.barrierFree);
-                    lineDTO.setRealTimeSupported(line.realTimeSupported);
+                if (monitor != null && monitor.lines != null) {
+                    for (RealTimeMonitorDTO.Line line : monitor.lines) {
+                        if (line != null) {
+                            RealTimeMonitorDTO lineDTO = new RealTimeMonitorDTO();
+                            lineDTO.setLineID(line.lineId);
+                            lineDTO.setTowards(line.towards);
+                            lineDTO.setLineName(line.name);
+                            lineDTO.setTypeOfTransportation(line.type);
+                            lineDTO.setBarrierFree(line.barrierFree);
+                            lineDTO.setRealTimeSupported(line.realtimeSupported);
 
-                    List<String> departureTimes = new ArrayList<>();
-                    if (line.departures != null && line.departures.departure != null) {
-                        for (RealTimeMonitorDTO.Departure departure : line.departures.departure) {
-                            departureTimes.add(departure.timePlanned);
+                            List<String> departureTimes = new ArrayList<>();
+                            if (line.departures != null && line.departures.departure != null) {
+                                for (RealTimeMonitorDTO.Departure dep : line.departures.departure) {
+                                    departureTimes.add(dep.departureTime.timePlanned);
+                                }
+                            }
+                            lineDTO.setDepartureTime(departureTimes);
+                            listOfLines.add(lineDTO);
                         }
                     }
-                    lineDTO.setDepartureTime(departureTimes);
-                    listOfLines.add(lineDTO);
                 }
             }
         }
          catch(IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return listOfLines;
     }
+
 
 }
 

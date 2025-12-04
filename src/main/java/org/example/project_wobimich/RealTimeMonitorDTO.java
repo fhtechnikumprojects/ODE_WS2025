@@ -84,11 +84,6 @@ public class RealTimeMonitorDTO {
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Monitors {
-        public LocationStop locationStop;
-    }
-
-    @JsonIgnoreProperties(ignoreUnknown = true)
-    public static class LocationStop {
         public List<Line> lines;
     }
 
@@ -98,18 +93,23 @@ public class RealTimeMonitorDTO {
         public String towards   ;
         public String type;
         public boolean barrierFree;
-        public boolean realTimeSupported;
+        public boolean realtimeSupported;
         public String lineId;
         public Departures departures;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Departures {
-        public List<Departure> departure;
+        public List<Departure> departure;;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Departure {
+        public DepartureTime departureTime;
+    }
+
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class DepartureTime  {
         public String timePlanned;
         public String timeReal;
     }

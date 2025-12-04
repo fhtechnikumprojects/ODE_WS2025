@@ -2,6 +2,9 @@ package org.example.project_wobimich;
 
 import org.example.project_wobimich.model.Station;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Launcher {
     public static void main(String[] args) {
         //Application.launch(WobimichApplication.class, args);
@@ -25,12 +28,29 @@ public class Launcher {
         System.out.println("Latitude: " + addressDTO.getLatitude());
          */
 
-        RealTimeMonitorAPIClient departureTimeAPIClient = new RealTimeMonitorAPIClient("60200657");
-        String response = departureTimeAPIClient.fetchAPIResponse();
+        /*
+        System.out.println("Web-API Real time monitor:");
         Station station = new Station("60200657","Karlsplatz",16.3689484,48.2009554);
+        RealTimeMonitorAPIClient realTimeMonitorAPIClient = new RealTimeMonitorAPIClient("60200657");
+        String responseRealTimeMonitorAPI = realTimeMonitorAPIClient.fetchAPIResponse();
 
+        List<RealTimeMonitorDTO> listRealTimeMonitor = realTimeMonitorAPIClient.parseAPIResponse(responseRealTimeMonitorAPI);
+        List<String> departureTime = listRealTimeMonitor.getFirst().getDepartureTime();
 
+        System.out.println("lineID: " + listRealTimeMonitor.getFirst().getLineID());
+        System.out.println("lineName: " + listRealTimeMonitor.getFirst().getLineName());
+        System.out.println("towards: " + listRealTimeMonitor.getFirst().getTowards());
+        System.out.println("typeOfTransportation: " + listRealTimeMonitor.getFirst().getTypeOfTransportation());
+        System.out.println("barrierFree: " + listRealTimeMonitor.getFirst().isBarrierFree());
+        System.out.println("realTimeSupport: " + listRealTimeMonitor.getFirst().isRealTimeSupported());
+        String departureTimeOutput = "[";
 
+        for(String depTime : departureTime) {
+            departureTimeOutput += depTime + ",";
+        }
+        departureTimeOutput += "]";
+        System.out.println(departureTimeOutput);
+        */
 
     }
 }

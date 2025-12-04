@@ -78,7 +78,6 @@ public class AddressAPIClient {
             addressDTO.setLatitude(feature.geometry.coordinates.get(1));
 
             return addressDTO;
-
         } catch (Exception e) {
             e.printStackTrace();
 

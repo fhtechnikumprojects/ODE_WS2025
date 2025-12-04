@@ -1,12 +1,12 @@
 package org.example.project_wobimich;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RealTimeMonitorAPIClient {
@@ -18,7 +18,7 @@ public class RealTimeMonitorAPIClient {
 
     public RealTimeMonitorAPIClient(String divaID) {
         this.divaID = divaID;
-        this.path ="/ogd_realtime/monitor?diva=" + divaID;
+        this.path = "/ogd_realtime/monitor?diva=" + divaID;
     }
 
     /*
@@ -70,44 +70,39 @@ public class RealTimeMonitorAPIClient {
     }
 
     //response of API request is transformed to JSON-format
-    //set given UserAddress-object with longitude and latitude
-    public ArrayNode parseAPIResponse(String response) {
+    //set parse given String-response and retrieve only specific fields of JSON-response
+    public List<RealTimeMonitorDTO> parseAPIResponse(String response) {
         ObjectMapper mapper = new ObjectMapper();
-        ArrayNode filteredResponseArray = mapper.createArrayNode();
+        List<RealTimeMonitorDTO> listOfLines = new ArrayList<>();
 
         try {
-            JsonNode rootNode = mapper.readTree(response);
-            JsonNode monitors = rootNode.get("data").get("monitors");
+            RealTimeMonitorDTO.ApiResponse api = mapper.readValue(response, RealTimeMonitorDTO.ApiResponse.class);
+            for (RealTimeMonitorDTO.Monitors monitor : api.data.monitors) {
+                for (RealTimeMonitorDTO.Line line : monitor.locationStop.lines) {
+                    RealTimeMonitorDTO lineDTO = new RealTimeMonitorDTO();
+                    lineDTO.setLineID(line.lineId);
+                    lineDTO.setTowards(line.towards);
+                    lineDTO.setLineName(line.name);
+                    lineDTO.setTypeOfTransportation(line.type);
+                    lineDTO.setBarrierFree(line.barrierFree);
+                    lineDTO.setRealTimeSupported(line.realTimeSupported);
 
-            if (monitors.isArray() && !monitors.isEmpty()) {
-                for (JsonNode mon : monitors) {
-                    JsonNode lines = mon.get("lines");
-                    if (lines.isArray() && !lines.isEmpty()) {
-                        for (JsonNode line : lines) {
-                            String name = line.get("name").asText();
-                            String direction = line.get("towards").asText();
-                            boolean barrierFree = line.get("barrierFree").asBoolean();
-                            boolean realtimeSupported = line.get("realtimeSupported").asBoolean();
-                            String typeOfTransportation = line.get("type").asText();
-                            String lineId = line.get("lineId").asText();
-
-                            JsonNode currentNode = mapper.createObjectNode()
-                                    .put("lineId",lineId)
-                                    .put("name",name)
-                                    .put("direction",direction)
-                                    .put("barrierFree",barrierFree)
-                                    .put("realtimeSupported",realtimeSupported)
-                                    .put("typeOfTransportation",typeOfTransportation);
-
-                            filteredResponseArray.add(currentNode);
+                    List<String> departureTimes = new ArrayList<>();
+                    if (line.departures != null && line.departures.departure != null) {
+                        for (RealTimeMonitorDTO.Departure departure : line.departures.departure) {
+                            departureTimes.add(departure.timePlanned);
                         }
                     }
+                    lineDTO.setDepartureTime(departureTimes);
+                    listOfLines.add(lineDTO);
                 }
             }
-        } catch (IOException e) {
+        }
+         catch(IOException e) {
             e.printStackTrace();
         }
-        return filteredResponseArray;
+        return null;
     }
+
 }
 

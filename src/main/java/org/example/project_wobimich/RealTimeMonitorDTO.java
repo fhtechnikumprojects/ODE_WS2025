@@ -7,10 +7,11 @@ import java.util.List;
 public class RealTimeMonitorDTO {
     private String lineID;
     private String lineName;
-    private String direction;
+    private String towards;
     private String typeOfTransportation;
     private boolean barrierFree;
     private boolean realTimeSupported;
+    private List<String> departureTime;
 
     public String getLineID() {
         return this.lineID;
@@ -28,12 +29,12 @@ public class RealTimeMonitorDTO {
         this.lineName = lineName;
     }
 
-    public String getDirection() {
-        return this.direction;
+    public String getTowards() {
+        return this.towards;
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
+    public void setTowards(String towards) {
+        this.towards = towards;
     }
 
     public String getTypeOfTransportation() {
@@ -60,6 +61,13 @@ public class RealTimeMonitorDTO {
         this.realTimeSupported = realTimeSupported;
     }
 
+    public void setDepartureTime(List<String> departureTime) {
+        this.departureTime = departureTime;
+    }
+
+    public List<String> getDepartureTime() {
+        return this.departureTime;
+    }
 
     /*
     subclasses
@@ -87,27 +95,23 @@ public class RealTimeMonitorDTO {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Line {
         public String name;
-        public String direction;
+        public String towards   ;
         public String type;
         public boolean barrierFree;
         public boolean realTimeSupported;
-        public int lineId;
-        public List<Departures> departures;
+        public String lineId;
+        public Departures departures;
     }
 
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Departures {
-        public String timeReal;
-        public String timePlanned;
+        public List<Departure> departure;
     }
 
-
-
-
-
-
-
-
-
+    @JsonIgnoreProperties(ignoreUnknown = true)
+    public static class Departure {
+        public String timePlanned;
+        public String timeReal;
+    }
 
 }

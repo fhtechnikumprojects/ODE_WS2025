@@ -14,7 +14,6 @@ import java.nio.charset.StandardCharsets;
 This class and its methods are used to request to the WEB-API of data.wien.gv.at and get the response about a specific address
 such as longitude,latitude, district, district name and so on...
  */
-
 public class AddressAPIClient {
     private static final String HOST = "www.data.wien.gv.at";
     private static final int PORT = 80;

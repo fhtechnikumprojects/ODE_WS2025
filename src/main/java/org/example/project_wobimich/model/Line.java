@@ -1,5 +1,8 @@
 package org.example.project_wobimich.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Line {
     private String id;
     private String name;
@@ -7,8 +10,11 @@ public class Line {
     private boolean barrierFree;
     private boolean realTimeSupported;
     private String typeOfTransportation;
-    private String departure;
+    private List<String> departureTime;
 
+    /*
+    constructor with arguments: initialize fields
+     */
     public Line (String id, String name, String direction, boolean barrierFree, boolean realTimeSupported, String typeOfTransportation) {
         this.id = id;
         this.name = name;
@@ -16,18 +22,68 @@ public class Line {
         this.barrierFree = barrierFree;
         this.realTimeSupported = realTimeSupported;
         this.typeOfTransportation = typeOfTransportation;
+        this.departureTime = new ArrayList<>();
     }
 
+    /*
+    constructor without arguments
+     */
     public Line() {}
 
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-    public void setDeparture(String departure) {
-        this.departure = departure;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
+    }
+
+    public boolean isBarrierFree() {
+        return barrierFree;
+    }
+
+    public void setBarrierFree(boolean barrierFree) {
+        this.barrierFree = barrierFree;
+    }
+
+    public boolean isRealTimeSupported() {
+        return realTimeSupported;
+    }
+
+    public void setRealTimeSupported(boolean realTimeSupported) {
+        this.realTimeSupported = realTimeSupported;
+    }
+
+    public String getTypeOfTransportation() {
+        return typeOfTransportation;
+    }
+
+    public void setTypeOfTransportation(String typeOfTransportation) {
+        this.typeOfTransportation = typeOfTransportation;
+    }
+
+    public List<String> getDepartureTime() {
+        return departureTime;
+    }
+
+    public void setDepartureTime(List<String> departureTime) {
+        this.departureTime = departureTime;
     }
 
 }

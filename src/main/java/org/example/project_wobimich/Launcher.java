@@ -1,5 +1,7 @@
 package org.example.project_wobimich;
 
+import org.example.project_wobimich.model.Station;
+
 public class Launcher {
     public static void main(String[] args) {
         //Application.launch(WobimichApplication.class, args);
@@ -23,10 +25,12 @@ public class Launcher {
         System.out.println("Latitude: " + addressDTO.getLatitude());
          */
 
-
         RealTimeMonitorAPIClient departureTimeAPIClient = new RealTimeMonitorAPIClient("60200657");
         String response = departureTimeAPIClient.fetchAPIResponse();
-        //System.out.println(departureTimeAPIClient.parseAPIResponse(response).toPrettyString());
+        Station station = new Station("60200657","Karlsplatz",16.3689484,48.2009554);
+
+
+
 
     }
 }

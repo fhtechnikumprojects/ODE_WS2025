@@ -4,14 +4,14 @@ package org.example.project_wobimich;
 /*
 This class is used to store user input as address (street name and street number).
  */
-public class UserLocationAddress {
+public class UserLocation {
     private String streetName;
     private String streetNumber;
     private String postalCode;
     private double longitude;
     private double latitude;
 
-    public UserLocationAddress(String streetName, String streetNumber) {
+    public UserLocation(String streetName, String streetNumber) {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
     }

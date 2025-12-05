@@ -1,6 +1,7 @@
-package org.example.project_wobimich;
+package org.example.project_wobimich.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.project_wobimich.dto.RealTimeMonitorDTO;
 
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
@@ -83,7 +84,7 @@ public class RealTimeMonitorAPIClient {
                         if (line != null) {
                             RealTimeMonitorDTO lineDTO = new RealTimeMonitorDTO();
                             lineDTO.setLineID(line.lineId);
-                            lineDTO.setTowards(line.towards);
+                            lineDTO.setDirection(line.towards);
                             lineDTO.setLineName(line.name);
                             lineDTO.setTypeOfTransportation(line.type);
                             lineDTO.setBarrierFree(line.barrierFree);

@@ -1,8 +1,9 @@
 package org.example.project_wobimich;
 
+import org.example.project_wobimich.api.RealTimeMonitorAPIClient;
+import org.example.project_wobimich.dto.RealTimeMonitorDTO;
 import org.example.project_wobimich.model.Station;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Launcher {
@@ -28,29 +29,31 @@ public class Launcher {
         System.out.println("Latitude: " + addressDTO.getLatitude());
          */
 
-        /*
-        System.out.println("Web-API Real time monitor:");
+        System.out.println("Show all line information of a station:");
         Station station = new Station("60200657","Karlsplatz",16.3689484,48.2009554);
         RealTimeMonitorAPIClient realTimeMonitorAPIClient = new RealTimeMonitorAPIClient("60200657");
         String responseRealTimeMonitorAPI = realTimeMonitorAPIClient.fetchAPIResponse();
-
         List<RealTimeMonitorDTO> listRealTimeMonitor = realTimeMonitorAPIClient.parseAPIResponse(responseRealTimeMonitorAPI);
-        List<String> departureTime = listRealTimeMonitor.getFirst().getDepartureTime();
 
-        System.out.println("lineID: " + listRealTimeMonitor.getFirst().getLineID());
-        System.out.println("lineName: " + listRealTimeMonitor.getFirst().getLineName());
-        System.out.println("towards: " + listRealTimeMonitor.getFirst().getTowards());
-        System.out.println("typeOfTransportation: " + listRealTimeMonitor.getFirst().getTypeOfTransportation());
-        System.out.println("barrierFree: " + listRealTimeMonitor.getFirst().isBarrierFree());
-        System.out.println("realTimeSupport: " + listRealTimeMonitor.getFirst().isRealTimeSupported());
-        String departureTimeOutput = "[";
+        for(RealTimeMonitorDTO RTM : listRealTimeMonitor) {
+            System.out.println("lineID: " + RTM.getLineID());
+            System.out.println("lineName: " + RTM.getLineName());
+            System.out.println("towards: " + RTM.getDirection());
+            System.out.println("typeOfTransportation: " + RTM.getTypeOfTransportation());
+            System.out.println("barrierFree: " + RTM.isBarrierFree());
+            System.out.println("realTimeSupport: " + RTM.isRealTimeSupported());
+            String departureTimeOutput = "[";
 
-        for(String depTime : departureTime) {
-            departureTimeOutput += depTime + ",";
+            for(String depTime : RTM.getDepartureTime()) {
+                departureTimeOutput += depTime + ",";
+            }
+            departureTimeOutput += "]";
+            System.out.println(departureTimeOutput);
+            System.out.println("\n");
         }
-        departureTimeOutput += "]";
-        System.out.println(departureTimeOutput);
-        */
+
+
+
 
     }
 }

@@ -7,9 +7,9 @@ public class Line {
     private String id;
     private String name;
     private String direction;
+    private String typeOfTransportation;
     private boolean barrierFree;
     private boolean realTimeSupported;
-    private String typeOfTransportation;
     private List<String> departureTime;
 
     /*

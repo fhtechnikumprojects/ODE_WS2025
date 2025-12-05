@@ -6,4 +6,8 @@ module org.example.project_wobimich {
 
     opens org.example.project_wobimich to javafx.fxml;
     exports org.example.project_wobimich;
+    exports org.example.project_wobimich.dto;
+    opens org.example.project_wobimich.dto to javafx.fxml;
+    exports org.example.project_wobimich.api;
+    opens org.example.project_wobimich.api to javafx.fxml;
 }

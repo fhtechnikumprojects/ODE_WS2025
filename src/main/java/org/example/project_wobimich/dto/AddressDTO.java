@@ -1,4 +1,4 @@
-package org.example.project_wobimich;
+package org.example.project_wobimich.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 

@@ -1,4 +1,4 @@
-package org.example.project_wobimich;
+package org.example.project_wobimich.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -7,7 +7,7 @@ import java.util.List;
 public class RealTimeMonitorDTO {
     private String lineID;
     private String lineName;
-    private String towards;
+    private String direction;
     private String typeOfTransportation;
     private boolean barrierFree;
     private boolean realTimeSupported;
@@ -29,12 +29,12 @@ public class RealTimeMonitorDTO {
         this.lineName = lineName;
     }
 
-    public String getTowards() {
-        return this.towards;
+    public String getDirection() {
+        return this.direction;
     }
 
-    public void setTowards(String towards) {
-        this.towards = towards;
+    public void setDirection(String direction) {
+        this.direction = direction;
     }
 
     public String getTypeOfTransportation() {
@@ -111,7 +111,6 @@ public class RealTimeMonitorDTO {
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class DepartureTime  {
         public String timePlanned;
-        public String timeReal;
     }
 
 }

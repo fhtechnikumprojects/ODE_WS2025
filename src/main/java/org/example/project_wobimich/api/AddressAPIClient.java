@@ -1,7 +1,9 @@
-package org.example.project_wobimich;
+package org.example.project_wobimich.api;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.project_wobimich.dto.AddressDTO;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;

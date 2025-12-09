@@ -1,6 +1,5 @@
 package org.example.project_wobimich.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Line {
@@ -15,14 +14,14 @@ public class Line {
     /*
     constructor with arguments: initialize fields
      */
-    public Line (String id, String name, String direction, boolean barrierFree, boolean realTimeSupported, String typeOfTransportation) {
+    public Line (String id, String name, String direction, String typeOfTransportation, boolean barrierFree, boolean realTimeSupported, List<String> departureTime) {
         this.id = id;
         this.name = name;
         this.direction = direction;
+        this.typeOfTransportation = typeOfTransportation;
         this.barrierFree = barrierFree;
         this.realTimeSupported = realTimeSupported;
-        this.typeOfTransportation = typeOfTransportation;
-        this.departureTime = new ArrayList<>();
+        this.departureTime = departureTime;
     }
 
     /*

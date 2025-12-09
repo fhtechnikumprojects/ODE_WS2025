@@ -8,13 +8,15 @@ public class UserLocation {
     private String streetName;
     private String streetNumber;
     private String postalCode;
+    private String city;
     private double longitude;
     private double latitude;
 
-    public UserLocation(String streetName, String streetNumber, String postalCode, double longitude, double latitude) {
+    public UserLocation(String streetName, String streetNumber, String postalCode, String city, double longitude, double latitude) {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
         this.postalCode = postalCode;
+        this.city = city;
         this.longitude = longitude;
         this.latitude = latitude;
     }
@@ -41,6 +43,14 @@ public class UserLocation {
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public double getLongitude() {

@@ -8,7 +8,7 @@ public class Station {
     private String name;
     private double latitude;
     private double longitude;
-    private List<Line> lines;
+    private List<LineStation> lines;
 
     public Station(String id, String name, double latitude, double longitude) {
         this.id = id;
@@ -50,11 +50,11 @@ public class Station {
         this.longitude = longitude;
     }
 
-    public List<Line> getLines() {
+    public List<LineStation> getLines() {
         return this.lines;
     }
 
-    public void setLines(List<Line> lines) {
+    public void setLines(List<LineStation> lines) {
         this.lines = lines;
     }
 

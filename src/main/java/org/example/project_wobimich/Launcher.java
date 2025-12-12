@@ -4,9 +4,7 @@ import org.example.project_wobimich.api.AddressAPIClient;
 import org.example.project_wobimich.api.RealTimeMonitorAPIClient;
 import org.example.project_wobimich.dto.AddressDTO;
 import org.example.project_wobimich.dto.RealTimeMonitorDTO;
-import org.example.project_wobimich.mapper.LineMapper;
-import org.example.project_wobimich.mapper.UserLocationMapper;
-import org.example.project_wobimich.model.Line;
+import org.example.project_wobimich.model.LineStation;
 import org.example.project_wobimich.model.Station;
 
 import java.util.ArrayList;
@@ -21,7 +19,8 @@ public class Launcher {
         AddressAPIClient addressAPIClient = new AddressAPIClient(streetName,streetNumber);
         String apiResponse = addressAPIClient.fetchAPIResponse();
         AddressDTO addressDTO = addressAPIClient.parseAPIResponse(apiResponse);
-        UserLocation location = UserLocationMapper.mapToUserLocation(addressDTO);
+        UserLocation location = new UserLocation();
+        addressDTO.mapToUserLocation(location);
 
         System.out.println("Strassenname: " + location.getStreetName());
         System.out.println("Strassennummer: " + location.getStreetNumber());
@@ -30,18 +29,19 @@ public class Launcher {
         System.out.println("Longitude: " + location.getLongitude());
         System.out.println("Latitude: " + location.getLatitude());
 
+
         System.out.println("Show all line information of a station:");
         Station station = new Station("60200657","Karlsplatz",16.3689484,48.2009554);
         RealTimeMonitorAPIClient realTimeMonitorAPIClient = new RealTimeMonitorAPIClient("60200657");
         String responseRealTimeMonitorAPI = realTimeMonitorAPIClient.fetchAPIResponse();
         List<RealTimeMonitorDTO> listRealTimeMonitor = realTimeMonitorAPIClient.parseAPIResponse(responseRealTimeMonitorAPI);
-        List<Line> lines = new ArrayList<Line>();
+        List<LineStation> lines = new ArrayList<LineStation>();
 
         for(RealTimeMonitorDTO RTM : listRealTimeMonitor){
-            lines.add((LineMapper.mapToLine(RTM)));
+            lines.add(RTM.mapToLine(new LineStation()));
         }
 
-        for(Line line : lines) {
+        for(LineStation line : lines) {
             System.out.println("lineID: " + line.getId());
             System.out.println("lineName: " + line.getName());
             System.out.println("towards: " + line.getDirection());
@@ -57,8 +57,6 @@ public class Launcher {
             System.out.println(departureTimeOutput);
             System.out.println("\n");
         }
-
-
 
     }
 }

@@ -21,6 +21,8 @@ public class UserLocation {
         this.latitude = latitude;
     }
 
+    public UserLocation() {}
+
     public String getStreetName() {
         return streetName;
     }

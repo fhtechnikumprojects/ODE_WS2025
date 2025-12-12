@@ -2,7 +2,7 @@ package org.example.project_wobimich.model;
 
 import java.util.List;
 
-public class Line {
+public class LineStation {
     private String id;
     private String name;
     private String direction;
@@ -14,7 +14,7 @@ public class Line {
     /*
     constructor with arguments: initialize fields
      */
-    public Line (String id, String name, String direction, String typeOfTransportation, boolean barrierFree, boolean realTimeSupported, List<String> departureTime) {
+    public LineStation(String id, String name, String direction, String typeOfTransportation, boolean barrierFree, boolean realTimeSupported, List<String> departureTime) {
         this.id = id;
         this.name = name;
         this.direction = direction;
@@ -27,7 +27,7 @@ public class Line {
     /*
     constructor without arguments
      */
-    public Line() {}
+    public LineStation() {}
 
     public String getId() {
         return id;

@@ -1,6 +1,7 @@
 package org.example.project_wobimich.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.example.project_wobimich.UserLocation;
 
 import java.util.List;
 
@@ -58,6 +59,15 @@ public class AddressDTO {
 
     public double getLatitude() {
         return this.latitude;
+    }
+
+    public void mapToUserLocation(UserLocation location) {
+        location.setStreetName(this.getStreetName());
+        location.setStreetNumber(this.getStreetNumber());
+        location.setPostalCode(this.getPostalCode());
+        location.setCity(this.getCity());
+        location.setLongitude(this.getLongitude());
+        location.setLatitude(this.getLatitude());
     }
 
     /*

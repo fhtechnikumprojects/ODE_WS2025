@@ -1,6 +1,7 @@
 package org.example.project_wobimich.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.example.project_wobimich.model.LineStation;
 
 import java.util.List;
 
@@ -68,6 +69,20 @@ public class RealTimeMonitorDTO {
     public List<String> getDepartureTime() {
         return this.departureTime;
     }
+
+    public LineStation mapToLine(LineStation line) {
+        line = new LineStation(
+                this.getLineID(),
+                this.getLineName(),
+                this.getDirection(),
+                this.getTypeOfTransportation(),
+                this.isBarrierFree(),
+                this.isRealTimeSupported(),
+                this.getDepartureTime()
+                );
+        return line;
+    }
+
 
     /*
     subclasses

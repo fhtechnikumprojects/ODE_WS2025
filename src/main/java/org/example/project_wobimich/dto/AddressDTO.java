@@ -1,7 +1,7 @@
 package org.example.project_wobimich.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.example.project_wobimich.UserLocation;
+import org.example.project_wobimich.Location;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * Data Transfer Object for address information from the Vienna API.
  * <p>
  * Contains street name, street number, postal code, city, and geographic coordinates.
- * Can map its data to a {@link org.example.project_wobimich.UserLocation}.
+ * Can map its data to a {@link Location}.
  */
 public class AddressDTO {
     private String streetName;
@@ -41,7 +41,7 @@ public class AddressDTO {
      * Maps the DTO fields to a UserLocation object.
      * @param location the target UserLocation object
      */
-    public void mapToUserLocation(UserLocation location) {
+    public void mapToUserLocation(Location location) {
         location.setStreetName(this.getStreetName());
         location.setStreetNumber(this.getStreetNumber());
         location.setPostalCode(this.getPostalCode());

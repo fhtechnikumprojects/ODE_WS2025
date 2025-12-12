@@ -1,6 +1,16 @@
 package org.example.project_wobimich;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.project_wobimich.model.Station;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Represents a provided address/location.
  * <p>
@@ -10,8 +20,6 @@ package org.example.project_wobimich;
 public class Location {
     private String streetName;
     private String streetNumber;
-    private String postalCode;
-    private String city;
     private double longitude;
     private double latitude;
 
@@ -20,16 +28,12 @@ public class Location {
      *
      * @param streetName street name of the location
      * @param streetNumber street number of the location
-     * @param postalCode postal code
-     * @param city city name
      * @param longitude longitude coordinate
      * @param latitude latitude coordinate
      */
-    public Location(String streetName, String streetNumber, String postalCode, String city, double longitude, double latitude) {
+    public Location(String streetName, String streetNumber, double longitude, double latitude) {
         this.streetName = streetName;
         this.streetNumber = streetNumber;
-        this.postalCode = postalCode;
-        this.city = city;
         this.longitude = longitude;
         this.latitude = latitude;
     }
@@ -65,33 +69,6 @@ public class Location {
      */
     public void setStreetNumber(String streetNumber) {
         this.streetNumber = streetNumber;
-    }
-    /**
-     * @return the postal code
-     */
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    /**
-     * @param postalCode the postal code to set
-     */
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    /**
-     * @return the city name
-     */
-    public String getCity() {
-        return city;
-    }
-
-    /**
-     *  @param city the city name to set
-     */
-    public void setCity(String city) {
-        this.city = city;
     }
 
     /**
@@ -133,6 +110,7 @@ public class Location {
      *
      * The result is always positive since d = R * c >= 0.
      * The result is exactly 0 if the coordinates of both locations loc1 and loc2 are equal.
+     * (Fault tolerance about ~ 60 meters)
      *
      * @param loc1 The first location
      * @param loc2 The second location
@@ -153,7 +131,57 @@ public class Location {
 
         double distance = earthRadiusKM * c;
 
-        return Math.round(distance * 100.0) / 100.0;
+        return distance;
+    }
+
+    /**
+     * Returns a list of all public transportation stations in Vienna with their ID
+     * and the distance from this location.
+     *
+     * @return list of stations with distance
+     */
+    public ArrayList<Station> listStationsByDistanceFrom() {
+        ArrayList<Station> stations = new ArrayList<>();
+        File pathToJsonFile = new File("src/main/resources/org/example/project_wobimich/data/wl-ogd-haltestellen.json");
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+
+            List<Station> stationJson= mapper.readValue(
+                    pathToJsonFile,
+                    new TypeReference<List<Station>>(){}
+            );
+
+            for (Station stJson : stationJson) {
+                Station currentStation = new Station(
+                        stJson.getId(),
+                        stJson.getName(),
+                        stJson.getLatitude(),
+                        stJson.getLongitude()
+                );
+
+                Location jsonStationLocation = new Location();
+                jsonStationLocation.setStreetName(stJson.getName());
+                jsonStationLocation.setLongitude(stJson.getLongitude());
+                jsonStationLocation.setLatitude(stJson.getLatitude());
+
+                double distance = this.distanceBetween(this,jsonStationLocation);
+                currentStation.setDistance(distance);
+
+                stations.add(currentStation);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return stations;
+    }
+
+    /**
+     * Sort given list of any type in ascending order.
+     */
+    public <T> void sortAscending(List<T> list, Comparator<T> comparator) {
+        list.sort(comparator);
     }
 
 

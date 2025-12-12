@@ -25,11 +25,11 @@ public class AddressDTO {
     public String getStreetNumber() { return this.streetNumber; }
     public void setStreetNumber(String streetNumber) { this.streetNumber = streetNumber; }
 
-    public String getPostalCode() { return this.postalCode; }
-    public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
+    //public String getPostalCode() { return this.postalCode; }
+    //public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
 
-    public String getCity() { return this.city; }
-    public void setCity(String city) { this.city = city; }
+    //public String getCity() { return this.city; }
+    //public void setCity(String city) { this.city = city; }
 
     public double getLongitude() { return this.longitude; }
     public void setLongitude(double longitude) { this.longitude = longitude; }
@@ -44,8 +44,8 @@ public class AddressDTO {
     public void mapToUserLocation(Location location) {
         location.setStreetName(this.getStreetName());
         location.setStreetNumber(this.getStreetNumber());
-        location.setPostalCode(this.getPostalCode());
-        location.setCity(this.getCity());
+        //location.setPostalCode(this.getPostalCode());
+        //location.setCity(this.getCity());
         location.setLongitude(this.getLongitude());
         location.setLatitude(this.getLatitude());
     }
@@ -90,7 +90,7 @@ public class AddressDTO {
     public static class Properties {
         public String StreetName;
         public String StreetNumber;
-        public String PostalCode;
-        public String Municipality;
+        //public String PostalCode;
+        //public String Municipality;
     }
 }

@@ -71,8 +71,6 @@ public class AddressAPIClient extends APIClient {
             AddressDTO addressDTO = new AddressDTO();
             addressDTO.setStreetName(feature.properties.StreetName);
             addressDTO.setStreetNumber(feature.properties.StreetNumber);
-            addressDTO.setPostalCode(feature.properties.PostalCode);
-            addressDTO.setCity(feature.properties.Municipality);
             addressDTO.setLongitude(feature.geometry.coordinates.get(0));
             addressDTO.setLatitude(feature.geometry.coordinates.get(1));
 

@@ -1,5 +1,8 @@
 package org.example.project_wobimich.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,11 +13,19 @@ import java.util.List;
  * coordinates. It also contains all transport lines that are connected
  * to this station.
  */
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Station {
+    @JsonProperty("DIVA")
     private String id;
+    @JsonProperty("PlatformText")
     private String name;
+    @JsonProperty("Latitude")
     private double latitude;
+    @JsonProperty("Longitude")
     private double longitude;
+
+    private double distance;
     private List<LineStation> lines;
 
     /**
@@ -30,8 +41,11 @@ public class Station {
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.distance = 0;
         this.lines = new ArrayList<>();
     }
+
+    public Station () {};
 
     /**
      * @return the station ID
@@ -87,6 +101,22 @@ public class Station {
      */
     public void setLongitude(double longitude) {
         this.longitude = longitude;
+    }
+
+    /**
+     *
+     * @return distance value
+     */
+    public double getDistance() {
+        return this.distance;
+    }
+
+    /**
+     *
+     * @param distance
+     */
+    public void setDistance(double distance) {
+        this.distance = distance;
     }
 
     /**

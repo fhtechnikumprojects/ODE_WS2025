@@ -6,7 +6,33 @@
 - Kaur Paramjit (ic24b118@technikum-wien.at)
 
 ## Meilensteine
-
+- Ziel PP1: 
+  - Projekt aufsetzen (GitHub-Repository anlegen) und sicherstellen, dass jedes Gruppenmitglied Zugang auf das Repository auf GitHub hat 
+  - Ordnerstruktur festlegen
+  - notwendige Klassen definieren
+  - recherchieren und einlesen zu den notwendigen API's
+  - Sketch zur GUI entwerfen
+  - Grundgerüst für die Implementierung der Features implementieren
+    - Klassen und Funktionen
+    - Klassen für API-Abfragen
+    - Statische Daten ins Projekt einbinden
+    - 
+- Ziel PP2: 
+  - Must have Features implementieren
+  - Must have Features testen
+  - 
+- Ziel PP3: 
+  - Should have Features implementieren
+  - Should have Feature testen
+  - Nice to have Feature implementieren
+  - Nice to have Feature testen
+  - 
+- Ziel PP4: 
+  - Overkill Features implementieren
+  - Overkill Features testen
+  - Javadoc-Datei erstellen
+  - readme.md - Datei überarbeiten
 
 ## Projektbeschreibung
-WoBimIch ist ein Smart Mirror, der die nächstgelegensten Haltestellen mit den Linien anhand des angegebenen Standords anzeigt. Dafür soll die API der Wiener Linien verwendet werden. Ähnlich wie die Wien Mobil App der Wiener Linien
+WoBimIch ist ein Smart Mirror, der die nächstgelegensten Haltestellen mit den Linien anhand des angegebenen Standords anzeigt. 
+Dafür soll die API der Wiener Linien verwendet werden. Ähnlich wie die Wien Mobil App der Wiener Linien

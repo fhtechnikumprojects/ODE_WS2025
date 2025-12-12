@@ -10,12 +10,22 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
 
-
+/**
+ * API client for requesting real-time monitor data from Wiener Linien.
+ * <p>
+ * Establishes an HTTPS connection and extracts transport line information,
+ * including upcoming departure times.
+ */
 public class RealTimeMonitorAPIClient extends APIClient {
     private static final String HOST = "www.wienerlinien.at";
     private static final int PORT = 443;
     private final String path;
 
+    /**
+     * Creates a client instance for a specific station using its DIVA ID.
+     *
+     * @param divaID station identifier used by Wiener Linien
+     */
     public RealTimeMonitorAPIClient(String divaID) {
         this.path = "/ogd_realtime/monitor?diva=" + divaID;
     }
@@ -35,6 +45,9 @@ public class RealTimeMonitorAPIClient extends APIClient {
         return this.path;
     }
 
+    /**
+     * Creates an SSL-enabled socket connection and performs the TLS handshake.
+     */
     @Override
     protected Socket createSocket(String host, int port) throws IOException {
         SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
@@ -43,8 +56,14 @@ public class RealTimeMonitorAPIClient extends APIClient {
         return socket;
     }
 
-    //response of API request is transformed to JSON-format
-    //set parse given String-response and retrieve only specific fields of JSON-response
+    /**
+     * Parses the JSON response and returns a list of real-time monitor entries.
+     * Extracts only relevant fields such as line name, direction, and
+     * planned departure times.
+     *
+     * @param response raw JSON response
+     * @return a list of real-time monitor DTOs
+     */
     public List<RealTimeMonitorDTO> parseAPIResponse(String response) {
         ObjectMapper mapper = new ObjectMapper();
         List<RealTimeMonitorDTO> listOfLines = new ArrayList<>();

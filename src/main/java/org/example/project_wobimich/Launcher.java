@@ -10,6 +10,7 @@ import org.example.project_wobimich.model.Station;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class Launcher {
     public static void main(String[] args) {
         //Application.launch(WobimichApplication.class, args);

@@ -1,7 +1,7 @@
 package org.example.project_wobimich.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.example.project_wobimich.UserLocation;
+import org.example.project_wobimich.model.Location;
 
 import java.util.List;
 
@@ -9,7 +9,7 @@ import java.util.List;
  * Data Transfer Object for address information from the Vienna API.
  * <p>
  * Contains street name, street number, postal code, city, and geographic coordinates.
- * Can map its data to a {@link org.example.project_wobimich.UserLocation}.
+ * Can map its data to a {@link Location}.
  */
 public class AddressDTO {
     private String streetName;
@@ -25,11 +25,11 @@ public class AddressDTO {
     public String getStreetNumber() { return this.streetNumber; }
     public void setStreetNumber(String streetNumber) { this.streetNumber = streetNumber; }
 
-    public String getPostalCode() { return this.postalCode; }
-    public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
+    //public String getPostalCode() { return this.postalCode; }
+    //public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
 
-    public String getCity() { return this.city; }
-    public void setCity(String city) { this.city = city; }
+    //public String getCity() { return this.city; }
+    //public void setCity(String city) { this.city = city; }
 
     public double getLongitude() { return this.longitude; }
     public void setLongitude(double longitude) { this.longitude = longitude; }
@@ -41,11 +41,11 @@ public class AddressDTO {
      * Maps the DTO fields to a UserLocation object.
      * @param location the target UserLocation object
      */
-    public void mapToUserLocation(UserLocation location) {
+    public void mapToUserLocation(Location location) {
         location.setStreetName(this.getStreetName());
         location.setStreetNumber(this.getStreetNumber());
-        location.setPostalCode(this.getPostalCode());
-        location.setCity(this.getCity());
+        //location.setPostalCode(this.getPostalCode());
+        //location.setCity(this.getCity());
         location.setLongitude(this.getLongitude());
         location.setLatitude(this.getLatitude());
     }
@@ -90,7 +90,7 @@ public class AddressDTO {
     public static class Properties {
         public String StreetName;
         public String StreetNumber;
-        public String PostalCode;
-        public String Municipality;
+        //public String PostalCode;
+        //public String Municipality;
     }
 }

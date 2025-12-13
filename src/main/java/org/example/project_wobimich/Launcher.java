@@ -5,6 +5,7 @@ import org.example.project_wobimich.api.RealTimeMonitorAPIClient;
 import org.example.project_wobimich.dto.AddressDTO;
 import org.example.project_wobimich.dto.RealTimeMonitorDTO;
 import org.example.project_wobimich.model.LineStation;
+import org.example.project_wobimich.model.Location;
 import org.example.project_wobimich.model.Station;
 
 import java.util.ArrayList;
@@ -15,7 +16,6 @@ import java.util.List;
 public class Launcher {
     public static void main(String[] args) {
         //Application.launch(WobimichApplication.class, args);
-
 
         //Location of User-Input
         System.out.println("Location of User-Input: ");

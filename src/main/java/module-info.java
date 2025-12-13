@@ -9,5 +9,6 @@ module org.example.project_wobimich {
     opens org.example.project_wobimich.dto to javafx.fxml;
     exports org.example.project_wobimich.api;
     opens org.example.project_wobimich.api to javafx.fxml;
-    opens org.example.project_wobimich.model to com.fasterxml.jackson.databind;
+    exports org.example.project_wobimich.model;
+    opens org.example.project_wobimich.model to com.fasterxml.jackson.databind, javafx.fxml;
 }

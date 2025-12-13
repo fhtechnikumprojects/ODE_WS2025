@@ -9,11 +9,16 @@ import java.io.IOException;
 
 public class WobimichApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(WobimichApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
+    public void start(Stage stage) {
+        WobimichUI wobimichUI = new WobimichUI();
+        Scene wobimichScene = new Scene(wobimichUI.createScene());
+        stage.setScene(wobimichScene);
+        stage.setTitle("Wobimich?!");
         stage.show();
     }
+
+    public static void main(String[] args) {
+        launch();
+    }
+
 }

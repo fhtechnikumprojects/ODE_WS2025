@@ -1,7 +1,7 @@
 package org.example.project_wobimich.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import org.example.project_wobimich.Location;
+import org.example.project_wobimich.model.Location;
 
 import java.util.List;
 

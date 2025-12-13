@@ -1,13 +1,11 @@
-package org.example.project_wobimich;
+package org.example.project_wobimich.model;
 
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.project_wobimich.model.Station;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 

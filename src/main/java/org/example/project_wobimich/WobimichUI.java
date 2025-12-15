@@ -1,5 +1,7 @@
     package org.example.project_wobimich;
 
+    import javafx.collections.FXCollections;
+    import javafx.collections.ObservableList;
     import javafx.geometry.Insets;
     import javafx.scene.control.*;
     import javafx.scene.layout.BorderPane;
@@ -60,7 +62,20 @@
             HBox.setHgrow(centerLeftVBox, Priority.ALWAYS);
             VBox.setVgrow(centerLeftVBox, Priority.ALWAYS);
 
-            //centerLeftVBox.getChildren().add();
+            ObservableList<String> station = FXCollections.observableArrayList();
+            ListView<String> stationList = new ListView<>();
+            stationList.setItems(station);
+
+            //Default stations
+            station.setAll(
+                "Höchstädtplatz",
+                "Franz-Josefs-Bahnhof",
+                "Heiligenstadt",
+                "Mitte-Landstraße",
+                "Erdberg"
+            );
+
+            centerLeftVBox.getChildren().add(stationList);
 
             //Center right
             VBox centerRightVBox = new VBox();

@@ -66,7 +66,7 @@
             ListView<String> stationList = new ListView<>();
             stationList.setItems(station);
 
-            //Default stations
+            //Default stations ==> show 5 stations after starting the application
             station.setAll(
                 "Höchstädtplatz",
                 "Franz-Josefs-Bahnhof",

@@ -19,9 +19,9 @@ public class Launcher {
 
         //Location of User-Input
         System.out.println("Location of User-Input: ");
-        String streetName = "Franz Josefs Bahnhof";
-        String streetNumber = "";
-        AddressAPIClient addressAPIClient = new AddressAPIClient(streetName,streetNumber);
+        String address = "Franz Josefs Bahnhof";
+        //String streetNumber = "";
+        AddressAPIClient addressAPIClient = new AddressAPIClient(address);
         String apiResponse = addressAPIClient.fetchAPIResponse();
         AddressDTO addressDTO = addressAPIClient.parseAPIResponse(apiResponse);
         Location location = addressDTO.mapToUserLocation();

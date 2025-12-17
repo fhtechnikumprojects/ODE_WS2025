@@ -37,11 +37,6 @@ public class Location {
     }
 
     /**
-     * Default constructor.
-     */
-    public Location() {}
-
-    /**
      * @return the street name of the location
      */
     public String getStreetName() {
@@ -158,10 +153,12 @@ public class Location {
                         stJson.getLongitude()
                 );
 
-                Location jsonStationLocation = new Location();
-                jsonStationLocation.setStreetName(stJson.getName());
-                jsonStationLocation.setLongitude(stJson.getLongitude());
-                jsonStationLocation.setLatitude(stJson.getLatitude());
+                Location jsonStationLocation = new Location(
+                        stJson.getName(),
+                        "0", //placeholder
+                        stJson.getLongitude(),
+                        stJson.getLatitude()
+                );
 
                 double distance = this.distanceBetween(this,jsonStationLocation);
                 currentStation.setDistance(distance);
@@ -180,6 +177,18 @@ public class Location {
      */
     public <T> void sortAscending(List<T> list, Comparator<T> comparator) {
         list.sort(comparator);
+    }
+
+    /**
+     *
+     * @return a list of 5 closet station to given station
+     */
+    public ArrayList<Station> closestStationToLocation(ArrayList<Station> stations) {
+        ArrayList<Station> closestStations = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            closestStations.add(stations.get(i));
+        }
+        return closestStations;
     }
 
 

@@ -14,8 +14,8 @@ import java.util.List;
 public class AddressDTO {
     private String streetName;
     private String streetNumber;
-    private String postalCode;
-    private String city;
+    //private String postalCode;
+    //private String city;
     private double longitude;
     private double latitude;
 

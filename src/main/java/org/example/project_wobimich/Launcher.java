@@ -19,7 +19,7 @@ public class Launcher {
 
         //Location of User-Input
         System.out.println("Location of User-Input: ");
-        String address = "Franz Josefs Bahnhof";
+        String address = "Wiesengasse 2";
         //String streetNumber = "";
         AddressAPIClient addressAPIClient = new AddressAPIClient(address);
         String apiResponse = addressAPIClient.fetchAPIResponse();
@@ -33,8 +33,16 @@ public class Launcher {
         System.out.println("\n");
 
         //Show 5 closest station to address of given location
-        ArrayList<Station> stations = location.listStationsByDistanceFrom();
-        location.sortAscending(stations, Comparator.comparing(Station::getDistance));
+        ArrayList<Station> stations = StationUtils.listStationsByDistanceFrom(location);
+        StationUtils.sortAscending(stations, Comparator.comparing(Station::getDistance));
+
+        for (Station station : stations) {
+            System.out.println("station: " + station.getName());
+            System.out.println("distance to location: " + station.getDistance());
+            System.out.println("--------------------------------------------------");
+        }
+
+        /*
 
         System.out.println("Show all line information of a station:");
 
@@ -69,6 +77,7 @@ public class Launcher {
             System.out.println("--------------------------------------------------------------------------------------");
             System.out.println("\n");
         }
+         */
 
     }
 }

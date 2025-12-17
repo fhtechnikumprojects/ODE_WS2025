@@ -29,9 +29,9 @@ public class AddressLookupService extends Service<ArrayList<Station>> {
                 AddressDTO addressDTO = addressAPIClient.parseAPIResponse(apiResponse);
                 Location location = addressDTO.mapToUserLocation();
 
-                ArrayList<Station> stations = location.listStationsByDistanceFrom();
-                location.sortAscending(stations, Comparator.comparing(Station::getDistance));
-                return location.closestStationToLocation(stations);
+                ArrayList<Station> stations = StationUtils.listStationsByDistanceFrom(location);
+                StationUtils.sortAscending(stations, Comparator.comparing(Station::getDistance));
+                return StationUtils.closestStationToLocation(stations);
             }
         };
     }

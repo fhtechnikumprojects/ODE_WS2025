@@ -38,16 +38,12 @@ public class AddressDTO {
     public void setLatitude(double latitude) { this.latitude = latitude; }
 
     /**
-     * Maps the DTO fields to a UserLocation object.
-     * @param location the target UserLocation object
+     * Maps the DTO fields to a Location object.
+     *
+     * @return Location object
      */
-    public void mapToUserLocation(Location location) {
-        location.setStreetName(this.getStreetName());
-        location.setStreetNumber(this.getStreetNumber());
-        //location.setPostalCode(this.getPostalCode());
-        //location.setCity(this.getCity());
-        location.setLongitude(this.getLongitude());
-        location.setLatitude(this.getLatitude());
+    public Location mapToUserLocation() {
+        return new Location(this.getStreetName(),this.getStreetNumber(),this.getLongitude(),this.getLatitude());
     }
 
     /**

@@ -24,8 +24,7 @@ public class Launcher {
         AddressAPIClient addressAPIClient = new AddressAPIClient(streetName,streetNumber);
         String apiResponse = addressAPIClient.fetchAPIResponse();
         AddressDTO addressDTO = addressAPIClient.parseAPIResponse(apiResponse);
-        Location location = new Location();
-        addressDTO.mapToUserLocation(location);
+        Location location = addressDTO.mapToUserLocation();
 
         System.out.println("Strassenname: " + location.getStreetName());
         System.out.println("Strassennummer: " + location.getStreetNumber());
@@ -47,7 +46,7 @@ public class Launcher {
             List<LineStation> lines = new ArrayList<LineStation>();
 
             for(RealTimeMonitorDTO RTM : listRealTimeMonitor){
-                lines.add(RTM.mapToLine(new LineStation()));
+                lines.add(RTM.mapToLine());
             }
 
             //print information of a line

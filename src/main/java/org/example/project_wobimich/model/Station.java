@@ -24,7 +24,6 @@ public class Station {
     private double latitude;
     @JsonProperty("Longitude")
     private double longitude;
-
     private double distance;
     private List<LineStation> lines;
 

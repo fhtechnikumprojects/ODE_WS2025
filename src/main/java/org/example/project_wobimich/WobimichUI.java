@@ -1,15 +1,24 @@
     package org.example.project_wobimich;
 
+    import javafx.collections.FXCollections;
+    import javafx.collections.ObservableList;
     import javafx.geometry.Insets;
     import javafx.scene.control.*;
     import javafx.scene.layout.BorderPane;
     import javafx.scene.layout.HBox;
     import javafx.scene.layout.Priority;
     import javafx.scene.layout.VBox;
+    import org.example.project_wobimich.model.Station;
+
+    import java.util.ArrayList;
 
     public class WobimichUI {
+        private AddressLookupService addressLookupService;
 
         public BorderPane createScene() {
+            ObservableList<String> station = FXCollections.observableArrayList();
+            ListView<String> stationList = new ListView<>();
+            stationList.setItems(station);
 
             BorderPane root = new BorderPane();
             root.setPadding(new Insets(10));
@@ -27,7 +36,7 @@
                     -fx-background-color: lightgray;
                     """);
 
-            //Search-bar
+            //Top level: Search-bar
             HBox searchBar = new HBox(10);
             searchBar.setPadding(new Insets(10));
             searchBar.setStyle("""
@@ -38,18 +47,35 @@
             searchField.setPromptText("Search station");
             HBox.setHgrow(searchField, Priority.ALWAYS);
 
-            //Search-button
+            //Top level: Search-button
             Button searchButton = new Button("Search");
             searchBar.getChildren().addAll(searchField, searchButton);
             topVBox.getChildren().addAll(funFactBar, searchBar);
-
             root.setTop(topVBox);
+
+            //Top level: Search-button - Event handler ==> use service and task
+            searchButton.disableProperty().bind(searchField.textProperty().isEmpty()); //if search bar is empty ==> button cannot be clicked!
+
+            searchButton.setOnAction((event) -> {
+                String address = searchField.getText();
+                addressLookupService = new AddressLookupService(address);
+                station.clear();
+
+                addressLookupService.setOnSucceeded(e -> {
+                    ArrayList<Station> stations = addressLookupService.getValue();
+                    for (Station s : stations) {
+                        station.add(s.getName());
+                    }
+                });
+
+                addressLookupService.start();
+            });
 
             //Center level
             HBox centerBox = new HBox(10);
             centerBox.setSpacing(10);
 
-            //Center left
+            //Center level: left
             VBox centerLeftVBox = new VBox();
             centerLeftVBox.setStyle("-fx-background-color: lightblue; -fx-padding: 10;");
             centerLeftVBox.setPrefWidth(200);
@@ -60,9 +86,18 @@
             HBox.setHgrow(centerLeftVBox, Priority.ALWAYS);
             VBox.setVgrow(centerLeftVBox, Priority.ALWAYS);
 
-            //centerLeftVBox.getChildren().add();
+            //Center left: Default stations ==> show 5 stations after starting the application (part of 1. Feature)
+            station.setAll(
+                "Höchstädtplatz",
+                "Franz-Josefs-Bahnhof",
+                "Heiligenstadt",
+                "Mitte-Landstraße",
+                "Erdberg"
+            );
 
-            //Center right
+            centerLeftVBox.getChildren().add(stationList);
+
+            //Center level: right
             VBox centerRightVBox = new VBox();
             centerRightVBox.setStyle("-fx-background-color: lightblue; -fx-padding: 10;");
             centerRightVBox.setPrefWidth(200);
@@ -73,8 +108,6 @@
 
             HBox.setHgrow(centerRightVBox, Priority.ALWAYS);
             VBox.setVgrow(centerRightVBox, Priority.ALWAYS);
-
-            //centerRightVBox.getChildren().add();
 
             centerBox.getChildren().addAll(centerLeftVBox,centerRightVBox);
 
@@ -95,11 +128,8 @@
 
             //Dropdown field shows listing of history search input
 
-
             root.setBottom(bottomBox);
 
             return root;
         }
-
-
     }

@@ -19,13 +19,11 @@ public class Launcher {
 
         //Location of User-Input
         System.out.println("Location of User-Input: ");
-        String streetName = "Franz Josefs Bahnhof";
-        String streetNumber = "";
-        AddressAPIClient addressAPIClient = new AddressAPIClient(streetName,streetNumber);
+        String address = "Wiesengasse";
+        AddressAPIClient addressAPIClient = new AddressAPIClient(address);
         String apiResponse = addressAPIClient.fetchAPIResponse();
         AddressDTO addressDTO = addressAPIClient.parseAPIResponse(apiResponse);
-        Location location = new Location();
-        addressDTO.mapToUserLocation(location);
+        Location location = addressDTO.mapToUserLocation();
 
         System.out.println("Strassenname: " + location.getStreetName());
         System.out.println("Strassennummer: " + location.getStreetNumber());
@@ -34,8 +32,16 @@ public class Launcher {
         System.out.println("\n");
 
         //Show 5 closest station to address of given location
-        ArrayList<Station> stations = location.listStationsByDistanceFrom();
-        location.sortAscending(stations, Comparator.comparing(Station::getDistance));
+        ArrayList<Station> stations = StationUtils.listStationsByDistanceFrom(location);
+        StationUtils.sortAscending(stations, Comparator.comparing(Station::getDistance));
+
+        for (Station station : stations) {
+            System.out.println("station: " + station.getName());
+            System.out.println("distance to location: " + station.getDistance());
+            System.out.println("--------------------------------------------------");
+        }
+
+        /*
 
         System.out.println("Show all line information of a station:");
 
@@ -47,7 +53,7 @@ public class Launcher {
             List<LineStation> lines = new ArrayList<LineStation>();
 
             for(RealTimeMonitorDTO RTM : listRealTimeMonitor){
-                lines.add(RTM.mapToLine(new LineStation()));
+                lines.add(RTM.mapToLine());
             }
 
             //print information of a line
@@ -70,6 +76,7 @@ public class Launcher {
             System.out.println("--------------------------------------------------------------------------------------");
             System.out.println("\n");
         }
+         */
 
     }
 }

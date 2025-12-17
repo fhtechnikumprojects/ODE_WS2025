@@ -22,11 +22,10 @@ public class AddressAPIClient extends APIClient {
     /**
      * Creates a client instance for a specific address.
      *
-     * @param streetName the street name
-     * @param streetNumber the street number
+     * @param userInput
      */
-    public AddressAPIClient(String streetName, String streetNumber) {
-        String address = URLEncoder.encode(streetName + " " + streetNumber, StandardCharsets.UTF_8);
+    public AddressAPIClient(String userInput) {
+        String address = URLEncoder.encode(userInput, StandardCharsets.UTF_8);
         this.path = "/daten/OGDAddressService.svc/GetAddressInfo?Address=" + address + "&crs=EPSG:4326";
     }
 

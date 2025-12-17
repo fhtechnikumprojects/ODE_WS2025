@@ -46,20 +46,19 @@ public class RealTimeMonitorDTO {
 
     /**
      * Maps this DTO to a {@link LineStation} object.
-     * @param line optional existing LineStation object, ignored and overwritten
+     *
      * @return new LineStation populated with data from this DTO
      */
-    public LineStation mapToLine(LineStation line) {
-        line = new LineStation(
-                this.getLineID(),
-                this.getLineName(),
-                this.getDirection(),
-                this.getTypeOfTransportation(),
-                this.isBarrierFree(),
-                this.isRealTimeSupported(),
-                this.getDepartureTime()
-                );
-        return line;
+    public LineStation mapToLine() {
+        return new LineStation(
+            this.getLineID(),
+            this.getLineName(),
+            this.getDirection(),
+            this.getTypeOfTransportation(),
+            this.isBarrierFree(),
+            this.isRealTimeSupported(),
+            this.getDepartureTime()
+        );
     }
 
     /**

@@ -17,6 +17,12 @@ public class Launcher {
     public static void main(String[] args) {
         //Application.launch(WobimichApplication.class, args);
 
+        //Testing Fun facts of WL
+        System.out.println("Random WL-Fun-Fact:");
+        System.out.println(FunFactUtils.getFact(1));
+        System.out.println(FunFactUtils.getRandomFact());
+
+
         //Location of User-Input
         System.out.println("Location of User-Input: ");
         String address = "Wiesengasse";
@@ -40,6 +46,7 @@ public class Launcher {
             System.out.println("distance to location: " + station.getDistance());
             System.out.println("--------------------------------------------------");
         }
+
 
         /*
 
@@ -77,6 +84,7 @@ public class Launcher {
             System.out.println("\n");
         }
          */
+
 
     }
 }

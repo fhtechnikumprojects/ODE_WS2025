@@ -3,6 +3,7 @@ package org.example.project_wobimich;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import org.example.project_wobimich.ui.WobimichUI;
 
 public class WobimichApplication extends Application {
     @Override

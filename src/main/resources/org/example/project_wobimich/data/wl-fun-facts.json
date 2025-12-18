@@ -1,0 +1,232 @@
+[
+ {
+   "ID-Fact": 1,
+   "Kategorie": "Fahrgastzahlen",
+   "Fakt": "Rund 2,4 Millionen Fahrgäste nutzen die Wiener Linien täglich."
+ },
+ {
+   "ID-Fact": 2,
+   "Kategorie": "Fahrgastzahlen",
+   "Fakt": "Im Jahr 2024 fuhren rund 873 Millionen Fahrgäste mit den Wiener Linien."
+ },
+ {
+   "ID-Fact": 3,
+   "Kategorie": "Fahrgastzahlen",
+   "Fakt": "Rund 404,8 Millionen Fahrten entfielen 2024 auf die U-Bahn."
+ },
+ {
+   "ID-Fact": 4,
+   "Kategorie": "Fahrgastzahlen",
+   "Fakt": "Rund 291,8 Millionen Fahrten entfielen 2024 auf die Straßenbahn."
+ },
+ {
+   "ID-Fact": 5,
+   "Kategorie": "Fahrgastzahlen",
+   "Fakt": "Rund 176,2 Millionen Fahrten entfielen 2024 auf Buslinien."
+ },
+ {
+   "ID-Fact": 6,
+   "Kategorie": "Stammkunden",
+   "Fakt": "Rund 1,3 Millionen Menschen besitzen ein Dauerticket der Wiener Linien."
+ },
+ {
+   "ID-Fact": 7,
+   "Kategorie": "Stammkunden",
+   "Fakt": "Etwa 1,1 Millionen Menschen besitzen eine Jahreskarte der Wiener Linien."
+ },
+ {
+   "ID-Fact": 8,
+   "Kategorie": "Stammkunden",
+   "Fakt": "In Wien gibt es mehr Dauerkartenbesitzer als Autobesitzer."
+ },
+ {
+   "ID-Fact": 9,
+   "Kategorie": "Netzgröße",
+   "Fakt": "Das Wiener U-Bahn-Netz umfasst rund 83 Kilometer Streckenlänge."
+ },
+ {
+   "ID-Fact": 10,
+   "Kategorie": "Netzgröße",
+   "Fakt": "Das Straßenbahnnetz hat eine Betriebsnetzlänge von rund 171 Kilometern."
+ },
+ {
+   "ID-Fact": 11,
+   "Kategorie": "Netzgröße",
+   "Fakt": "Das Busnetz der Wiener Linien umfasst rund 890 Kilometer."
+ },
+ {
+   "ID-Fact": 12,
+   "Kategorie": "Netzgröße",
+   "Fakt": "Das gesamte Öffi-Netz in Wien umfasst rund 1.250 Kilometer."
+ },
+ {
+   "ID-Fact": 13,
+   "Kategorie": "Haltestellen",
+   "Fakt": "Im Wiener Linien Netz gibt es rund 5.700 Haltestellen."
+ },
+ {
+   "ID-Fact": 14,
+   "Kategorie": "Haltestellen",
+   "Fakt": "Das Wiener U-Bahn-Netz umfasst 109 Stationen."
+ },
+ {
+   "ID-Fact": 15,
+   "Kategorie": "Haltestellen",
+   "Fakt": "Die Straßenbahn bedient rund 1.150 Haltestellen."
+ },
+ {
+   "ID-Fact": 16,
+   "Kategorie": "Haltestellen",
+   "Fakt": "Buslinien bedienen rund 4.400 Haltestellen."
+ },
+ {
+   "ID-Fact": 17,
+   "Kategorie": "Fahrzeuge",
+   "Fakt": "In Spitzenzeiten sind rund 900 Fahrzeuge gleichzeitig im Einsatz."
+ },
+ {
+   "ID-Fact": 18,
+   "Kategorie": "Fahrzeuge",
+   "Fakt": "Der Fahrzeugbestand umfasst über 1.200 Schienenfahrzeuge."
+ },
+ {
+   "ID-Fact": 19,
+   "Kategorie": "Fahrzeuge",
+   "Fakt": "Zusätzlich sind rund 480 Busse im Einsatz."
+ },
+ {
+   "ID-Fact": 20,
+   "Kategorie": "Fahrzeuge",
+   "Fakt": "Die Wiener Linien betreiben rund 490 Straßenbahnen."
+ },
+ {
+   "ID-Fact": 21,
+   "Kategorie": "Fahrzeuge",
+   "Fakt": "Im Einsatz sind rund 160 U-Bahn-Züge."
+ },
+ {
+   "ID-Fact": 22,
+   "Kategorie": "Kapazität",
+   "Fakt": "Ein U-Bahn-Zug kann bis zu 900 Fahrgäste transportieren."
+ },
+ {
+   "ID-Fact": 23,
+   "Kategorie": "Kapazität",
+   "Fakt": "In Spitzenzeiten können bis zu 210.000 Fahrgäste gleichzeitig befördert werden."
+ },
+ {
+   "ID-Fact": 24,
+   "Kategorie": "Leistung",
+   "Fakt": "Die Fahrzeuge der Wiener Linien legen täglich rund 214.000 Kilometer zurück."
+ },
+ {
+   "ID-Fact": 25,
+   "Kategorie": "Leistung",
+   "Fakt": "Die täglich zurückgelegte Strecke entspricht etwa fünf Erdumrundungen."
+ },
+ {
+   "ID-Fact": 26,
+   "Kategorie": "Umwelt",
+   "Fakt": "Rund 80 Prozent der Fahrgäste werden elektrisch befördert."
+ },
+ {
+   "ID-Fact": 27,
+   "Kategorie": "Umwelt",
+   "Fakt": "100 Prozent des Stroms für U-Bahnen Straßenbahnen und Elektrobusse stammen aus erneuerbaren Quellen."
+ },
+ {
+   "ID-Fact": 28,
+   "Kategorie": "Umwelt",
+   "Fakt": "Öffis verursachen trotz eines hohen Nutzungsanteils nur rund 1 Prozent des ökologischen Fußabdrucks in Wien."
+ },
+ {
+   "ID-Fact": 29,
+   "Kategorie": "Verkehrsvergleich",
+   "Fakt": "Ein voller U-Bahn-Zug ersetzt rund 790 Autos."
+ },
+ {
+   "ID-Fact": 30,
+   "Kategorie": "Verkehrsvergleich",
+   "Fakt": "Ohne Öffis wären auf der Südosttangente rund 24 Fahrspuren nötig."
+ },
+ {
+   "ID-Fact": 31,
+   "Kategorie": "Ausbau",
+   "Fakt": "Der Ausbau U2xU5 schafft vier neue U-Bahn-Knotenpunkte."
+ },
+ {
+   "ID-Fact": 32,
+   "Kategorie": "Ausbau",
+   "Fakt": "Der U2xU5-Ausbau schafft und sichert rund 30.000 Arbeitsplätze."
+ },
+ {
+   "ID-Fact": 33,
+   "Kategorie": "Ausbau",
+   "Fakt": "Durch den Ausbau können bis zu 300 Millionen zusätzliche Fahrgäste pro Jahr transportiert werden."
+ },
+ {
+   "ID-Fact": 34,
+   "Kategorie": "Ausbau",
+   "Fakt": "Durch den Öffi-Ausbau können jährlich rund 550 Millionen PKW-Kilometer eingespart werden."
+ },
+ {
+   "ID-Fact": 35,
+   "Kategorie": "Klimaschutz",
+   "Fakt": "Der Klimaeffekt des U2xU5-Ausbaus entspricht einem Wald mit rund 6 Millionen 30-jährigen Bäumen."
+ },
+ {
+   "ID-Fact": 36,
+   "Kategorie": "Instandhaltung",
+   "Fakt": "Das Wiener Linien Netz umfasst rund 1.800 Weichen."
+ },
+ {
+   "ID-Fact": 37,
+   "Kategorie": "Instandhaltung",
+   "Fakt": "Eine Schiene hat je nach Belastung eine Lebensdauer von 10 bis 45 Jahren."
+ },
+ {
+   "ID-Fact": 38,
+   "Kategorie": "Instandhaltung",
+   "Fakt": "Eine Weiche hat eine durchschnittliche Lebensdauer von rund 15 Jahren."
+ },
+ {
+   "ID-Fact": 39,
+   "Kategorie": "Instandhaltung",
+   "Fakt": "Jährlich werden mehrere Kilometer Gleise erneuert."
+ },
+ {
+   "ID-Fact": 40,
+   "Kategorie": "Personal",
+   "Fakt": "Die Wiener Linien beschäftigen über 9.500 Mitarbeiterinnen und Mitarbeiter."
+ },
+ {
+   "ID-Fact": 41,
+   "Kategorie": "Personal",
+   "Fakt": "Die Belegschaft stammt aus rund 60 Nationen."
+ },
+ {
+   "ID-Fact": 42,
+   "Kategorie": "Personal",
+   "Fakt": "Im Unternehmen werden rund 35 verschiedene Sprachen gesprochen."
+ },
+ {
+   "ID-Fact": 43,
+   "Kategorie": "Ausbildung",
+   "Fakt": "Die Wiener Linien bilden mehrere hundert Lehrlinge in technischen und kaufmännischen Berufen aus."
+ },
+ {
+   "ID-Fact": 44,
+   "Kategorie": "Sharing",
+   "Fakt": "Zum WienMobil-Angebot gehören über 3.000 Leihräder."
+ },
+ {
+   "ID-Fact": 45,
+   "Kategorie": "Sharing",
+   "Fakt": "Zum WienMobil-Angebot gehören rund 100 Carsharing-Fahrzeuge."
+ },
+ {
+   "ID-Fact": 46,
+   "Kategorie": "Netzgröße Welt",
+   "Fakt": "Das Wiener Straßenbahnnetz ist eines der größten der Welt."
+ }
+]

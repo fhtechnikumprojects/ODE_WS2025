@@ -22,7 +22,7 @@ public class Launcher {
         System.out.println(FunFactUtils.getFact(1));
         System.out.println(FunFactUtils.getRandomFact());
 
-        /*
+
         //Location of User-Input
         System.out.println("Location of User-Input: ");
         String address = "Wiesengasse";
@@ -46,7 +46,7 @@ public class Launcher {
             System.out.println("distance to location: " + station.getDistance());
             System.out.println("--------------------------------------------------");
         }
-         */
+
 
         /*
 

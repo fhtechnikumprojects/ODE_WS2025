@@ -3,11 +3,10 @@
     import javafx.collections.FXCollections;
     import javafx.collections.ObservableList;
     import javafx.geometry.Insets;
+    import javafx.geometry.Pos;
     import javafx.scene.control.*;
-    import javafx.scene.layout.BorderPane;
-    import javafx.scene.layout.HBox;
-    import javafx.scene.layout.Priority;
-    import javafx.scene.layout.VBox;
+    import javafx.scene.layout.*;
+    import org.example.project_wobimich.FunFactUtils;
     import org.example.project_wobimich.model.Station;
     import org.example.project_wobimich.service.AddressLookupService;
 
@@ -27,32 +26,39 @@
             //Top level
             VBox topVBox = new VBox(10);
 
-            //Info-Bar (not editable)
-            Label funFactBar = new Label("Fun-Fact WL");
-            funFactBar.setPadding(new Insets(10));
-            funFactBar.setMaxWidth(Double.MAX_VALUE);
-            funFactBar.setStyle("""
-                    -fx-border-color: black;
-                    -fx-border-width: 1;
-                    -fx-background-color: lightgray;
-                    """);
+            //Top level: Fun-fact
+            VBox funFactBox = new VBox(5);
+            funFactBox.setAlignment(Pos.CENTER);
+            funFactBox.setPadding(new Insets(10));
+            funFactBox.setStyle("""
+                -fx-border-color: black;
+                -fx-border-width: 1;
+                -fx-background-color: lightgray;
+            """);
+
+            Label funFactHeader = new Label("Hast du gewusst?");
+            funFactHeader.setAlignment(Pos.CENTER);
+
+            Label funFactText = new Label(FunFactUtils.getRandomFact());
+            funFactText.setAlignment(Pos.CENTER);
+
+            funFactBox.getChildren().addAll(funFactHeader, funFactText);
 
             //Top level: Search-bar
             HBox searchBar = new HBox(10);
             searchBar.setPadding(new Insets(10));
             searchBar.setStyle("""
-                    -fx-border-color: black;
-                    -fx-border-width: 1;
-                    """);
+                -fx-border-color: black;
+                -fx-border-width: 1;
+            """);
             TextField searchField = new TextField();
-            searchField.setPromptText("Search station");
+            searchField.setPromptText("Standort eingeben:");
             HBox.setHgrow(searchField, Priority.ALWAYS);
 
+
             //Top level: Search-button
-            Button searchButton = new Button("Search");
+            Button searchButton = new Button("Suche:");
             searchBar.getChildren().addAll(searchField, searchButton);
-            topVBox.getChildren().addAll(funFactBar, searchBar);
-            root.setTop(topVBox);
 
             //Top level: Search-button - Event handler ==> use service and task
             searchButton.disableProperty().bind(searchField.textProperty().isEmpty()); //if search bar is empty ==> button cannot be clicked!
@@ -72,6 +78,10 @@
                 addressLookupService.start();
             });
 
+            //Top level: add all boxes that are at top-level
+            topVBox.getChildren().addAll(funFactBox, searchBar);
+            root.setTop(topVBox);
+
             //Center level
             HBox centerBox = new HBox(10);
             centerBox.setSpacing(10);
@@ -81,9 +91,9 @@
             centerLeftVBox.setStyle("-fx-background-color: lightblue; -fx-padding: 10;");
             centerLeftVBox.setPrefWidth(200);
             centerLeftVBox.setStyle("""
-                    -fx-border-color: black;
-                    -fx-border-width: 1;
-                    """);
+                -fx-border-color: black;
+                -fx-border-width: 1;
+            """);
             HBox.setHgrow(centerLeftVBox, Priority.ALWAYS);
             VBox.setVgrow(centerLeftVBox, Priority.ALWAYS);
 

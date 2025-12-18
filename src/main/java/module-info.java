@@ -11,4 +11,9 @@ module org.example.project_wobimich {
     opens org.example.project_wobimich.api to javafx.fxml;
     exports org.example.project_wobimich.model;
     opens org.example.project_wobimich.model to com.fasterxml.jackson.databind, javafx.fxml;
+    exports org.example.project_wobimich.service;
+    opens org.example.project_wobimich.service to javafx.fxml;
+    exports org.example.project_wobimich.ui;
+    opens org.example.project_wobimich.ui to javafx.fxml;
+
 }

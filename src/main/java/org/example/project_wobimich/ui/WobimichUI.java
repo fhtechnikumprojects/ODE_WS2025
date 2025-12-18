@@ -1,4 +1,4 @@
-    package org.example.project_wobimich;
+    package org.example.project_wobimich.ui;
 
     import javafx.collections.FXCollections;
     import javafx.collections.ObservableList;
@@ -9,6 +9,7 @@
     import javafx.scene.layout.Priority;
     import javafx.scene.layout.VBox;
     import org.example.project_wobimich.model.Station;
+    import org.example.project_wobimich.service.AddressLookupService;
 
     import java.util.ArrayList;
 

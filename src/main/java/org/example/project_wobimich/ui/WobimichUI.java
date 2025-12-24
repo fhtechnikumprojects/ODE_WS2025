@@ -4,21 +4,52 @@
     import javafx.collections.ObservableList;
     import javafx.geometry.Insets;
     import javafx.geometry.Pos;
-    import javafx.scene.control.*;
-    import javafx.scene.layout.*;
+    import javafx.scene.Parent;
+    import javafx.scene.Scene;
+    import javafx.scene.control.Button;
+    import javafx.scene.control.Label;
+    import javafx.scene.control.ListView;
+    import javafx.scene.control.TextField;
+    import javafx.scene.layout.BorderPane;
+    import javafx.scene.layout.HBox;
+    import javafx.scene.layout.Priority;
+    import javafx.scene.layout.VBox;
     import org.example.project_wobimich.FunFactUtils;
     import org.example.project_wobimich.model.Station;
     import org.example.project_wobimich.service.AddressLookupService;
 
     import java.util.ArrayList;
+    import java.util.List;
 
     public class WobimichUI {
         private AddressLookupService addressLookupService;
+        private List<Station> initialStations = new ArrayList<>();
+
+        public void  setInitialStations(List<Station> stations) {
+            this.initialStations = stations;
+        }
 
         public BorderPane createScene() {
             ObservableList<String> station = FXCollections.observableArrayList();
             ListView<String> stationList = new ListView<>();
             stationList.setItems(station);
+
+            if (!initialStations.isEmpty()) {
+                for (Station s : initialStations) {
+                    station.add(s.getName());
+                }
+            } else {
+                // Optional: Default-Stationen nur wenn keine initialen vorhanden
+                station.addAll(
+                        "Höchstädtplatz",
+                        "Franz-Josefs-Bahnhof",
+                        "Heiligenstadt",
+                        "Mitte-Landstraße",
+                        "Erdberg"
+                );
+            }
+
+
 
             BorderPane root = new BorderPane();
             root.setPadding(new Insets(10));
@@ -98,15 +129,9 @@
             VBox.setVgrow(centerLeftVBox, Priority.ALWAYS);
 
             //Center left: Default stations ==> show 5 stations after starting the application (part of 1. Feature)
-            station.setAll(
-                "Höchstädtplatz",
-                "Franz-Josefs-Bahnhof",
-                "Heiligenstadt",
-                "Mitte-Landstraße",
-                "Erdberg"
-            );
 
             centerLeftVBox.getChildren().add(stationList);
+            root.setCenter(centerBox);
 
             //Center level: right
             VBox centerRightVBox = new VBox();
@@ -131,11 +156,30 @@
             bottomBox.setSpacing(10);
             VBox bottomVBox = new VBox();
 
-            Button ToggleLightDarkButton = new Button("Light/Dark Mode");
-            bottomBox.getChildren().addAll(ToggleLightDarkButton);
+            Button toggleLightDarkButton = new Button("Light/Dark Mode");
+            toggleLightDarkButton.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(toggleLightDarkButton, Priority.ALWAYS);
+
+
+            toggleLightDarkButton.setOnAction(e -> {
+                Scene scene = toggleLightDarkButton.getScene();
+                if (scene != null) {
+                    Parent rootNode = scene.getRoot();
+
+
+                    if ("light".equals(scene.getUserData()) || scene.getUserData() == null) {
+                        rootNode.setStyle("-fx-background-color: #2b2b2b;" + "-fx-text-fill: white;" + "-fx-border-color: black;");
+                    } else {
+                        rootNode.setStyle("-fx-background-color: white;" + "-fx-text-fill: black;" + "-fx-border-color: black;");
+                    }
+
+                    scene.setUserData("light");
+                }
+            });
+
+
+            bottomBox.getChildren().add(toggleLightDarkButton);
             bottomVBox.getChildren().add(bottomBox);
-            ToggleLightDarkButton.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(ToggleLightDarkButton, Priority.ALWAYS);
 
             //Dropdown field shows listing of history search input
 

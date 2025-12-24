@@ -3,14 +3,14 @@ package org.example.project_wobimich;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import org.example.project_wobimich.ui.WobimichUI;
+import org.example.project_wobimich.ui.LoginUI;
 
 public class WobimichApplication extends Application {
     @Override
     public void start(Stage stage) {
-        WobimichUI wobimichUI = new WobimichUI();
-        Scene wobimichScene = new Scene(wobimichUI.createScene());
-        stage.setScene(wobimichScene);
+        LoginUI loginUI = new LoginUI();
+        Scene loginScene = new Scene(loginUI.createLoginScene(stage),400,200);
+        stage.setScene(loginScene);
         stage.setTitle("Wobimich?!");
         stage.show();
     }

@@ -2,6 +2,7 @@ module org.example.project_wobimich {
     requires javafx.controls;
     requires javafx.fxml;
     requires com.fasterxml.jackson.databind;
+    requires java.desktop;
 
     opens org.example.project_wobimich to javafx.fxml;
     exports org.example.project_wobimich;

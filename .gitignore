@@ -4,6 +4,12 @@ build/
 !**/src/main/**/build/
 !**/src/test/**/build/
 .kotlin
+#lokal, irrelevant: Formatierungsregeln
+.idea/codeStyles
+#lokal, irrelevant: Zeichenkodierung
+.idea/encodings.xml
+#lokal, irrelevant: Versionskontrollsystem
+.idea/vcs.xml
 
 ### IntelliJ IDEA ###
 .idea/modules.xml

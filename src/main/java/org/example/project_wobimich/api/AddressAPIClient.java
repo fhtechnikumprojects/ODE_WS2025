@@ -1,6 +1,7 @@
 package org.example.project_wobimich.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.project_wobimich.ApiException;
 import org.example.project_wobimich.dto.AddressDTO;
 
 import java.io.IOException;
@@ -60,7 +61,7 @@ public class AddressAPIClient extends APIClient {
      * @param response raw JSON response
      * @return an AddressDTO with extracted address details, or null on error
      */
-    public AddressDTO parseAPIResponse(String response) {
+    public AddressDTO parseAPIResponse(String response) throws ApiException {
         ObjectMapper mapper = new ObjectMapper();
 
         try {
@@ -74,11 +75,9 @@ public class AddressAPIClient extends APIClient {
             addressDTO.setLatitude(feature.geometry.coordinates.get(1));
 
             return addressDTO;
-        } catch (Exception e) {
-            e.printStackTrace();
-
+        } catch (IOException e) {
+            throw new ApiException("Parsing failed!", e);
         }
-        return null;
     }
 
 }

@@ -57,7 +57,7 @@
 
 
             //Top level: Search-button
-            Button searchButton = new Button("Suche:");
+            Button searchButton = new Button("Suche");
             searchBar.getChildren().addAll(searchField, searchButton);
 
             //Top level: Search-button - Event handler ==> use service and task
@@ -68,11 +68,22 @@
                 addressLookupService = new AddressLookupService(address);
                 station.clear();
 
+                //sleep bzw. delay einbauen, um zu testen, ob Multithreading addressLookupService funktioniert!!!
+
                 addressLookupService.setOnSucceeded(e -> {
                     ArrayList<Station> stations = addressLookupService.getValue();
                     for (Station s : stations) {
                         station.add(s.getName());
                     }
+                });
+
+                //Im Zusammenhang mit Exception-Handling eingebaut!
+                addressLookupService.setOnFailed(e -> {
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Ohje...da ist etwas schief gelaufen!");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Die eingegebene Adresse konnte nicht verarbeitet werden!");
+                    alert.showAndWait();
                 });
 
                 addressLookupService.start();

@@ -24,7 +24,7 @@ public class AddressLookupService extends Service<ArrayList<Station>> {
     protected Task<ArrayList<Station>> createTask() {
         return new Task<>() {
             @Override
-            protected ArrayList<Station> call() {
+            protected ArrayList<Station> call() throws Exception {
                 AddressAPIClient addressAPIClient = new AddressAPIClient(userInputLocation);
                 String apiResponse = addressAPIClient.fetchAPIResponse();
                 AddressDTO addressDTO = addressAPIClient.parseAPIResponse(apiResponse);
@@ -36,5 +36,6 @@ public class AddressLookupService extends Service<ArrayList<Station>> {
             }
         };
     }
+    
 }
 

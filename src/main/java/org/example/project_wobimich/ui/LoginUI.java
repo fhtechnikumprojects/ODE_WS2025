@@ -5,29 +5,38 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import org.example.project_wobimich.model.Station;
 import org.example.project_wobimich.service.AddressLookupService;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class LoginUI {
 
     public VBox createLoginScene(Stage stage) {
-        VBox loginVBox = new VBox(10);
-        loginVBox.setPadding(new Insets(20));
+        VBox loginVBox = new VBox(12);
+        loginVBox.setPadding(new Insets(25));
+        loginVBox.setStyle("-fx-background-color: #87CEFA;");
         loginVBox.setAlignment(Pos.CENTER);
+
 
         Label label = new Label("Bitte einloggen:");
         TextField usernameField = new TextField();
         usernameField.setPromptText("Benutzername");
 
+
         TextField locationField = new TextField();
         locationField.setPromptText("Standort eingeben");
 
+
         Button loginButton = new Button("Login");
         loginButton.setDisable(true);
+
+
 
         usernameField.textProperty().addListener((obs, oldVal, newVal) -> {
             loginButton.setDisable(newVal.trim().isEmpty());

@@ -23,6 +23,12 @@ public class LoginUI {
         loginVBox.setStyle("-fx-background-color: #87CEFA;");
         loginVBox.setAlignment(Pos.CENTER);
 
+        ImageView logo = new ImageView(
+                new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/project_wobimich/logo.png")))
+        );
+
+        logo.setFitWidth(120);
+        logo.setPreserveRatio(true);
 
         Label label = new Label("Bitte einloggen:");
         TextField usernameField = new TextField();
@@ -74,7 +80,7 @@ public class LoginUI {
             }
         });
 
-        loginVBox.getChildren().addAll(label, usernameField, locationField, loginButton);
+        loginVBox.getChildren().addAll(logo, label, usernameField, locationField, loginButton);
         return loginVBox;
     }
 

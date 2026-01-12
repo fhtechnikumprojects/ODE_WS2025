@@ -44,6 +44,7 @@ public class WobimichUI {
 
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
+        root.setStyle("-fx-background-color: #87CEFA;");
 
         VBox topBox = new VBox(10);
 
@@ -190,7 +191,7 @@ public class WobimichUI {
                 r.setStyle("-fx-background-color:#2b2b2b;-fx-text-fill:white;");
                 scene.setUserData("dark");
             } else {
-                r.setStyle("-fx-background-color:white;-fx-text-fill:black;");
+                r.setStyle("-fx-background-color:#87CEFA;-fx-text-fill:black;");
                 scene.setUserData("light");
             }
         });

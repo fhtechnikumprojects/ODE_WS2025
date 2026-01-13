@@ -30,14 +30,15 @@ public class WobimichUI {
 
     private static final Path SEARCH_LOG = Paths.get("search_history.json");
     private static final Path FAVORITES_FILE = Paths.get("favorites.json");
+    private List<Station> initialStations;
 
-   /* public void setInitialStations(List<Station> stations) {
+    public void setInitialStations(List<Station> stations) {
         this.initialStations = stations;
         stationNames.clear();
         for (Station s : stations) {
             stationNames.add(s.getName());
         }
-    }*/
+    }
 
     public BorderPane createScene() {
         loadFavorites();

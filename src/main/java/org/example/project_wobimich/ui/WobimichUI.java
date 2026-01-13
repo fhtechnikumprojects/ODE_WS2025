@@ -47,12 +47,12 @@ public class WobimichUI {
         loadFavorites();
 
         BorderPane root = new BorderPane();
-        root.setPrefSize(800, 600);
+        root.setPrefSize(500, 600);
         root.setPadding(new Insets(10));
         root.setStyle("-fx-background-color: #87CEFA;");
 
         ImageView logo = new ImageView(
-                new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/project_wobimich/logo.png")))
+                new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/project_wobimich/WobimichLogo.png")))
         );
 
         logo.setFitWidth(120);

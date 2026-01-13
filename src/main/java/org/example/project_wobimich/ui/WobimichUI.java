@@ -7,6 +7,8 @@ import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import org.example.project_wobimich.FunFactUtils;
 import org.example.project_wobimich.model.LineStation;
@@ -18,6 +20,7 @@ import java.nio.file.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class WobimichUI {
 
@@ -44,8 +47,16 @@ public class WobimichUI {
         loadFavorites();
 
         BorderPane root = new BorderPane();
+        root.setPrefSize(800, 600);
         root.setPadding(new Insets(10));
         root.setStyle("-fx-background-color: #87CEFA;");
+
+        ImageView logo = new ImageView(
+                new Image(Objects.requireNonNull(getClass().getResourceAsStream("/org/example/project_wobimich/logo.png")))
+        );
+
+        logo.setFitWidth(120);
+        logo.setPreserveRatio(true);
 
         VBox topBox = new VBox(10);
 
@@ -67,7 +78,7 @@ public class WobimichUI {
         searchBar.setStyle("-fx-border-color:black;");
         HBox.setHgrow(searchField, Priority.ALWAYS);
 
-        topBox.getChildren().addAll(funFactBox, searchBar);
+        topBox.getChildren().addAll(logo, funFactBox, searchBar);
         root.setTop(topBox);
 
         ListView<String> stationList = new ListView<>(stationNames);
@@ -105,6 +116,7 @@ public class WobimichUI {
                 box.getChildren().addAll(label, star);
             }
 
+            @Override
             protected void updateItem(String item, boolean empty) {
                 super.updateItem(item, empty);
                 if (empty || item == null) setGraphic(null);
@@ -127,7 +139,7 @@ public class WobimichUI {
 
         VBox filterBox = new VBox(5, tram, bus, subway, suburban);
         filterBox.setPadding(new Insets(5));
-        filterBox.setStyle("-fx-border-color:black;");
+        filterBox.setStyle("-fx-border-color:white;");
 
         VBox leftBox = new VBox(10, new Label("Haltestellen"), stationList);
         VBox rightBox = new VBox(10,
@@ -189,7 +201,7 @@ public class WobimichUI {
             Scene scene = toggleTheme.getScene();
             Parent r = scene.getRoot();
             if (!"dark".equals(scene.getUserData())) {
-                r.setStyle("-fx-background-color:#2b2b2b;-fx-text-fill:white;");
+                r.setStyle("-fx-background-color:#2b2b2b;-fx-text-fill:lightgray;");
                 scene.setUserData("dark");
             } else {
                 r.setStyle("-fx-background-color:#87CEFA;-fx-text-fill:black;");

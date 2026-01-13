@@ -1,4 +1,4 @@
-package org.example.project_wobimich.ui;
+/*package org.example.project_wobimich.ui;
 
 import javafx.application.Platform;
 import javafx.geometry.Insets;
@@ -56,7 +56,7 @@ public class LoginUI {
 
                 AddressLookupService addressLookupService = new AddressLookupService(location);
 
-                loginButton.setDisable(true); // Disable Button während Suche
+                loginButton.setDisable(true);
 
                 addressLookupService.setOnSucceeded(ev -> {
                     ArrayList<Station> stations = addressLookupService.getValue();
@@ -93,5 +93,5 @@ public class LoginUI {
         stage.setScene(mainScene);
         stage.setTitle("Wobimich - Willkommen " + username);
     }
-}
+}*/
 

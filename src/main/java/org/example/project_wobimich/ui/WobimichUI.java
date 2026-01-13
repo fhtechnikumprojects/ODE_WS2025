@@ -22,7 +22,7 @@ import java.util.List;
 public class WobimichUI {
 
     private AddressLookupService addressLookupService;
-    private List<Station> initialStations = new ArrayList<>();
+    //private List<Station> initialStations = new ArrayList<>();
 
     private final ObservableList<String> stationNames = FXCollections.observableArrayList();
     private final ObservableList<String> favoriteStations = FXCollections.observableArrayList();
@@ -31,13 +31,13 @@ public class WobimichUI {
     private static final Path SEARCH_LOG = Paths.get("search_history.json");
     private static final Path FAVORITES_FILE = Paths.get("favorites.json");
 
-    public void setInitialStations(List<Station> stations) {
+   /* public void setInitialStations(List<Station> stations) {
         this.initialStations = stations;
         stationNames.clear();
         for (Station s : stations) {
             stationNames.add(s.getName());
         }
-    }
+    }*/
 
     public BorderPane createScene() {
         loadFavorites();

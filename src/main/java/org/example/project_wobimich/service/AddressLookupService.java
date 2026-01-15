@@ -2,7 +2,7 @@ package org.example.project_wobimich.service;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import org.example.project_wobimich.StationUtils;
+import org.example.project_wobimich.utils.StationUtils;
 import org.example.project_wobimich.api.AddressAPIClient;
 import org.example.project_wobimich.dto.AddressDTO;
 import org.example.project_wobimich.model.Location;
@@ -18,7 +18,6 @@ public class AddressLookupService extends Service<ArrayList<Station>> {
     public AddressLookupService(String userLocation) {
         this.userInputLocation = userLocation;
     }
-
 
     @Override
     protected Task<ArrayList<Station>> createTask() {

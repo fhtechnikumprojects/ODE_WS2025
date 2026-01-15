@@ -1,4 +1,4 @@
-package org.example.project_wobimich;
+package org.example.project_wobimich.utils;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

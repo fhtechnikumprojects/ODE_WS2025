@@ -54,6 +54,7 @@ public class RealTimeMonitorAPIClient extends APIClient {
         SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
         SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
         socket.startHandshake();
+
         return socket;
     }
 

@@ -141,4 +141,9 @@ public class LineStation {
         this.departureTime = departureTime;
     }
 
+    @Override
+    public String toString() {
+        return this.getName() + " " + this.getDirection() + " " + " " + this.getDepartureTime().getFirst();
+    }
+
 }

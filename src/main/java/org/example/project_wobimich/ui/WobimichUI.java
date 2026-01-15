@@ -6,19 +6,27 @@
     import javafx.geometry.Pos;
     import javafx.scene.control.*;
     import javafx.scene.layout.*;
-    import org.example.project_wobimich.FunFactUtils;
+    import org.example.project_wobimich.model.LineStation;
+    import org.example.project_wobimich.service.LineLookupService;
+    import org.example.project_wobimich.utils.FunFactUtils;
     import org.example.project_wobimich.model.Station;
     import org.example.project_wobimich.service.AddressLookupService;
 
     import java.util.ArrayList;
+    import java.util.List;
 
     public class WobimichUI {
         private AddressLookupService addressLookupService;
+        private LineLookupService lineLookupService;
 
         public BorderPane createScene() {
-            ObservableList<String> station = FXCollections.observableArrayList();
-            ListView<String> stationList = new ListView<>();
+            ObservableList<Station> station = FXCollections.observableArrayList();
+            ListView<Station> stationList = new ListView<>();
             stationList.setItems(station);
+
+            ObservableList<LineStation> line = FXCollections.observableArrayList();
+            ListView<LineStation> lineList = new ListView<>();
+            lineList.setItems(line);
 
             BorderPane root = new BorderPane();
             root.setPadding(new Insets(10));
@@ -55,7 +63,6 @@
             searchField.setPromptText("Standort eingeben:");
             HBox.setHgrow(searchField, Priority.ALWAYS);
 
-
             //Top level: Search-button
             Button searchButton = new Button("Suche");
             searchBar.getChildren().addAll(searchField, searchButton);
@@ -68,16 +75,12 @@
                 addressLookupService = new AddressLookupService(address);
                 station.clear();
 
-                //sleep bzw. delay einbauen, um zu testen, ob Multithreading addressLookupService funktioniert!!!
-
                 addressLookupService.setOnSucceeded(e -> {
                     ArrayList<Station> stations = addressLookupService.getValue();
-                    for (Station s : stations) {
-                        station.add(s.getName());
-                    }
+                    station.setAll(stations);
                 });
 
-                //Im Zusammenhang mit Exception-Handling eingebaut!
+                //Exception-Handling für User, eine Info-Meldung in der GUI
                 addressLookupService.setOnFailed(e -> {
                     Alert alert = new Alert(Alert.AlertType.ERROR);
                     alert.setTitle("Ohje...da ist etwas schief gelaufen!");
@@ -110,11 +113,11 @@
 
             //Center left: Default stations ==> show 5 stations after starting the application (part of 1. Feature)
             station.setAll(
-                "Höchstädtplatz",
-                "Franz-Josefs-Bahnhof",
-                "Heiligenstadt",
-                "Mitte-Landstraße",
-                "Erdberg"
+                new Station("60200569","Höchstädtplatz",16.3769075,48.2392428),
+                new Station("60200345","Franz-Josefs-Bahnhof",16.361151,48.2259888),
+                new Station("60200491","Heiligenstadt",16.3657773,48.2490958),
+                new Station("60200743","Mitte-Landstraße",16.3845881,48.2060445),
+                new Station("60200289","Erdberg",16.4139989,48.1915243)
             );
 
             centerLeftVBox.getChildren().add(stationList);
@@ -122,7 +125,7 @@
             //Center level: right
             VBox centerRightVBox = new VBox();
             centerRightVBox.setStyle("-fx-background-color: lightblue; -fx-padding: 10;");
-            centerRightVBox.setPrefWidth(200);
+            centerRightVBox.setPrefWidth(300);
             centerRightVBox.setStyle("""
                     -fx-border-color: black;
                     -fx-border-width: 1;
@@ -131,8 +134,33 @@
             HBox.setHgrow(centerRightVBox, Priority.ALWAYS);
             VBox.setVgrow(centerRightVBox, Priority.ALWAYS);
 
-            centerBox.getChildren().addAll(centerLeftVBox,centerRightVBox);
+            //Clicking on a station will show the lines with its (real time) information
+            stationList.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 1) {
+                    Station selectedStation = stationList.getSelectionModel().getSelectedItem();
+                    if (selectedStation != null) {
+                        lineLookupService = new LineLookupService(selectedStation.getId());
 
+                        lineLookupService.setOnSucceeded( e -> {
+                            List<LineStation> result = lineLookupService.getValue();
+                            line.setAll(result); //Update list of the right box
+                        });
+
+                        //Exception-Handling für User, eine Info-Meldung in der GUI
+                        lineLookupService.setOnFailed(e -> {
+                            Alert alert = new Alert(Alert.AlertType.ERROR);
+                            alert.setTitle("Ohje...da ist etwas schief gelaufen!");
+                            alert.setHeaderText(null);
+                            alert.setContentText("Die Linien und ihre Abfahrtszeiten können derzeit nicht angezeigt werden!");
+                            alert.showAndWait();
+                        });
+                        lineLookupService.start();
+                    }
+                }
+            });
+
+            centerRightVBox.getChildren().addAll(lineList);
+            centerBox.getChildren().addAll(centerLeftVBox,centerRightVBox);
             root.setCenter(centerBox);
 
             //Bottom level

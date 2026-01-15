@@ -52,7 +52,8 @@ public abstract class APIClient {
             out.println("Connection: close");
             out.println();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(),java.nio.charset.StandardCharsets.UTF_8));
+
             String line;
 
             //Skip HTTP header lines

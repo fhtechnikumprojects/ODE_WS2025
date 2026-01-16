@@ -1,13 +1,12 @@
 package org.example.project_wobimich.service;
 
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
-
 import org.example.project_wobimich.api.RealTimeMonitorAPIClient;
 import org.example.project_wobimich.dto.RealTimeMonitorDTO;
 import org.example.project_wobimich.model.Station;
 import org.example.project_wobimich.model.LineStation;
 
+import java.time.Duration;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -15,42 +14,37 @@ import java.util.ArrayList;
 public class SelectedStationOperator {
 
     private final List<Station> stations;
-    private final VBox targetBox;
+    private final OutputRightBox outputBox;
 
-    public SelectedStationOperator(List<Station> stations, VBox targetBox) {
+
+    public SelectedStationOperator(List<Station> stations, OutputRightBox outputBox) {
         this.stations = stations;
-        this.targetBox = targetBox;
+        this.outputBox = outputBox;
     }
 
     public void handleSelection(String stationName) {
         Station station = findStationByName(stationName);
 
         if (station == null) {
-            showMessage("Keine gültige Station gewählt");
+            outputBox.showMessage("Keine gültige Station gewählt");
+            return;
         }
-
+        try {
             RealTimeMonitorAPIClient client = new RealTimeMonitorAPIClient(station.getId());
             String json = client.fetchAPIResponse();
             List<RealTimeMonitorDTO> dtos = client.parseAPIResponse(json);
-
             List<LineStation> lines = new ArrayList<>();
             for (RealTimeMonitorDTO dto : dtos) {
-                lines.add(dto.mapToLine());
+                LineStation line = dto.mapToLine();
+                line.setCountdownMinutes(calculateCountdownMinutes(line.getDepartureTime()));
+                lines.add(line);
             }
-//
-//            if (dtos == null) {
-//                showMessage("Keine Realtime-Daten verfügbar");
-//                return;
-//            }
-//            else-if (dtos.getData() == null) {
-//                showMessage("Realtime-Daten fehlerhaft");
-//                return;
-//            }
-
             station.setLines(lines);
-            showLines(lines, station.getName());
+            outputBox.showLines(station.getName(), lines);
+        } catch (Exception e) {
+            outputBox.showMessage("Fehler beim Laden der Linien");
         }
-
+    }
 
     private Station findStationByName(String name) {
         for (Station s : stations) {
@@ -61,39 +55,30 @@ public class SelectedStationOperator {
         return null;
     }
 
-    private void showLines(List<LineStation> lines, String stationName) {
-        targetBox.getChildren().clear();
-
-        if (lines == null) {
-            showMessage("Keine gültige Linie verfügbar");
-            return;
+    private List<Integer> calculateCountdownMinutes(List<String> depatureTimes) {
+        List<Integer> countdown = new ArrayList<>();
+        if (depatureTimes == null) return countdown;
+        for (String t : depatureTimes) {
+            countdown.add(minutesUntil(t));
         }
-        else if (lines.isEmpty()) {
-            showMessage("Linien nicht verfügbar");
-            return;
-        }
-
-        Label header = new Label(stationName);
-            header.setStyle("-fx-font-weight: bold");
-        targetBox.getChildren().add(header);
-
-        for (LineStation line : lines) {
-            Label lineLabel = new Label(formatLine(line));
-            targetBox.getChildren().add(lineLabel);
-        }
-
-
-
-    }
-    private String formatLine(LineStation line) {
-        return "Linie " + line.getId()
-                + " " + line.getName() + " nach " + line.getDirection();
+        return countdown;
     }
 
+    private int minutesUntil(String departureTimePlanned) {
+        OffsetDateTime departure = parseWienerLinienTime(departureTimePlanned);
+        if (departure == null) return 0;
 
+        long minutes = Duration.between(OffsetDateTime.now(), departure).toMinutes();
+        return (int) Math.max(minutes, 0);
+    }
 
-    private void showMessage(String message) {
-        targetBox.getChildren().clear();
-        targetBox.getChildren().add(new Label(message));
+    private OffsetDateTime parseWienerLinienTime(String t) {
+        if (t == null || t.isBlank()) return null;
+
+        // WL liefert oft ...+0100 oder ...-0530 -> mache daraus ...+01:00 / ...-05:30
+        if (t.matches(".*[+-]\\d{4}$")) {
+            t = t.substring(0, t.length() - 2) + ":" + t.substring(t.length() - 2);
+        }
+        return OffsetDateTime.parse(t);
     }
 }

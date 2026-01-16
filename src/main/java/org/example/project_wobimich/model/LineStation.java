@@ -16,6 +16,7 @@ public class LineStation {
     private boolean barrierFree;
     private boolean realTimeSupported;
     private List<String> departureTime;
+    private List<Integer> countdownMinutes;
 
     /**
      * Creates a new LineStation with the given data.
@@ -27,8 +28,10 @@ public class LineStation {
      * @param barrierFree whether the line supports barrier-free access
      * @param realTimeSupported whether real-time data is available
      * @param departureTime list of departure times
+     *
      */
-    public LineStation(String id, String name, String direction, String typeOfTransportation, boolean barrierFree, boolean realTimeSupported, List<String> departureTime) {
+    public LineStation(String id, String name, String direction, String typeOfTransportation, boolean barrierFree,
+                       boolean realTimeSupported, List<String> departureTime) {
         this.id = id;
         this.name = name;
         this.direction = direction;
@@ -139,6 +142,20 @@ public class LineStation {
      * */
     public void setDepartureTime(List<String> departureTime) {
         this.departureTime = departureTime;
+    }
+
+    /**
+    * @return the minutes until depature
+     */
+    public List<Integer> getCountdownMinutes() {
+        return countdownMinutes;
+    }
+
+    /**
+     * @param countdownMinutes minutes until departure
+     */
+    public void setCountdownMinutes(List<Integer> countdownMinutes) {
+        this.countdownMinutes = countdownMinutes;
     }
 
 }

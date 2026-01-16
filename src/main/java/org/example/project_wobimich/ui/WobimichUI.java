@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.example.project_wobimich.FunFactUtils;
+import org.example.project_wobimich.service.OutputRightBox;
 import org.example.project_wobimich.service.SelectedStationOperator;
 import org.example.project_wobimich.model.Station;
 import org.example.project_wobimich.service.AddressLookupService;
@@ -33,7 +34,6 @@ public class WobimichUI {
 //                        selectedStationOperator.handleSelection(selectedName);
 //                    }
 //                });
-
 
 
         BorderPane root = new BorderPane();
@@ -138,14 +138,15 @@ public class WobimichUI {
         HBox.setHgrow(centerRightVBox, Priority.ALWAYS);
         VBox.setVgrow(centerRightVBox, Priority.ALWAYS);
         //Achtung: hier Übergabe für rechts - bitte bei Änderungen hier nicht reinpfuschen!
-        selectedStationOperator =
-                new SelectedStationOperator(fullStationList, centerRightVBox);
+        OutputRightBox outputRightBox = new OutputRightBox(centerRightVBox);
+        this.selectedStationOperator =
+                new SelectedStationOperator(fullStationList, outputRightBox);
 
         stationList.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((obs, oldVal, selectedName) -> {
                     if (selectedName != null) {
-                        selectedStationOperator.handleSelection(selectedName);
+                        this.selectedStationOperator.handleSelection(selectedName);
                     }
                 });
 

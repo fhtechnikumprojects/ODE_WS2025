@@ -45,8 +45,6 @@ public class Launcher {
             System.out.println("distance to location: " + station.getDistance());
             System.out.println("--------------------------------------------------");
         }
-
-
 */
 
         /*

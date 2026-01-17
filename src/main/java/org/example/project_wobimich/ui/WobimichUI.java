@@ -198,21 +198,22 @@ public class WobimichUI {
             if (e.getClickCount() == 2) {
                 String selectedFav = favoriteListView.getSelectionModel().getSelectedItem();
                 if (selectedFav != null) {
-                    searchField.setText(selectedFav);
-                    handleSearch();
+                    addressLookupService = new AddressLookupService(selectedFav);
 
                     addressLookupService.setOnSucceeded(event -> {
                         stations.setAll(addressLookupService.getValue());
-                        // Suche die Station mit dem exakten Namen in der neuen Liste
+
                         for (Station s : stations) {
                             if (s.getName().equalsIgnoreCase(selectedFav)) {
                                 stationList.getSelectionModel().select(s);
-                                handleStationSelection(); // Lädt die Abfahrten (Linien)
+                                handleStationSelection(); // Lädt die Linien rechts
                                 break;
                             }
                         }
                     });
 
+                    addressLookupService.setOnFailed(event -> showError("Verbindung fehlgeschlagen!"));
+                    addressLookupService.start();
                 }
             }
         });

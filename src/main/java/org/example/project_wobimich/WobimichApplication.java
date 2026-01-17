@@ -14,12 +14,10 @@ import java.util.List;
 public class WobimichApplication extends Application {
     @Override
     public void start(Stage stage) {
-
         WobimichUI wobimichUI = new WobimichUI();
-
-        Scene wobimichScene = new Scene(wobimichUI.createScene(), 800, 600);
+        Scene wobimichScene = new Scene(wobimichUI.createScene());
         stage.setScene(wobimichScene);
-        stage.setTitle("Wobimich Test");
+        stage.setTitle("Wobimich?!");
         stage.show();
     }
 

@@ -1,147 +1,248 @@
-    package org.example.project_wobimich.ui;
+package org.example.project_wobimich.ui;
 
-    import javafx.collections.FXCollections;
-    import javafx.collections.ObservableList;
-    import javafx.geometry.Insets;
-    import javafx.geometry.Pos;
-    import javafx.scene.control.*;
-    import javafx.scene.layout.*;
-    import org.example.project_wobimich.model.LineStation;
-    import org.example.project_wobimich.service.LineLookupService;
-    import org.example.project_wobimich.utils.FunFactUtils;
-    import org.example.project_wobimich.model.Station;
-    import org.example.project_wobimich.service.AddressLookupService;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
+import org.example.project_wobimich.model.LineStation;
+import org.example.project_wobimich.service.LineLookupService;
+import org.example.project_wobimich.utils.FunFactUtils;
+import org.example.project_wobimich.model.Station;
+import org.example.project_wobimich.service.AddressLookupService;
 
-    public class WobimichUI {
-        private AddressLookupService addressLookupService;
-        private LineLookupService lineLookupService;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
-        private ObservableList<Station> stations = FXCollections.observableArrayList();
-        private ObservableList<LineStation> lines = FXCollections.observableArrayList();
-        private ListView<Station> stationList = new ListView<>(stations);
-        private ListView<LineStation> lineList = new ListView<>(lines);
-        private TextField searchField = new TextField();
+public class WobimichUI {
+    //Service
+    private AddressLookupService addressLookupService;
+    private LineLookupService lineLookupService;
 
-        public BorderPane createScene() {
-            BorderPane root = new BorderPane();
-            root.setPadding(new Insets(10));
+    //Data lists
+    private ObservableList<Station> stations = FXCollections.observableArrayList();
+    private ObservableList<LineStation> lines = FXCollections.observableArrayList();
+    private ObservableList<String> favoriteStations = FXCollections.observableArrayList(); // Vorbereitet
+    private List<LineStation> linesOfSelectedStation = new ArrayList<>(); // Zwischenspeicher für Filter
 
-            //modularer Aufbau
-            root.setTop(createTopSection());
-            root.setCenter(createCenterSection());
-            root.setBottom(createBottomSection());
+    //filter checkboxes
+    private CheckBox tram = new CheckBox("Straßenbahn");
+    private CheckBox bus = new CheckBox("Bus");
+    private CheckBox subway = new CheckBox("U-Bahn");
+    private CheckBox train = new CheckBox("S-Bahn");
 
-            //Daten initialisieren
-            loadDefaultStations();
+    //UI Komponenten
+    private ListView<Station> stationList = new ListView<>(stations);
+    private ListView<LineStation> lineList = new ListView<>(lines);
+    private ListView<String> favoriteListView = new ListView<>(favoriteStations); // Die neue Box
+    private TextField searchField = new TextField();
 
-            return root;
-        }
+    private static final Path SEARCH_LOG = Paths.get("search-history.json");
 
-        private VBox createTopSection() {
-            VBox topVBox = new VBox(10);
+    //create scene
+    public BorderPane createScene() {
+        BorderPane root = new BorderPane();
+        root.setPadding(new Insets(10));
 
-            // Fun Fact Bereich
-            VBox funFactBox = new VBox(5);
-            funFactBox.setAlignment(Pos.CENTER);
-            funFactBox.setPadding(new Insets(10));
-            funFactBox.getStyleClass().add("fun-fact-box"); // Nutze lieber CSS Klassen!
-            funFactBox.setStyle("-fx-border-color: black; -fx-background-color: lightgray;");
+        root.setTop(createTopSection());
+        root.setCenter(createCenterSection());
+        root.setBottom(createBottomSection());
 
-            Label funFactHeader = new Label("Hast du gewusst?");
-            Label funFactText = new Label(FunFactUtils.getRandomFact());
-            funFactBox.getChildren().addAll(funFactHeader, funFactText);
+        loadDefaultStations();
 
-            // Suchbereich
-            HBox searchBar = new HBox(10);
-            searchBar.setPadding(new Insets(10));
-            searchBar.setStyle("-fx-border-color: black;");
-
-            searchField.setPromptText("Standort eingeben:");
-            HBox.setHgrow(searchField, Priority.ALWAYS);
-
-            Button searchButton = new Button("Suche");
-            searchButton.disableProperty().bind(searchField.textProperty().isEmpty());
-            searchButton.setOnAction(e -> handleSearch());
-
-            searchBar.getChildren().addAll(searchField, searchButton);
-            topVBox.getChildren().addAll(funFactBox, searchBar);
-
-            return topVBox;
-        }
-
-        private HBox createCenterSection() {
-            HBox centerBox = new HBox(10);
-
-            // Linke Seite: Stationen
-            VBox leftBox = new VBox(stationList);
-            setupBoxStyle(leftBox, 200);
-
-            // Rechte Seite: Linien
-            VBox rightBox = new VBox(lineList);
-            setupBoxStyle(rightBox, 300);
-
-            // Event für Klick auf Station
-            stationList.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2) handleStationSelection();
-            });
-
-            centerBox.getChildren().addAll(leftBox, rightBox);
-            return centerBox;
-        }
-
-        private HBox createBottomSection() {
-            Button toggleButton = new Button("Light/Dark Mode");
-            toggleButton.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(toggleButton, Priority.ALWAYS);
-
-            return new HBox(10, toggleButton);
-        }
-
-        private void handleSearch() {
-            String address = searchField.getText();
-            addressLookupService = new AddressLookupService(address);
-            stations.clear();
-
-            addressLookupService.setOnSucceeded(e -> stations.setAll(addressLookupService.getValue()));
-            addressLookupService.setOnFailed(e -> showError("Adresse konnte nicht verarbeitet werden!"));
-            addressLookupService.start();
-        }
-
-        private void handleStationSelection() {
-            Station selected = stationList.getSelectionModel().getSelectedItem();
-            if (selected == null) {
-                return;
-            }
-
-            lineLookupService = new LineLookupService(selected.getId());
-            lineLookupService.setOnSucceeded(e -> lines.setAll(lineLookupService.getValue()));
-            lineLookupService.setOnFailed(e -> showError("Abfahrtszeiten nicht verfügbar!"));
-            lineLookupService.start();
-        }
-
-        private void loadDefaultStations() {
-            stations.setAll(
-                    new Station("60200569","Höchstädtplatz",16.3769075,48.2392428),
-                    new Station("60200345","Franz-Josefs-Bahnhof",16.361151,48.2259888),
-                    new Station("60200743","Mitte-Landstraße",16.3845881,48.2060445),
-                    new Station("60200491","Heiligenstadt",16.3657773,48.2490958),
-                    new Station("60201468","Westbahnhof",16.3376511,48.1966562)
-            );
-        }
-
-        private void setupBoxStyle(VBox box, double prefWidth) {
-            //box.setStyle("-fx-background-color: lightblue; -fx-padding: 10; -fx-border-color: black;");
-            box.setPrefWidth(prefWidth);
-            HBox.setHgrow(box, Priority.ALWAYS);
-            VBox.setVgrow(box, Priority.ALWAYS);
-        }
-
-        private void showError(String message) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setContentText(message);
-            alert.showAndWait();
-        }
-
+        return root;
     }
+
+    //top section of the gui
+    private VBox createTopSection() {
+        VBox topVBox = new VBox(10);
+
+        //Fun Fact
+        VBox funFactBox = new VBox(5);
+        funFactBox.setAlignment(Pos.CENTER);
+        funFactBox.setPadding(new Insets(10));
+        funFactBox.getStyleClass().add("fun-fact-box");
+        funFactBox.setStyle("-fx-border-color: black; -fx-background-color: lightgray;");
+
+        Label funFactHeader = new Label("Hast du gewusst?");
+        Label funFactText = new Label(FunFactUtils.getRandomFact());
+        funFactBox.getChildren().addAll(funFactHeader, funFactText);
+
+        //Search bar
+        HBox searchBar = new HBox(10);
+        searchBar.setPadding(new Insets(10));
+        searchBar.setStyle("-fx-border-color: black;");
+        searchField.setPromptText("Standort eingeben:");
+        HBox.setHgrow(searchField, Priority.ALWAYS);
+
+        Button searchButton = new Button("Suche");
+        searchButton.disableProperty().bind(searchField.textProperty().isEmpty());
+        searchButton.setOnAction(e -> handleSearch());
+
+        searchBar.getChildren().addAll(searchField, searchButton);
+        topVBox.getChildren().addAll(funFactBox, searchBar);
+
+        return topVBox;
+    }
+
+    //center of the gui
+    private HBox createCenterSection() {
+        HBox centerBox = new HBox(15);
+        centerBox.setPadding(new Insets(10, 0, 10, 0));
+
+        // --- LINKE SEITE (Stationen oben, Favoriten unten) ---
+        VBox leftColumn = new VBox(15);
+
+        // Haltestellen
+        VBox stationArea = new VBox(5, new Label("Haltestellen"), stationList);
+        stationList.setPrefHeight(150);
+
+        // Favoriten
+        VBox favoriteArea = new VBox(5, new Label("Favoriten"), favoriteListView);
+        VBox.setVgrow(favoriteListView, Priority.ALWAYS);
+        VBox.setVgrow(favoriteArea, Priority.ALWAYS);
+
+        leftColumn.getChildren().addAll(stationArea, favoriteArea);
+        setupBoxStyle(leftColumn, 280);
+
+        // --- RECHTE SEITE (Filter & Linien in EINER gemeinsamen Box) ---
+        VBox rightColumn = new VBox(5);
+        Label departuresLabel = new Label("Abfahrten & Filter");
+
+        VBox combinedContainer = new VBox(10);
+        combinedContainer.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-padding: 10;");
+
+        VBox filterContent = createFilterSection();
+
+        // filter in the box
+        VBox.setVgrow(lineList, Priority.ALWAYS);
+
+        combinedContainer.getChildren().addAll(filterContent, new Separator(), lineList);
+        VBox.setVgrow(combinedContainer, Priority.ALWAYS);
+
+        rightColumn.getChildren().addAll(departuresLabel, combinedContainer);
+        setupBoxStyle(rightColumn, 350);
+
+        HBox.setHgrow(leftColumn, Priority.ALWAYS);
+        HBox.setHgrow(rightColumn, Priority.ALWAYS);
+
+        stationList.setOnMouseClicked(e -> { if (e.getClickCount() == 2) handleStationSelection(); });
+
+        centerBox.getChildren().addAll(leftColumn, rightColumn);
+        return centerBox;
+    }
+
+    //bottom of gui toggle dark/light mode
+    private HBox createBottomSection() {
+        Button toggleButton = new Button("Light/Dark Mode");
+        toggleButton.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(toggleButton, Priority.ALWAYS);
+
+        return new HBox(10, toggleButton);
+    }
+
+    //methods for handling logic of gui
+    private void handleSearch() {
+        String address = searchField.getText();
+        logSearch(address);
+
+        addressLookupService = new AddressLookupService(address);
+        stations.clear();
+
+        addressLookupService.setOnSucceeded(e -> stations.setAll(addressLookupService.getValue()));
+        addressLookupService.setOnFailed(e -> showError("Adresse konnte nicht verarbeitet werden!"));
+        addressLookupService.start();
+    }
+
+    private void handleStationSelection() {
+        Station selected = stationList.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+
+        lineLookupService = new LineLookupService(selected.getId());
+        lineLookupService.setOnSucceeded(e -> {
+            linesOfSelectedStation = lineLookupService.getValue();
+            applyFilter();
+        });
+        lineLookupService.setOnFailed(e -> showError("Abfahrtszeiten nicht verfügbar!"));
+        lineLookupService.start();
+    }
+
+    private void loadDefaultStations() {
+        stations.setAll(
+                new Station("60200569","Höchstädtplatz",16.3769075,48.2392428),
+                new Station("60200345","Franz-Josefs-Bahnhof",16.361151,48.2259888),
+                new Station("60200743","Mitte-Landstraße",16.3845881,48.2060445),
+                new Station("60200491","Heiligenstadt",16.3657773,48.2490958),
+                new Station("60201468","Westbahnhof",16.3376511,48.1966562)
+        );
+    }
+
+    private void setupBoxStyle(VBox box, double prefWidth) {
+        //box.setStyle("-fx-background-color: lightblue; -fx-padding: 10; -fx-border-color: black;");
+        box.setPrefWidth(prefWidth);
+        HBox.setHgrow(box, Priority.ALWAYS);
+        VBox.setVgrow(box, Priority.ALWAYS);
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void logSearch(String address) {
+        try {
+            String logEntry = String.format("{ \"address\":\"%s\", \"time\":\"%s\" }\n", address, LocalDateTime.now());
+            Files.writeString(SEARCH_LOG, logEntry, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            System.err.println("Logging fehlgeschlagen: " + e.getMessage());
+        }
+    }
+
+    private VBox createFilterSection() {
+        VBox filterContainer = new VBox(5, new Label("Verkehrsmittel filtern:"));
+        filterContainer.setPadding(new Insets(5));
+        filterContainer.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5;");
+
+        //per default aktiviert
+        tram.setSelected(true);
+        bus.setSelected(true);
+        subway.setSelected(true);
+
+        // Events: Bei jedem Klick Liste neu filtern
+        tram.setOnAction(e -> applyFilter());
+        bus.setOnAction(e -> applyFilter());
+        subway.setOnAction(e -> applyFilter());
+
+        HBox checks = new HBox(10, tram, bus, subway);
+        filterContainer.getChildren().add(checks);
+        return filterContainer;
+    }
+
+    private void applyFilter() {
+        lines.clear();
+
+        for (LineStation line : linesOfSelectedStation) {
+            String type = line.getTypeOfTransportation().toLowerCase();
+
+            boolean matchesTram = tram.isSelected() && type.contains("pttram");
+            boolean matchesBus = bus.isSelected() && type.contains("ptbuscity");
+            boolean matchesSubway = subway.isSelected() && type.contains("ptmetro");
+
+            if (matchesTram || matchesBus || matchesSubway) {
+                lines.add(line);
+            }
+        }
+    }
+}
 
 

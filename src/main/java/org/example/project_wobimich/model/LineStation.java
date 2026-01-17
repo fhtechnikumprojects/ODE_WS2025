@@ -1,5 +1,7 @@
 package org.example.project_wobimich.model;
 
+import org.example.project_wobimich.utils.LineStationUtils;
+
 import java.util.List;
 
 /**
@@ -143,7 +145,8 @@ public class LineStation {
 
     @Override
     public String toString() {
-        return this.getName() + " " + this.getDirection() + " " + " " + this.getDepartureTime().getFirst();
+        String departureTime = LineStationUtils.getTimeInMin(this.getDepartureTime().getFirst());
+        return "Linie " + this.getName() + " | Richtung " + this.getDirection() + " | " + departureTime + " min";
     }
 
 }

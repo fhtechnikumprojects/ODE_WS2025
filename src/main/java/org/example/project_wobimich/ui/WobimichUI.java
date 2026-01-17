@@ -136,7 +136,7 @@
 
             //Clicking on a station will show the lines with its (real time) information
             stationList.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 1) {
+                if (event.getClickCount() == 2) {
                     Station selectedStation = stationList.getSelectionModel().getSelectedItem();
                     if (selectedStation != null) {
                         lineLookupService = new LineLookupService(selectedStation.getId());

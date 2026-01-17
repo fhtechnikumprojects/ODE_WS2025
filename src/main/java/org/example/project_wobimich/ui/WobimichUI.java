@@ -36,24 +36,29 @@ public class WobimichUI {
     private CheckBox tram = new CheckBox("Straßenbahn");
     private CheckBox bus = new CheckBox("Bus");
     private CheckBox subway = new CheckBox("U-Bahn");
-    private CheckBox train = new CheckBox("S-Bahn");
 
     //UI Komponenten
     private ListView<Station> stationList = new ListView<>(stations);
     private ListView<LineStation> lineList = new ListView<>(lines);
     private ListView<String> favoriteListView = new ListView<>(favoriteStations); // Die neue Box
     private TextField searchField = new TextField();
+    private boolean isDarkMode = false;
 
     private static final Path SEARCH_LOG = Paths.get("search-history.json");
+    private static final Path FAVORITES_FILE = Paths.get("favorites.txt");
 
     //create scene
     public BorderPane createScene() {
+        loadFavorites();
+        favoriteStations.addListener((javafx.collections.ListChangeListener<String>) c -> saveFavorites());
+
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
+        root.setStyle("-fx-font-size: 14px;");
 
         root.setTop(createTopSection());
         root.setCenter(createCenterSection());
-        root.setBottom(createBottomSection());
+        root.setBottom(createBottomSection(root));
 
         loadDefaultStations();
 
@@ -97,12 +102,12 @@ public class WobimichUI {
         HBox centerBox = new HBox(15);
         centerBox.setPadding(new Insets(10, 0, 10, 0));
 
-        // --- LINKE SEITE (Stationen oben, Favoriten unten) ---
+        //LINKE SEITE
         VBox leftColumn = new VBox(15);
 
         // Haltestellen
         VBox stationArea = new VBox(5, new Label("Haltestellen"), stationList);
-        stationList.setPrefHeight(150);
+        stationList.setPrefHeight(200);
 
         // Favoriten
         VBox favoriteArea = new VBox(5, new Label("Favoriten"), favoriteListView);
@@ -112,7 +117,7 @@ public class WobimichUI {
         leftColumn.getChildren().addAll(stationArea, favoriteArea);
         setupBoxStyle(leftColumn, 280);
 
-        // --- RECHTE SEITE (Filter & Linien in EINER gemeinsamen Box) ---
+        //RECHTE SEITE
         VBox rightColumn = new VBox(5);
         Label departuresLabel = new Label("Abfahrten & Filter");
 
@@ -133,17 +138,95 @@ public class WobimichUI {
         HBox.setHgrow(leftColumn, Priority.ALWAYS);
         HBox.setHgrow(rightColumn, Priority.ALWAYS);
 
-        stationList.setOnMouseClicked(e -> { if (e.getClickCount() == 2) handleStationSelection(); });
+        stationList.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) handleStationSelection();
+        });
 
         centerBox.getChildren().addAll(leftColumn, rightColumn);
+
+        //Add favorite of station with cellfactory
+        stationList.setCellFactory(lv -> new ListCell<Station>() {
+            @Override
+            protected void updateItem(Station station, boolean empty) {
+                super.updateItem(station, empty);
+                if (empty || station == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    HBox cell = new HBox(10);
+                    cell.setAlignment(Pos.CENTER_LEFT);
+                    Label name = new Label(station.getName());
+                    Button starButton = new Button("☆");
+
+                    starButton.setOnAction(e -> {
+                        if (!favoriteStations.contains(station.getName())) {
+                            favoriteStations.add(station.getName());
+                        }
+                    });
+
+                    HBox.setHgrow(name, Priority.ALWAYS);
+                    cell.getChildren().addAll(name, starButton);
+                    setGraphic(cell);
+                }
+            }
+        });
+
+        //Remote favorite station of favorite list using cellfactory
+        favoriteListView.setCellFactory(lv -> new ListCell<String>() {
+            @Override
+            protected void updateItem(String stationName, boolean empty) {
+                super.updateItem(stationName, empty);
+                if (empty || stationName == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    HBox cell = new HBox(10);
+                    cell.setAlignment(Pos.CENTER_LEFT);
+                    Label name = new Label(stationName);
+                    Button removeButton = new Button("★");
+
+                    removeButton.setOnAction(e -> favoriteStations.remove(stationName));
+
+                    HBox.setHgrow(name, Priority.ALWAYS);
+                    cell.getChildren().addAll(name, removeButton);
+                    setGraphic(cell);
+                }
+            }
+        });
+
+        favoriteListView.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                String selectedFav = favoriteListView.getSelectionModel().getSelectedItem();
+                if (selectedFav != null) {
+                    searchField.setText(selectedFav);
+                    handleSearch();
+
+                    addressLookupService.setOnSucceeded(event -> {
+                        stations.setAll(addressLookupService.getValue());
+                        // Suche die Station mit dem exakten Namen in der neuen Liste
+                        for (Station s : stations) {
+                            if (s.getName().equalsIgnoreCase(selectedFav)) {
+                                stationList.getSelectionModel().select(s);
+                                handleStationSelection(); // Lädt die Abfahrten (Linien)
+                                break;
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
+
         return centerBox;
     }
 
     //bottom of gui toggle dark/light mode
-    private HBox createBottomSection() {
+    private HBox createBottomSection(BorderPane root) {
         Button toggleButton = new Button("Light/Dark Mode");
         toggleButton.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(toggleButton, Priority.ALWAYS);
+
+        toggleButton.setOnAction(e -> toggleTheme(root));
 
         return new HBox(10, toggleButton);
     }
@@ -187,7 +270,6 @@ public class WobimichUI {
     }
 
     private void setupBoxStyle(VBox box, double prefWidth) {
-        //box.setStyle("-fx-background-color: lightblue; -fx-padding: 10; -fx-border-color: black;");
         box.setPrefWidth(prefWidth);
         HBox.setHgrow(box, Priority.ALWAYS);
         VBox.setVgrow(box, Priority.ALWAYS);
@@ -213,12 +295,10 @@ public class WobimichUI {
         filterContainer.setPadding(new Insets(5));
         filterContainer.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5;");
 
-        //per default aktiviert
         tram.setSelected(true);
         bus.setSelected(true);
         subway.setSelected(true);
 
-        // Events: Bei jedem Klick Liste neu filtern
         tram.setOnAction(e -> applyFilter());
         bus.setOnAction(e -> applyFilter());
         subway.setOnAction(e -> applyFilter());
@@ -243,6 +323,35 @@ public class WobimichUI {
             }
         }
     }
+
+    private void saveFavorites() {
+        try {
+            Files.write(FAVORITES_FILE, favoriteStations, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            System.err.println("Fehler beim Speichern der Favoriten: " + e.getMessage());
+        }
+    }
+
+    private void loadFavorites() {
+        try {
+            if (Files.exists(FAVORITES_FILE)) {
+                List<String> loaded = Files.readAllLines(FAVORITES_FILE);
+                favoriteStations.setAll(loaded);
+            }
+        } catch (IOException e) {
+            System.err.println("Fehler beim Laden der Favoriten: " + e.getMessage());
+        }
+    }
+
+    private void toggleTheme(BorderPane root) {
+        isDarkMode = !isDarkMode;
+        if (isDarkMode) {
+            root.setStyle("-fx-base: #2b2b2b; -fx-background-color: #3c3f41; -fx-font-size: 14px;");
+        } else {
+            root.setStyle("-fx-font-size: 14px;");
+        }
+    }
+
 }
 
 

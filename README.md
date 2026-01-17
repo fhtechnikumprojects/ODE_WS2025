@@ -16,7 +16,7 @@
     - Klassen und Funktionen
     - Klassen für API-Abfragen
     - Statische Daten ins Projekt einbinden
-    - 
+    
 - Ziel PP2: 
   - Must have Features implementieren
   - Must have Features testen
@@ -26,7 +26,7 @@
   - Should have Feature testen
   - Nice to have Feature implementieren
   - Nice to have Feature testen
-  - 
+  
 - Ziel PP4: 
   - Overkill Features implementieren
   - Overkill Features testen

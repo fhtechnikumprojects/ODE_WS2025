@@ -1,4 +1,4 @@
-# WoBimIch
+## WoBimIch
 
 ## Gruppenmitglieder
 - Thanathan Wongkantharaphai (ic24b123@technikum-wien.at)
@@ -36,3 +36,43 @@
 ## Projektbeschreibung
 WoBimIch ist ein Smart Mirror, der die nächstgelegensten Haltestellen mit den Linien anhand des angegebenen Standords anzeigt. 
 Dafür soll die API der Wiener Linien verwendet werden. Ähnlich wie die Wien Mobil App der Wiener Linien
+
+## Projektstruktur
+
+##### src/main/java/org.example.project_wobimich
+- api          → APIs (AddressAPIClient, APIClient, RealTimeMonitirAPIClient)
+- dto          → AddressDTO, RealTimeMonitorDTO
+- model        → Klassen (FunFact, LineStation, Location, LocationHistoryLogger, LocationLogEntry, Station)
+- service      → AddressLookupService, FavoriteService
+- ui           → FunFactUtils, HelloController, Launcher, StationUtils, WobimichApplication
+
+##### resources/org.example.project_wobimich/data
+- jsonFiles: wl-fun-facts.json (FunFact Daten), wl-ogd-haltepunkte.json (Haltepunkte), wl-ogd-haltestellen.json (Haltstellen), wl-ogd-linie.json (Linien)
+- jsonFiles: favorites.json (Favorites werden gespeichert), search_history.json (gesuchte Standorte werden mit Timestamp gespeichert)
+- Bilder (Logo: Wobimich.png)
+
+## Verwendete APIs & Quellen
+
+- Wiener Linien API
+- JsonFiles im Projekt
+- Logo erstellt mithilfe von AI
+
+## Starten des Projektes
+
+## Voraussetzungen
+- Java JDK 17 oder höher
+- JavaFX installiert und korrekt konfiguriert
+- IDE (z. B. IntelliJ IDEA oder Eclipse)
+
+## Projekt starten
+1. Projekt aus dem Repository klonen
+2. Projekt in der IDE öffnen
+3. Sicherstellen, dass JavaFX als Library eingebunden ist
+4. Die Klasse `WobimichApplication` ausführen
+
+## Startklasse
+org.example.project_wobimich.WobimichApplication
+
+
+
+

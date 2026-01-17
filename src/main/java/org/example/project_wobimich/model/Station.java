@@ -131,4 +131,10 @@ public class Station {
     public void setLines(List<LineStation> lines) {
         this.lines = lines;
     }
+
+    @Override
+    public String toString() {
+        return this.name;
+    }
+
 }

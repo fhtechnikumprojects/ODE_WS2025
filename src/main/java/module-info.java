@@ -16,5 +16,7 @@ module org.example.project_wobimich {
     opens org.example.project_wobimich.service to javafx.fxml;
     exports org.example.project_wobimich.ui;
     opens org.example.project_wobimich.ui to javafx.fxml;
+    exports org.example.project_wobimich.utils;
+    opens org.example.project_wobimich.utils to javafx.fxml;
 
 }

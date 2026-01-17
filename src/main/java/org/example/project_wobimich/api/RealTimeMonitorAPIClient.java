@@ -1,6 +1,7 @@
 package org.example.project_wobimich.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.example.project_wobimich.ApiException;
 import org.example.project_wobimich.dto.RealTimeMonitorDTO;
 
 import javax.net.ssl.SSLSocket;
@@ -53,6 +54,7 @@ public class RealTimeMonitorAPIClient extends APIClient {
         SSLSocketFactory factory = (SSLSocketFactory) SSLSocketFactory.getDefault();
         SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
         socket.startHandshake();
+
         return socket;
     }
 
@@ -64,7 +66,7 @@ public class RealTimeMonitorAPIClient extends APIClient {
      * @param response raw JSON response
      * @return a list of real-time monitor DTOs
      */
-    public List<RealTimeMonitorDTO> parseAPIResponse(String response) {
+    public List<RealTimeMonitorDTO> parseAPIResponse(String response) throws ApiException {
         ObjectMapper mapper = new ObjectMapper();
         List<RealTimeMonitorDTO> listOfLines = new ArrayList<>();
 
@@ -96,7 +98,7 @@ public class RealTimeMonitorAPIClient extends APIClient {
             }
         }
          catch(IOException e) {
-            e.printStackTrace();
+            throw new ApiException("Parsing failed", e);
         }
         return listOfLines;
     }

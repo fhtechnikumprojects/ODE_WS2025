@@ -41,7 +41,7 @@ public abstract class APIClient {
      *
      * @return the response body from the API
      */
-    public String fetchAPIResponse() {
+    public String fetchAPIResponse() throws IOException {
         StringBuilder response = new StringBuilder();
 
         try (Socket socket = createSocket(getHost(), getPort())) {
@@ -52,7 +52,8 @@ public abstract class APIClient {
             out.println("Connection: close");
             out.println();
 
-            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream(),java.nio.charset.StandardCharsets.UTF_8));
+
             String line;
 
             //Skip HTTP header lines
@@ -65,11 +66,7 @@ public abstract class APIClient {
                 }
                 response.append(line);
             }
-
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-
         return response.toString();
     }
 

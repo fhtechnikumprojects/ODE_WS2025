@@ -4,262 +4,354 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import org.example.project_wobimich.FunFactUtils;
 import org.example.project_wobimich.model.LineStation;
+import org.example.project_wobimich.service.LineLookupService;
+import org.example.project_wobimich.utils.FunFactUtils;
 import org.example.project_wobimich.model.Station;
 import org.example.project_wobimich.service.AddressLookupService;
 
 import java.io.IOException;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class WobimichUI {
-
+    //Service
     private AddressLookupService addressLookupService;
-    private List<Station> initialStations;
+    private LineLookupService lineLookupService;
 
-    private final ObservableList<String> stationNames = FXCollections.observableArrayList();
-    private final ObservableList<String> favoriteStations = FXCollections.observableArrayList();
-    private final ObservableList<String> filteredLines = FXCollections.observableArrayList();
+    //Data lists
+    private ObservableList<Station> stations = FXCollections.observableArrayList();
+    private ObservableList<LineStation> lines = FXCollections.observableArrayList();
+    private ObservableList<String> favoriteStations = FXCollections.observableArrayList(); // Vorbereitet
+    private List<LineStation> linesOfSelectedStation = new ArrayList<>(); // Zwischenspeicher für Filter
 
-    private static final Path SEARCH_LOG = Paths.get("search_history.json");
-    private static final Path FAVORITES_FILE = Paths.get("favorites.json");
+    //filter checkboxes
+    private CheckBox tram = new CheckBox("Straßenbahn");
+    private CheckBox bus = new CheckBox("Bus");
+    private CheckBox subway = new CheckBox("U-Bahn");
 
-    public void setInitialStations(List<Station> stations) {
-        this.initialStations = stations;
-        stationNames.clear();
-        if (stations != null) {
-            stations.forEach(s -> stationNames.add(s.getName()));
-        }
-    }
+    //UI Komponenten
+    private ListView<Station> stationList = new ListView<>(stations);
+    private ListView<LineStation> lineList = new ListView<>(lines);
+    private ListView<String> favoriteListView = new ListView<>(favoriteStations); // Die neue Box
+    private TextField searchField = new TextField();
+    private boolean isDarkMode = false;
 
+    private static final Path SEARCH_LOG = Paths.get("search-history.json");
+    private static final Path FAVORITES_FILE = Paths.get("favorites.txt");
+
+    //create scene
     public BorderPane createScene() {
-
         loadFavorites();
+        favoriteStations.addListener((javafx.collections.ListChangeListener<String>) c -> saveFavorites());
 
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
-        root.setStyle("-fx-background-color:#87CEFA;");
+        root.setStyle("-fx-font-size: 14px;");
 
-        ImageView logo = new ImageView(
-                new Image(Objects.requireNonNull(
-                        getClass().getResourceAsStream("/org/example/project_wobimich/WobimichLogo.png")
-                ))
-        );
-        logo.setFitWidth(160);
-        logo.setPreserveRatio(true);
+        root.setTop(createTopSection());
+        root.setCenter(createCenterSection());
+        root.setBottom(createBottomSection(root));
 
-        VBox funFactBox = new VBox(
-                new Label("Hast du gewusst?"),
-                new Label(FunFactUtils.getRandomFact())
-        );
+        loadDefaultStations();
+
+        return root;
+    }
+
+    //top section of the gui
+    private VBox createTopSection() {
+        VBox topVBox = new VBox(10);
+
+        //Fun Fact
+        VBox funFactBox = new VBox(5);
         funFactBox.setAlignment(Pos.CENTER);
         funFactBox.setPadding(new Insets(10));
-        funFactBox.setStyle("-fx-border-color:red;-fx-border-width:2;-fx-background-color:white;");
+        funFactBox.getStyleClass().add("fun-fact-box");
+        funFactBox.setStyle("-fx-border-color: black; -fx-background-color: lightgray;");
 
-        TextField searchField = new TextField();
-        searchField.setPromptText("Standort eingeben");
+        Label funFactHeader = new Label("Hast du gewusst?");
+        Label funFactText = new Label(FunFactUtils.getRandomFact());
+        funFactBox.getChildren().addAll(funFactHeader, funFactText);
+
+        //Search bar
+        HBox searchBar = new HBox(10);
+        searchBar.setPadding(new Insets(10));
+        searchBar.setStyle("-fx-border-color: black;");
+        searchField.setPromptText("Standort eingeben:");
+        HBox.setHgrow(searchField, Priority.ALWAYS);
 
         Button searchButton = new Button("Suche");
         searchButton.disableProperty().bind(searchField.textProperty().isEmpty());
-        searchButton.setStyle("-fx-border-color:red; -fx-border-width:2;");
+        searchButton.setOnAction(e -> handleSearch());
 
-        HBox searchBar = new HBox(10, searchField, searchButton);
-        HBox.setHgrow(searchField, Priority.ALWAYS);
+        searchBar.getChildren().addAll(searchField, searchButton);
+        topVBox.getChildren().addAll(funFactBox, searchBar);
 
-        VBox topBox = new VBox(10, logo, funFactBox, searchBar);
-        topBox.setAlignment(Pos.CENTER);
+        return topVBox;
+    }
 
-        root.setTop(topBox);
+    //center of the gui
+    private HBox createCenterSection() {
+        HBox centerBox = new HBox(15);
+        centerBox.setPadding(new Insets(10, 0, 10, 0));
 
-        ListView<String> stationList = new ListView<>(stationNames);
-        ListView<String> favoritesList = new ListView<>(favoriteStations);
-        ListView<String> linesList = new ListView<>(filteredLines);
+        //LINKE SEITE
+        VBox leftColumn = new VBox(15);
 
-        stationList.setCellFactory(lv -> new ListCell<>() {
-            private final Button star = new Button();
-            private final Label label = new Label();
-            private final HBox box = new HBox(10, label, star);
+        // Haltestellen
+        VBox stationArea = new VBox(5, new Label("Haltestellen"), stationList);
+        stationList.setPrefHeight(200);
 
-            {
-                star.setOnAction(e -> toggleFavorite(label.getText()));
-            }
+        // Favoriten
+        VBox favoriteArea = new VBox(5, new Label("Favoriten"), favoriteListView);
+        VBox.setVgrow(favoriteListView, Priority.ALWAYS);
+        VBox.setVgrow(favoriteArea, Priority.ALWAYS);
 
+        leftColumn.getChildren().addAll(stationArea, favoriteArea);
+        setupBoxStyle(leftColumn, 280);
+
+        //RECHTE SEITE
+        VBox rightColumn = new VBox(5);
+        Label departuresLabel = new Label("Abfahrten & Filter");
+
+        VBox combinedContainer = new VBox(10);
+        combinedContainer.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-padding: 10;");
+
+        VBox filterContent = createFilterSection();
+
+        // filter in the box
+        VBox.setVgrow(lineList, Priority.ALWAYS);
+
+        combinedContainer.getChildren().addAll(filterContent, new Separator(), lineList);
+        VBox.setVgrow(combinedContainer, Priority.ALWAYS);
+
+        rightColumn.getChildren().addAll(departuresLabel, combinedContainer);
+        setupBoxStyle(rightColumn, 350);
+
+        HBox.setHgrow(leftColumn, Priority.ALWAYS);
+        HBox.setHgrow(rightColumn, Priority.ALWAYS);
+
+        stationList.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) handleStationSelection();
+        });
+
+        centerBox.getChildren().addAll(leftColumn, rightColumn);
+
+        //Add favorite of station with cellfactory
+        stationList.setCellFactory(lv -> new ListCell<Station>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) {
+            protected void updateItem(Station station, boolean empty) {
+                super.updateItem(station, empty);
+                if (empty || station == null) {
                     setGraphic(null);
+                    setText(null);
                 } else {
-                    label.setText(item);
-                    star.setText(favoriteStations.contains(item) ? "\u2605" : "\u2606");
-                    setGraphic(box);
+                    HBox cell = new HBox(10);
+                    cell.setAlignment(Pos.CENTER_LEFT);
+                    Label name = new Label(station.getName());
+                    Button starButton = new Button("☆");
+
+                    starButton.setOnAction(e -> {
+                        if (!favoriteStations.contains(station.getName())) {
+                            favoriteStations.add(station.getName());
+                        }
+                    });
+
+                    HBox.setHgrow(name, Priority.ALWAYS);
+                    cell.getChildren().addAll(name, starButton);
+                    setGraphic(cell);
                 }
             }
         });
 
-        favoritesList.setCellFactory(lv -> new ListCell<>() {
-            private final Button star = new Button("\u2605");
-            private final Label label = new Label();
-            private final HBox box = new HBox(10, label, star);
-
-
-            {
-                star.setOnAction(e -> toggleFavorite(label.getText()));
-                star.setStyle("-fx-border-color:yellow; -fx-border-width:2;");
-            }
-
+        //Remote favorite station of favorite list using cellfactory
+        favoriteListView.setCellFactory(lv -> new ListCell<String>() {
             @Override
-            protected void updateItem(String item, boolean empty) {
-                super.updateItem(item, empty);
-                if (empty || item == null) setGraphic(null);
-                else {
-                    label.setText(item);
-                    setGraphic(box);
+            protected void updateItem(String stationName, boolean empty) {
+                super.updateItem(stationName, empty);
+                if (empty || stationName == null) {
+                    setGraphic(null);
+                    setText(null);
+                } else {
+                    HBox cell = new HBox(10);
+                    cell.setAlignment(Pos.CENTER_LEFT);
+                    Label name = new Label(stationName);
+                    Button removeButton = new Button("★");
+
+                    removeButton.setOnAction(e -> favoriteStations.remove(stationName));
+
+                    HBox.setHgrow(name, Priority.ALWAYS);
+                    cell.getChildren().addAll(name, removeButton);
+                    setGraphic(cell);
                 }
             }
         });
 
-        CheckBox tram = new CheckBox("Straßenbahn");
-        CheckBox bus = new CheckBox("Bus");
-        CheckBox subway = new CheckBox("U-Bahn");
-        CheckBox suburban = new CheckBox("S-Bahn");
+        favoriteListView.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                String selectedFav = favoriteListView.getSelectionModel().getSelectedItem();
+                if (selectedFav != null) {
+                    searchField.setText(selectedFav);
+                    handleSearch();
+
+                    addressLookupService.setOnSucceeded(event -> {
+                        stations.setAll(addressLookupService.getValue());
+                        // Suche die Station mit dem exakten Namen in der neuen Liste
+                        for (Station s : stations) {
+                            if (s.getName().equalsIgnoreCase(selectedFav)) {
+                                stationList.getSelectionModel().select(s);
+                                handleStationSelection(); // Lädt die Abfahrten (Linien)
+                                break;
+                            }
+                        }
+                    });
+
+                }
+            }
+        });
+
+        return centerBox;
+    }
+
+    //bottom of gui toggle dark/light mode
+    private HBox createBottomSection(BorderPane root) {
+        Button toggleButton = new Button("Light/Dark Mode");
+        toggleButton.setMaxWidth(Double.MAX_VALUE);
+        HBox.setHgrow(toggleButton, Priority.ALWAYS);
+
+        toggleButton.setOnAction(e -> toggleTheme(root));
+
+        return new HBox(10, toggleButton);
+    }
+
+    //methods for handling logic of gui
+    private void handleSearch() {
+        String address = searchField.getText();
+        logSearch(address);
+
+        addressLookupService = new AddressLookupService(address);
+        stations.clear();
+
+        addressLookupService.setOnSucceeded(e -> stations.setAll(addressLookupService.getValue()));
+        addressLookupService.setOnFailed(e -> showError("Adresse konnte nicht verarbeitet werden!"));
+        addressLookupService.start();
+    }
+
+    private void handleStationSelection() {
+        Station selected = stationList.getSelectionModel().getSelectedItem();
+        if (selected == null) {
+            return;
+        }
+
+        lineLookupService = new LineLookupService(selected.getId());
+        lineLookupService.setOnSucceeded(e -> {
+            linesOfSelectedStation = lineLookupService.getValue();
+            applyFilter();
+        });
+        lineLookupService.setOnFailed(e -> showError("Abfahrtszeiten nicht verfügbar!"));
+        lineLookupService.start();
+    }
+
+    private void loadDefaultStations() {
+        stations.setAll(
+                new Station("60200569","Höchstädtplatz",16.3769075,48.2392428),
+                new Station("60200345","Franz-Josefs-Bahnhof",16.361151,48.2259888),
+                new Station("60200743","Mitte-Landstraße",16.3845881,48.2060445),
+                new Station("60200491","Heiligenstadt",16.3657773,48.2490958),
+                new Station("60201468","Westbahnhof",16.3376511,48.1966562)
+        );
+    }
+
+    private void setupBoxStyle(VBox box, double prefWidth) {
+        box.setPrefWidth(prefWidth);
+        HBox.setHgrow(box, Priority.ALWAYS);
+        VBox.setVgrow(box, Priority.ALWAYS);
+    }
+
+    private void showError(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void logSearch(String address) {
+        try {
+            String logEntry = String.format("{ \"address\":\"%s\", \"time\":\"%s\" }\n", address, LocalDateTime.now());
+            Files.writeString(SEARCH_LOG, logEntry, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            System.err.println("Logging fehlgeschlagen: " + e.getMessage());
+        }
+    }
+
+    private VBox createFilterSection() {
+        VBox filterContainer = new VBox(5, new Label("Verkehrsmittel filtern:"));
+        filterContainer.setPadding(new Insets(5));
+        filterContainer.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5;");
 
         tram.setSelected(true);
         bus.setSelected(true);
         subway.setSelected(true);
-        suburban.setSelected(true);
 
-        VBox filterBox = new VBox(5, tram, bus, subway, suburban);
-        filterBox.setPadding(new Insets(5));
-        filterBox.setStyle("-fx-border-color:red; -fx-border-width:2;");
+        tram.setOnAction(e -> applyFilter());
+        bus.setOnAction(e -> applyFilter());
+        subway.setOnAction(e -> applyFilter());
 
-        VBox left = new VBox(10, new Label("Haltestellen"), stationList);
-        VBox right = new VBox(
-                10,
-                new Label("Favoriten"),
-                favoritesList,
-                new Label("Verkehrsmittel"),
-                filterBox,
-                linesList
-        );
-
-        VBox.setVgrow(stationList, Priority.ALWAYS);
-        VBox.setVgrow(favoritesList, Priority.ALWAYS);
-        VBox.setVgrow(linesList, Priority.ALWAYS);
-
-        HBox center = new HBox(10, left, right);
-        HBox.setHgrow(left, Priority.ALWAYS);
-        HBox.setHgrow(right, Priority.ALWAYS);
-
-        root.setCenter(center);
-
-        Runnable applyFilter = () -> {
-            filteredLines.clear();
-            String selected = stationList.getSelectionModel().getSelectedItem();
-            if (selected == null || initialStations == null) return;
-
-            initialStations.stream()
-                    .filter(s -> s.getName().equals(selected))
-                    .findFirst()
-                    .ifPresent(station -> {
-                        for (LineStation l : station.getLines()) {
-                            String t = l.getTypeOfTransportation().toLowerCase();
-                            if ((tram.isSelected() && t.contains("tram")) ||
-                                    (bus.isSelected() && t.contains("bus")) ||
-                                    (subway.isSelected() && t.contains("subway")) ||
-                                    (suburban.isSelected() && t.contains("suburban"))) {
-                                filteredLines.add(l.getName() + " → " + l.getDirection());
-                            }
-                        }
-                    });
-        };
-
-        stationList.getSelectionModel().selectedItemProperty()
-                .addListener((a, b, c) -> applyFilter.run());
-        tram.setOnAction(e -> applyFilter.run());
-        bus.setOnAction(e -> applyFilter.run());
-        subway.setOnAction(e -> applyFilter.run());
-        suburban.setOnAction(e -> applyFilter.run());
-
-        /* ---------- SEARCH ACTION --------- */
-        searchButton.setOnAction(e -> {
-            String address = searchField.getText();
-            logSearch(address);
-
-            stationNames.clear();
-            filteredLines.clear();
-
-            addressLookupService = new AddressLookupService(address);
-            addressLookupService.setOnSucceeded(ev -> {
-                initialStations = addressLookupService.getValue();
-                if (initialStations != null) {
-                    initialStations.forEach(s -> stationNames.add(s.getName()));
-                }
-            });
-            addressLookupService.start();
-        });
-
-        Button toggleTheme = new Button("Light / Dark Mode");
-        toggleTheme.setStyle("-fx-border-color: red; -fx-border-width: 2;");
-
-        toggleTheme.setOnAction(e -> {
-            Scene scene = toggleTheme.getScene();
-            Parent r = scene.getRoot();
-            boolean dark = !"dark".equals(scene.getUserData());
-
-            if (dark) {
-                r.setStyle("-fx-background-color:#2b2b2b;-fx-text-fill:white;");
-                funFactBox.setStyle("-fx-border-color:red;-fx-background-color:#3a3a3a;");
-                filterBox.getChildren().forEach(n -> ((CheckBox) n).setTextFill(javafx.scene.paint.Color.WHITE));
-                scene.setUserData("dark");
-            } else {
-                r.setStyle("-fx-background-color:#87CEFA;-fx-text-fill:black;");
-                funFactBox.setStyle("-fx-border-color:red;-fx-background-color:white;");
-                filterBox.getChildren().forEach(n -> ((CheckBox) n).setTextFill(javafx.scene.paint.Color.BLACK));
-                scene.setUserData("light");
-            }
-        });
-
-        root.setBottom(toggleTheme);
-        return root;
+        HBox checks = new HBox(10, tram, bus, subway);
+        filterContainer.getChildren().add(checks);
+        return filterContainer;
     }
 
-    private void toggleFavorite(String station) {
-        if (favoriteStations.contains(station)) favoriteStations.remove(station);
-        else favoriteStations.add(station);
-        saveFavorites();
+    private void applyFilter() {
+        lines.clear();
+
+        for (LineStation line : linesOfSelectedStation) {
+            String type = line.getTypeOfTransportation().toLowerCase();
+
+            boolean matchesTram = tram.isSelected() && type.contains("pttram");
+            boolean matchesBus = bus.isSelected() && type.contains("ptbuscity");
+            boolean matchesSubway = subway.isSelected() && type.contains("ptmetro");
+
+            if (matchesTram || matchesBus || matchesSubway) {
+                lines.add(line);
+            }
+        }
     }
 
     private void saveFavorites() {
         try {
-            Files.writeString(FAVORITES_FILE, favoriteStations.toString(),
-                    StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
-        } catch (IOException ignored) {}
+            Files.write(FAVORITES_FILE, favoriteStations, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
+        } catch (IOException e) {
+            System.err.println("Fehler beim Speichern der Favoriten: " + e.getMessage());
+        }
     }
 
     private void loadFavorites() {
         try {
             if (Files.exists(FAVORITES_FILE)) {
-                String c = Files.readString(FAVORITES_FILE).replace("[","").replace("]","");
-                if (!c.isBlank()) favoriteStations.setAll(c.split(", "));
+                List<String> loaded = Files.readAllLines(FAVORITES_FILE);
+                favoriteStations.setAll(loaded);
             }
-        } catch (IOException ignored) {}
+        } catch (IOException e) {
+            System.err.println("Fehler beim Laden der Favoriten: " + e.getMessage());
+        }
     }
 
-    private void logSearch(String address) {
-        try {
-            Files.writeString(SEARCH_LOG,
-                    "{ \"address\":\"" + address + "\",\"time\":\"" + LocalDateTime.now() + "\" }\n",
-                    StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-        } catch (IOException ignored) {}
+    private void toggleTheme(BorderPane root) {
+        isDarkMode = !isDarkMode;
+        if (isDarkMode) {
+            root.setStyle("-fx-base: #2b2b2b; -fx-background-color: #3c3f41; -fx-font-size: 14px;");
+        } else {
+            root.setStyle("-fx-font-size: 14px;");
+        }
     }
+
 }
+
+

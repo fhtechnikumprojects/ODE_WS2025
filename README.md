@@ -37,15 +37,25 @@
 WoBimIch ist ein Smart Mirror, der die nächstgelegensten Haltestellen mit den Linien anhand des angegebenen Standords anzeigt. 
 Dafür soll die API der Wiener Linien verwendet werden. Ähnlich wie die Wien Mobil App der Wiener Linien
 
+## Funktionen
+
+- **Standorteingabe** über Eingabefeld (Suche wid mit Timestamp gespeichert)
+- Anzeige passender **Haltestellen**
+- Anzeige von **Abfahrts-/Linieninformationen**
+- **Flter** nach Verkehrsmittel (Bus, Straßenbahn, U-Bahn)
+- **Favoriten** speichern und wieder entfernen
+- **Fun-Facts** geben zufällige Fakten 
+- **Light/Dark** Themes anwendbar
+
 ## Projektstruktur
 
 ##### src/main/java/org.example.project_wobimich
-- api          → APIs (AddressAPIClient, APIClient, RealTimeMonitirAPIClient)
-- dto          → AddressDTO, RealTimeMonitorDTO
-- model        → Klassen (FunFact, LineStation, Location, LocationHistoryLogger, LocationLogEntry, Station)
-- service      → AddressLookupService, FavoriteService
-- ui           → WobimichUI
-- utils        → APIException, HelloController, Launcher, WobimichApplication
+- **api**          → APIs (AddressAPIClient, APIClient, RealTimeMonitirAPIClient)
+- **dto**          → AddressDTO, RealTimeMonitorDTO
+- **model**        → Klassen (FunFact, LineStation, Location, LocationHistoryLogger, LocationLogEntry, Station)
+- **service**      → AddressLookupService, FavoriteService
+- **ui**           → WobimichUI
+- **utils**        → APIException, HelloController, Launcher, WobimichApplication
 
 ##### resources/org.example.project_wobimich/data
 - jsonFiles: wl-fun-facts.json (FunFact Daten), wl-ogd-haltepunkte.json (Haltepunkte), wl-ogd-haltestellen.json (Haltstellen), wl-ogd-linie.json (Linien)
@@ -56,7 +66,21 @@ Dafür soll die API der Wiener Linien verwendet werden. Ähnlich wie die Wien Mo
 
 - Wiener Linien API
 - JsonFiles im Projekt
-- Logo erstellt mithilfe von AI
+
+## Fehlerbehandlungen/Exception Handling
+
+### IOException = implementiert mit try-catch:
+
+- **logSearch** → Speichern der Suchhistorie in search-history.json
+- **logLocation** → Fehler beim Lesen/Schreiben 
+- **saveFavorites** → Speichern vo Favoriten in favorites.txt
+- **loadFavorites** → Laden der Favoriten aus favorites.txt
+
+### Service-Anfragen/Netzwerkfehler - implementiert mit setOnFailed
+
+- **handleSearch** → Fehlermeldung bei ungültiger Adresse
+- **handleStationSelection** → Fehelermeldung bei fehlenden Abfahrtszeiten
+- **Doppelklick auf Favoriten** → Fehlermeldung bei Verbindungsproblemen
 
 ## Starten des Projektes
 

@@ -44,7 +44,8 @@ Dafür soll die API der Wiener Linien verwendet werden. Ähnlich wie die Wien Mo
 - dto          → AddressDTO, RealTimeMonitorDTO
 - model        → Klassen (FunFact, LineStation, Location, LocationHistoryLogger, LocationLogEntry, Station)
 - service      → AddressLookupService, FavoriteService
-- ui           → FunFactUtils, HelloController, Launcher, StationUtils, WobimichApplication
+- ui           → WobimichUI
+- utils        → APIException, HelloController, Launcher, WobimichApplication
 
 ##### resources/org.example.project_wobimich/data
 - jsonFiles: wl-fun-facts.json (FunFact Daten), wl-ogd-haltepunkte.json (Haltepunkte), wl-ogd-haltestellen.json (Haltstellen), wl-ogd-linie.json (Linien)

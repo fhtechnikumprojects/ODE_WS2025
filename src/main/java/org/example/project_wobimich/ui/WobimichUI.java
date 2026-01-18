@@ -1,9 +1,12 @@
 package org.example.project_wobimich.ui;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import org.example.project_wobimich.model.LineStation;
@@ -20,6 +23,8 @@ import java.nio.file.StandardOpenOption;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+
 
 public class WobimichUI {
     //Service
@@ -50,11 +55,11 @@ public class WobimichUI {
     //create scene
     public BorderPane createScene() {
         loadFavorites();
-        favoriteStations.addListener((javafx.collections.ListChangeListener<String>) c -> saveFavorites());
+        favoriteStations.addListener((ListChangeListener<String>) c -> saveFavorites());
 
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
-        root.setStyle("-fx-font-size: 14px;");
+        root.setStyle("-fx-font-size: 14px; -fx-background-color: #ADD8E6;");
 
         root.setTop(createTopSection());
         root.setCenter(createCenterSection());
@@ -68,13 +73,17 @@ public class WobimichUI {
     //top section of the gui
     private VBox createTopSection() {
         VBox topVBox = new VBox(10);
+        topVBox.setPadding(new Insets(10));
+
+        //Hintergrundfarbe hellblau
+        topVBox.setStyle("-fx-background-color: #ADD8E6;");
 
         //Fun Fact
         VBox funFactBox = new VBox(5);
         funFactBox.setAlignment(Pos.CENTER);
         funFactBox.setPadding(new Insets(10));
         funFactBox.getStyleClass().add("fun-fact-box");
-        funFactBox.setStyle("-fx-border-color: black; -fx-background-color: lightgray;");
+        funFactBox.setStyle("-fx-border-color: darkred; -fx-border-width: 2; -fx-background-color: lightgray;");
 
         Label funFactHeader = new Label("Hast du gewusst?");
         Label funFactText = new Label(FunFactUtils.getRandomFact());
@@ -83,13 +92,14 @@ public class WobimichUI {
         //Search bar
         HBox searchBar = new HBox(10);
         searchBar.setPadding(new Insets(10));
-        searchBar.setStyle("-fx-border-color: black;");
+        searchBar.setStyle("-fx-border-color: darkred;");
         searchField.setPromptText("Standort eingeben:");
         HBox.setHgrow(searchField, Priority.ALWAYS);
 
         Button searchButton = new Button("Suche");
         searchButton.disableProperty().bind(searchField.textProperty().isEmpty());
         searchButton.setOnAction(e -> handleSearch());
+        searchButton.setStyle("-fx-border-color: darkred; -fx-border-width: 2;");
 
         searchBar.getChildren().addAll(searchField, searchButton);
         topVBox.getChildren().addAll(funFactBox, searchBar);
@@ -105,14 +115,17 @@ public class WobimichUI {
         //LINKE SEITE
         VBox leftColumn = new VBox(15);
 
+
         // Haltestellen
         VBox stationArea = new VBox(5, new Label("Haltestellen"), stationList);
         stationList.setPrefHeight(200);
+        stationArea.setStyle("-fx-border-color: darkred;");
 
         // Favoriten
         VBox favoriteArea = new VBox(5, new Label("Favoriten"), favoriteListView);
         VBox.setVgrow(favoriteListView, Priority.ALWAYS);
         VBox.setVgrow(favoriteArea, Priority.ALWAYS);
+        favoriteArea.setStyle("-fx-border-color: darkred;");
 
         leftColumn.getChildren().addAll(stationArea, favoriteArea);
         setupBoxStyle(leftColumn, 280);
@@ -122,9 +135,10 @@ public class WobimichUI {
         Label departuresLabel = new Label("Abfahrten & Filter");
 
         VBox combinedContainer = new VBox(10);
-        combinedContainer.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-padding: 10;");
+        combinedContainer.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-border-color: darkred; -fx-padding: 10;");
 
         VBox filterContent = createFilterSection();
+        filterContent.setStyle("-fx-border-color: darkred;");
 
         // filter in the box
         VBox.setVgrow(lineList, Priority.ALWAYS);
@@ -228,6 +242,7 @@ public class WobimichUI {
         HBox.setHgrow(toggleButton, Priority.ALWAYS);
 
         toggleButton.setOnAction(e -> toggleTheme(root));
+        toggleButton.setStyle("-fx-background-color: lightgray; -fx-border-color: darkred; -fx-border-width: 2;");
 
         return new HBox(10, toggleButton);
     }
@@ -349,7 +364,7 @@ public class WobimichUI {
         if (isDarkMode) {
             root.setStyle("-fx-base: #2b2b2b; -fx-background-color: #3c3f41; -fx-font-size: 14px;");
         } else {
-            root.setStyle("-fx-font-size: 14px;");
+            root.setStyle("-fx-font-size: 14px;-fx-background-color: #ADD8E6;");
         }
     }
 

@@ -54,24 +54,10 @@ public class Station {
     }
 
     /**
-     * @param id new station ID
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
      * @return the station name
      */
     public String getName() {
         return this.name;
-    }
-
-    /**
-     * @param name new station name
-     */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
@@ -116,20 +102,6 @@ public class Station {
      */
     public void setDistance(double distance) {
         this.distance = distance;
-    }
-
-    /**
-     * @return list of connected transport lines
-     */
-    public List<LineStation> getLines() {
-        return this.lines;
-    }
-
-    /**
-     * @param lines transport lines belonging to this station
-     */
-    public void setLines(List<LineStation> lines) {
-        this.lines = lines;
     }
 
     @Override

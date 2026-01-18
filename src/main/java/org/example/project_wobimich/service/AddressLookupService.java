@@ -11,7 +11,12 @@ import org.example.project_wobimich.model.Station;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-
+/**
+ * JavaFX background service that resolves a user-entered address
+ * into a list of nearby stations ordered by distance.
+ *
+ * Runs asynchronously to avoid blocking the JavaFX UI thread.
+ */
 public class AddressLookupService extends Service<ArrayList<Station>> {
     private String userInputLocation;
 
@@ -19,6 +24,9 @@ public class AddressLookupService extends Service<ArrayList<Station>> {
         this.userInputLocation = userLocation;
     }
 
+    /**
+     * Creates the background task executed by the JavaFX Service.
+     */
     @Override
     protected Task<ArrayList<Station>> createTask() {
         return new Task<>() {
@@ -30,6 +38,8 @@ public class AddressLookupService extends Service<ArrayList<Station>> {
                 Location location = addressDTO.mapToUserLocation();
 
                 ArrayList<Station> stations = StationUtils.listStationsByDistanceFrom(location);
+
+                // Sort stations by ascending distance
                 StationUtils.sortAscending(stations, Comparator.comparing(Station::getDistance));
                 return StationUtils.closestStationToLocation(stations);
             }

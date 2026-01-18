@@ -1,14 +1,5 @@
 package org.example.project_wobimich.model;
 
-
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-
 /**
  * Represents a provided address/location.
  * <p>
@@ -34,34 +25,6 @@ public class Location {
         this.streetNumber = streetNumber;
         this.longitude = longitude;
         this.latitude = latitude;
-    }
-
-    /**
-     * @return the street name of the location
-     */
-    public String getStreetName() {
-        return streetName;
-    }
-
-    /**
-     * @param streetName the street name to set
-     */
-    public void setStreetName(String streetName) {
-        this.streetName = streetName;
-    }
-
-    /**
-     * @return the street number of the location
-     */
-    public String getStreetNumber() {
-        return streetNumber;
-    }
-
-    /**
-     * @param streetNumber the street number to set
-     */
-    public void setStreetNumber(String streetNumber) {
-        this.streetNumber = streetNumber;
     }
 
     /**

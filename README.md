@@ -1,6 +1,6 @@
 ## WoBimIch
 
-## Gruppenmitglieder
+## Gruppenmitglieder*innen
 - Thanathan Wongkantharaphai (ic24b123@technikum-wien.at)
 - Andreas Zenz (ic23b002@technikum-wien.at)
 - Kaur Paramjit (ic24b118@technikum-wien.at)
@@ -17,24 +17,26 @@
     - Klassen für API-Abfragen
     - Statische Daten ins Projekt einbinden
     
+
 - Ziel PP2: 
   - Must have Features implementieren
   - Must have Features testen
-  - 
+
+
 - Ziel PP3: 
   - Should have Features implementieren
   - Should have Feature testen
   - Nice to have Feature implementieren
   - Nice to have Feature testen
-  
+
+
 - Ziel PP4: 
   - Overkill Features implementieren
   - Overkill Features testen
-  - Javadoc-Datei erstellen
   - readme.md - Datei überarbeiten
 
 ## Projektbeschreibung
-WoBimIch ist ein Smart Mirror, der die nächstgelegensten Haltestellen mit den Linien anhand des angegebenen Standords anzeigt. 
+WoBimIch ist ein Smart Mirror, der die fünf nächstgelegensten Haltestellen der Wiener Linien anhand des angegebenen Standords anzeigt. 
 Dafür soll die API der Wiener Linien verwendet werden. Ähnlich wie die Wien Mobil App der Wiener Linien
 
 ## Funktionen
@@ -60,12 +62,15 @@ Dafür soll die API der Wiener Linien verwendet werden. Ähnlich wie die Wien Mo
 ##### resources/org.example.project_wobimich/data
 - jsonFiles: wl-fun-facts.json (FunFact Daten), wl-ogd-haltepunkte.json (Haltepunkte), wl-ogd-haltestellen.json (Haltstellen), wl-ogd-linie.json (Linien)
 - jsonFiles: favorites.json (Favorites werden gespeichert), search_history.json (gesuchte Standorte werden mit Timestamp gespeichert)
-- Bilder (Logo: Wobimich.png)
 
 ## Verwendete APIs & Quellen
 
+- Adressen von Wien API
 - Wiener Linien API
 - JsonFiles im Projekt
+  - Haltestellen von Wiener Linien
+  - Haltepunkte von Wiener Linien
+  - Fakten über Wiener Linien
 
 ## Fehlerbehandlungen/Exception Handling
 

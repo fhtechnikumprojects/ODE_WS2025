@@ -10,6 +10,12 @@ import org.example.project_wobimich.model.LineStation;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * JavaFX background service that loads real-time departure
+ * information for a given station.
+ *
+ * Executes API calls asynchronously to keep the UI responsive.
+ */
 public class LineLookupService extends Service<List<LineStation>> {
     private String stationID;
 
@@ -17,6 +23,9 @@ public class LineLookupService extends Service<List<LineStation>> {
         this.stationID = stationID;
     }
 
+    /**
+     * Creates the background task executed by the JavaFX Service.
+     */
     @Override
     protected Task<List<LineStation>> createTask() {
         return new Task<>() {

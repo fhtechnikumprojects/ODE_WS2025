@@ -46,31 +46,10 @@ public class LineStation {
     public LineStation() {}
 
     /**
-     * @return the line ID
-     * */
-    public String getId() {
-        return id;
-    }
-
-    /**
-     * @param id new line ID
-     * */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
      * @return the name of the line
      * */
     public String getName() {
         return name;
-    }
-
-    /**
-     * @param name new line name
-     * */
-    public void setName(String name) {
-        this.name = name;
     }
 
     /**
@@ -81,41 +60,6 @@ public class LineStation {
     }
 
     /**
-     * @param direction new direction
-     * */
-    public void setDirection(String direction) {
-        this.direction = direction;
-    }
-
-    /**
-     * @return true if the line supports barrier-free access
-     * */
-    public boolean isBarrierFree() {
-        return barrierFree;
-    }
-
-    /**
-     * @param barrierFree barrier-free support flag
-     * */
-    public void setBarrierFree(boolean barrierFree) {
-        this.barrierFree = barrierFree;
-    }
-
-    /**
-     * @return true if real-time data is available
-     * */
-    public boolean isRealTimeSupported() {
-        return realTimeSupported;
-    }
-
-    /**
-     * @param realTimeSupported real-time support flag
-     * */
-    public void setRealTimeSupported(boolean realTimeSupported) {
-        this.realTimeSupported = realTimeSupported;
-    }
-
-    /**
      *  @return the transport type
      *  */
     public String getTypeOfTransportation() {
@@ -123,24 +67,10 @@ public class LineStation {
     }
 
     /**
-     * @param typeOfTransportation new transport type
-     * */
-    public void setTypeOfTransportation(String typeOfTransportation) {
-        this.typeOfTransportation = typeOfTransportation;
-    }
-
-    /**
      * @return the list of departure times
      * */
     public List<String> getDepartureTime() {
         return departureTime;
-    }
-
-    /**
-     * @param departureTime new list of departure times
-     * */
-    public void setDepartureTime(List<String> departureTime) {
-        this.departureTime = departureTime;
     }
 
     @Override

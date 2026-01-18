@@ -10,20 +10,10 @@ public class FunFact {
     @JsonProperty("Fakt")
     private String fact;
 
-    public FunFact(int id, String category, String fact) {
-        this.id = id;
-        this.category = category;
-        this.fact = fact;
-    }
-
     public FunFact(){};
 
     public int getId() {
         return this.id;
-    }
-
-    public String getCategory() {
-        return this.category;
     }
 
     public String getFact() {

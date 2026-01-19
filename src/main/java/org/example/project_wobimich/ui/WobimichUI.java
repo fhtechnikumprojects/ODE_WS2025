@@ -184,7 +184,6 @@ public class WobimichUI {
         HBox.setHgrow(leftColumn, Priority.ALWAYS);
         HBox.setHgrow(rightColumn, Priority.ALWAYS);
 
-        // Handle station selection on double click
         stationListView.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) loadLinesForSelectedStation();
         });

@@ -1,7 +1,6 @@
 package org.example.project_wobimich.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.project_wobimich.ApiException;
 import org.example.project_wobimich.dto.AddressDTO;
 
 import java.io.IOException;
@@ -98,7 +97,7 @@ public class AddressAPIClient extends APIClient {
 
             return addressDTO;
         } catch (IOException e) {
-            throw new ApiException("Parsing failed!", e);
+            throw new ApiException("Parsing of API data failed!", e);
         }
     }
 

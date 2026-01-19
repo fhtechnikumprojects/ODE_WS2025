@@ -1,4 +1,4 @@
-package org.example.project_wobimich;
+package org.example.project_wobimich.api;
 
 /**
  * Custom exception used to signal errors during API communication
@@ -6,6 +6,6 @@ package org.example.project_wobimich;
  */
 public class ApiException extends Exception {
     public ApiException(String message, Throwable cause) {
-        super(message);
+        super(message, cause);
     }
 }

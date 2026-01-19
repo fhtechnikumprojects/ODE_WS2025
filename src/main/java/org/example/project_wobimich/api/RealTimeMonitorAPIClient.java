@@ -1,7 +1,6 @@
 package org.example.project_wobimich.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.project_wobimich.ApiException;
 import org.example.project_wobimich.dto.RealTimeMonitorDTO;
 
 import javax.net.ssl.SSLSocket;
@@ -126,7 +125,7 @@ public class RealTimeMonitorAPIClient extends APIClient {
 
         }
          catch(IOException e) {
-            throw new ApiException("Parsing failed", e);
+            throw new ApiException("Parsing of API data failed!", e);
         }
         return listOfLines;
     }

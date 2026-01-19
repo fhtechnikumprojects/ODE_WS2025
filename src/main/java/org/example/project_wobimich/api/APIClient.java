@@ -39,8 +39,7 @@ public abstract class APIClient {
     /**
      * Creates a socket connection to the given host and port.
      * <p>
-     * Subclasses define whether the connection is a plain TCP socket
-     * or a secure SSL socket.
+     * Subclasses define whether the connection is a TCP socket or a SSL socket.
      *
      * @param host the remote host to connect to
      * @param port the remote port to connect to

@@ -2,12 +2,14 @@ package org.example.project_wobimich.service;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import org.example.project_wobimich.api.ApiException;
 import org.example.project_wobimich.utils.StationUtils;
 import org.example.project_wobimich.api.AddressAPIClient;
 import org.example.project_wobimich.dto.AddressDTO;
 import org.example.project_wobimich.model.Location;
 import org.example.project_wobimich.model.Station;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 
@@ -31,17 +33,23 @@ public class AddressLookupService extends Service<ArrayList<Station>> {
     protected Task<ArrayList<Station>> createTask() {
         return new Task<>() {
             @Override
-            protected ArrayList<Station> call() throws Exception {
+            protected ArrayList<Station> call() throws ApiException {
                 AddressAPIClient addressAPIClient = new AddressAPIClient(addressQuery);
-                String apiResponse = addressAPIClient.fetchAPIResponse();
-                AddressDTO addressDTO = addressAPIClient.parseAPIResponse(apiResponse);
-                Location location = addressDTO.mapToUserLocation();
 
-                ArrayList<Station> stations = StationUtils.getStationsSortedByDistanceFrom(location);
+                try {
+                    String apiResponse = addressAPIClient.fetchAPIResponse();
+                    AddressDTO addressDTO = addressAPIClient.parseAPIResponse(apiResponse);
+                    Location location = addressDTO.mapToUserLocation();
 
-                StationUtils.sortAscending(stations, Comparator.comparing(Station::getDistance));
-                return StationUtils.getClosestStations(stations);
+                    ArrayList<Station> stations = StationUtils.getStationsSortedByDistanceFrom(location);
+
+                    StationUtils.sortAscending(stations, Comparator.comparing(Station::getDistance));
+                    return StationUtils.getClosestStations(stations);
+                } catch (IOException e) {
+                    throw new ApiException("API request f ailed!", e);
+                }
             }
+
         };
     }
     

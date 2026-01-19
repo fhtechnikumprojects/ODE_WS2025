@@ -1,0 +1,8 @@
+module:org.example.project_wobimich
+org.example.project_wobimich
+org.example.project_wobimich.api
+org.example.project_wobimich.dto
+org.example.project_wobimich.model
+org.example.project_wobimich.service
+org.example.project_wobimich.ui
+org.example.project_wobimich.utils

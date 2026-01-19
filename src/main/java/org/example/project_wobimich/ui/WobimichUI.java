@@ -24,8 +24,18 @@ import java.util.List;
 
 /**
  * Main UI class for the "Wobimich" application.
- * This class handles the graphical user interface, user interactions,
- * and bridges the UI with backend services for station and departure lookups.
+ * <p>
+ * Handles the graphical user interface, user interactions, and bridges the UI
+ * with backend services for station lookup, address search, and real-time departure data.
+ * <p>
+ * Provides functionality for:
+ * <ul>
+ *     <li>Searching stations by address</li>
+ *     <li>Viewing station departures with filters</li>
+ *     <li>Maintaining favorite stations</li>
+ *     <li>Displaying fun facts</li>
+ *     <li>Light/Dark mode toggle</li>
+ * </ul>
  */
 public class WobimichUI {
     // Services
@@ -35,20 +45,20 @@ public class WobimichUI {
     // Data Lists (Observable for automatic UI synchronization)
     private ObservableList<Station> stations = FXCollections.observableArrayList();
     private ObservableList<LineStation> lines = FXCollections.observableArrayList();
-    private ObservableList<String> favoriteStations = FXCollections.observableArrayList(); // Vorbereitet
-    private List<LineStation> linesOfSelectedStation = new ArrayList<>(); // Zwischenspeicher für Filter
+    private ObservableList<String> favoriteStations = FXCollections.observableArrayList();
+    private List<LineStation> linesForSelectedStation = new ArrayList<>();
 
     // UI Controls: Filters & Settings
     private CheckBox tram = new CheckBox("Straßenbahn");
     private CheckBox bus = new CheckBox("Bus");
     private CheckBox subway = new CheckBox("U-Bahn");
-    private TextField searchField = new TextField();
+    private TextField searchTextField = new TextField();
     private boolean isDarkMode = false;
 
     // UI Controls: List Views
-    private ListView<Station> stationList = new ListView<>(stations);
-    private ListView<LineStation> lineList = new ListView<>(lines);
-    private ListView<String> favoriteListView = new ListView<>(favoriteStations); // Die neue Box
+    private ListView<Station> stationListView = new ListView<>(stations);
+    private ListView<LineStation> lineListView = new ListView<>(lines);
+    private ListView<String> favoriteListView = new ListView<>(favoriteStations);
 
     // Path
     private static final Path SEARCH_LOG = Paths.get("search-history.json");
@@ -56,19 +66,21 @@ public class WobimichUI {
 
     /**
      * Initializes and constructs the main application scene.
+     * <p>
+     * Sets up the layout structure, loads default stations, favorites,
+     * and configures event listeners for user interaction.
+     *
      * @return A configured BorderPane containing the full UI layout.
      */
     public BorderPane createScene() {
         loadFavorites();
 
-        // Automatically save favorites to file whenever the list changes
         favoriteStations.addListener((ListChangeListener<String>) c -> saveFavorites());
 
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
         root.setStyle("-fx-font-size: 14px; -fx-background-color: #ADD8E6;");
 
-        // Set up the high-level layout structure
         root.setTop(createTopSection());
         root.setCenter(createCenterSection());
         root.setBottom(createBottomSection(root));
@@ -79,7 +91,13 @@ public class WobimichUI {
     }
 
     /**
-     * Creates the top section including the fun fact box and the search bar.
+     * Creates the top section including:
+     * <ul>
+     *     <li>Fun Fact display box</li>
+     *     <li>Search bar for entering a location</li>
+     * </ul>
+     *
+     * @return VBox containing the top UI section.
      */
     private VBox createTopSection() {
         VBox topVBox = new VBox(10);
@@ -101,24 +119,31 @@ public class WobimichUI {
         HBox searchBar = new HBox(10);
         searchBar.setPadding(new Insets(10));
         searchBar.setStyle("-fx-border-color: darkred;");
-        searchField.setPromptText("Standort eingeben:");
-        HBox.setHgrow(searchField, Priority.ALWAYS);
+        searchTextField.setPromptText("Standort eingeben:");
+        HBox.setHgrow(searchTextField, Priority.ALWAYS);
 
         Button searchButton = new Button("Suche");
 
-        // Disable button if search field is empty
-        searchButton.disableProperty().bind(searchField.textProperty().isEmpty());
-        searchButton.setOnAction(e -> handleSearch());
+        searchButton.disableProperty().bind(searchTextField.textProperty().isEmpty());
+        searchButton.setOnAction(e -> performAddressSearch());
         searchButton.setStyle("-fx-border-color: darkred; -fx-border-width: 2;");
 
-        searchBar.getChildren().addAll(searchField, searchButton);
+        searchBar.getChildren().addAll(searchTextField, searchButton);
         topVBox.getChildren().addAll(funFactBox, searchBar);
 
         return topVBox;
     }
 
     /**
-     * Creates the center section containing station lists, favorites, and departures.
+     * Creates the center section containing:
+     * <ul>
+     *     <li>Station list</li>
+     *     <li>Favorites list</li>
+     *     <li>Filters for transportation types</li>
+     *     <li>Departure times list</li>
+     * </ul>
+     *
+     * @return HBox containing the center UI section.
      */
     private HBox createCenterSection() {
         HBox centerBox = new HBox(15);
@@ -126,8 +151,8 @@ public class WobimichUI {
 
         // Left Column: Stations & Favorites
         VBox leftColumn = new VBox(15);
-        VBox stationArea = new VBox(5, new Label("Haltestellen"), stationList);
-        stationList.setPrefHeight(200);
+        VBox stationArea = new VBox(5, new Label("Haltestellen"), stationListView);
+        stationListView.setPrefHeight(200);
         stationArea.setStyle("-fx-border-color: darkred;");
 
         VBox favoriteArea = new VBox(5, new Label("Favoriten"), favoriteListView);
@@ -148,9 +173,9 @@ public class WobimichUI {
         VBox filterContent = createFilterSection();
         filterContent.setStyle("-fx-border-color: darkred;");
 
-        VBox.setVgrow(lineList, Priority.ALWAYS);
+        VBox.setVgrow(lineListView, Priority.ALWAYS);
 
-        combinedContainer.getChildren().addAll(filterContent, new Separator(), lineList);
+        combinedContainer.getChildren().addAll(filterContent, new Separator(), lineListView);
         VBox.setVgrow(combinedContainer, Priority.ALWAYS);
 
         rightColumn.getChildren().addAll(departuresLabel, combinedContainer);
@@ -160,13 +185,13 @@ public class WobimichUI {
         HBox.setHgrow(rightColumn, Priority.ALWAYS);
 
         // Handle station selection on double click
-        stationList.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) handleStationSelection();
+        stationListView.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) loadLinesForSelectedStation();
         });
 
         centerBox.getChildren().addAll(leftColumn, rightColumn);
 
-        stationList.setCellFactory(lv -> new ListCell<Station>() {
+        stationListView.setCellFactory(lv -> new ListCell<Station>() {
             @Override
             protected void updateItem(Station station, boolean empty) {
                 super.updateItem(station, empty);
@@ -225,8 +250,8 @@ public class WobimichUI {
 
                         for (Station s : stations) {
                             if (s.getName().equalsIgnoreCase(selectedFav)) {
-                                stationList.getSelectionModel().select(s);
-                                handleStationSelection();
+                                stationListView.getSelectionModel().select(s);
+                                loadLinesForSelectedStation();
                                 break;
                             }
                         }
@@ -242,24 +267,28 @@ public class WobimichUI {
     }
 
     /**
-     * Creates the bottom section containing the toggle button for dark/light mode.
+     * Creates the bottom section containing a light/dark mode toggle button.
+     *
+     * @param root The main BorderPane root of the scene
+     * @return HBox containing the toggle button
      */
     private HBox createBottomSection(BorderPane root) {
         Button toggleButton = new Button("Light/Dark Mode");
         toggleButton.setMaxWidth(Double.MAX_VALUE);
         HBox.setHgrow(toggleButton, Priority.ALWAYS);
 
-        toggleButton.setOnAction(e -> toggleTheme(root));
+        toggleButton.setOnAction(e -> toggleLightDarkMode(root));
         toggleButton.setStyle("-fx-background-color: lightgray; -fx-border-color: darkred; -fx-border-width: 2;");
 
         return new HBox(10, toggleButton);
     }
 
     /**
-     * Executes the search for a specific address and updates the UI.
+     * Performs a search for the address entered in the search bar,
+     * logs the search, and updates the station list.
      */
-    private void handleSearch() {
-        String address = searchField.getText();
+    private void performAddressSearch() {
+        String address = searchTextField.getText();
         logSearch(address);
 
         addressLookupService = new AddressLookupService(address);
@@ -271,24 +300,26 @@ public class WobimichUI {
     }
 
     /**
-     * Retrieves departure data for the selected station and applies current filters.
+     * Loads real-time departures for the selected station and applies the current filters.
      */
-    private void handleStationSelection() {
-        Station selected = stationList.getSelectionModel().getSelectedItem();
+    private void loadLinesForSelectedStation() {
+        Station selected = stationListView.getSelectionModel().getSelectedItem();
         if (selected == null) {
             return;
         }
 
         lineLookupService = new LineLookupService(selected.getId());
         lineLookupService.setOnSucceeded(e -> {
-            linesOfSelectedStation = lineLookupService.getValue();
+            linesForSelectedStation = lineLookupService.getValue();
             applyFilter();
         });
         lineLookupService.setOnFailed(e -> showError("Abfahrtszeiten nicht verfügbar!"));
         lineLookupService.start();
     }
 
-    // Default stations shown on startup
+    /**
+     * Loads a predefined set of stations for the initial UI display.
+     */
     private void loadDefaultStations() {
         stations.setAll(
                 new Station("60200569","Höchstädtplatz",16.3769075,48.2392428),
@@ -298,13 +329,18 @@ public class WobimichUI {
                 new Station("60201468","Westbahnhof",16.3376511,48.1966562)
         );
     }
-
+    /**
+     * Applies preferred width and height settings to a VBox container.
+     */
     private void setupBoxStyle(VBox box, double prefWidth) {
         box.setPrefWidth(prefWidth);
         HBox.setHgrow(box, Priority.ALWAYS);
         VBox.setVgrow(box, Priority.ALWAYS);
     }
 
+    /**
+     * Shows an error message in an alert dialog.
+     * */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(message);
@@ -312,7 +348,7 @@ public class WobimichUI {
     }
 
     /**
-     * Logs the search query and timestamp to a local JSON file.
+     * Logs the search query along with timestamp to a local file.
      */
     private void logSearch(String address) {
         try {
@@ -323,7 +359,9 @@ public class WobimichUI {
         }
     }
 
-    // Filter UI
+    /**
+     * Creates the filter section UI for transportation types.
+     */
     private VBox createFilterSection() {
         VBox filterContainer = new VBox(5, new Label("Verkehrsmittel filtern:"));
         filterContainer.setPadding(new Insets(5));
@@ -343,12 +381,12 @@ public class WobimichUI {
     }
 
     /**
-     * Filters the departure list based on selected transportation types (Tram, Bus, Subway).
+     * Applies the selected transportation type filters to the departure list.
      */
     private void applyFilter() {
         lines.clear();
 
-        for (LineStation line : linesOfSelectedStation) {
+        for (LineStation line : linesForSelectedStation) {
             String type = line.getTypeOfTransportation().toLowerCase();
 
             boolean matchesTram = tram.isSelected() && type.contains("pttram");
@@ -362,7 +400,7 @@ public class WobimichUI {
     }
 
     /**
-     * Saves the current list of favorite stations to a local text file.
+     * Saves the current list of favorite stations to a local text file (favorites.txt).
      */
     private void saveFavorites() {
         try {
@@ -373,7 +411,7 @@ public class WobimichUI {
     }
 
     /**
-     * Loads favorites from the text file during initialization.
+     * Loads favorites from the text file (favorites.txt) during initialization.
      */
     private void loadFavorites() {
         try {
@@ -387,9 +425,9 @@ public class WobimichUI {
     }
 
     /**
-     * Toggles between Light Mode and Dark Mode for the entire scene.
+     * Toggles between light and dark mode for the UI.
      */
-    private void toggleTheme(BorderPane root) {
+    private void toggleLightDarkMode(BorderPane root) {
         isDarkMode = !isDarkMode;
         if (isDarkMode) {
             root.setStyle("-fx-base: #2b2b2b; -fx-background-color: #3c3f41; -fx-font-size: 14px;");
@@ -397,8 +435,5 @@ public class WobimichUI {
             root.setStyle("-fx-font-size: 14px;-fx-background-color: #ADD8E6;");
         }
     }
-
-    // Helper Methods for Layout and Interaction
-
 
 }

@@ -14,8 +14,8 @@ import java.util.List;
 public class AddressDTO {
     private String streetName;
     private String streetNumber;
-    //private String postalCode;
-    //private String city;
+    private String postalCode;
+    private String city;
     private double longitude;
     private double latitude;
 
@@ -25,12 +25,6 @@ public class AddressDTO {
     public String getStreetNumber() { return this.streetNumber; }
     public void setStreetNumber(String streetNumber) { this.streetNumber = streetNumber; }
 
-    //public String getPostalCode() { return this.postalCode; }
-    //public void setPostalCode(String postalCode) { this.postalCode = postalCode; }
-
-    //public String getCity() { return this.city; }
-    //public void setCity(String city) { this.city = city; }
-
     public double getLongitude() { return this.longitude; }
     public void setLongitude(double longitude) { this.longitude = longitude; }
 
@@ -38,9 +32,9 @@ public class AddressDTO {
     public void setLatitude(double latitude) { this.latitude = latitude; }
 
     /**
-     * Maps the DTO fields to a Location object.
+     * Maps the DTO fields to a {@link Location} domain object.
      *
-     * @return Location object
+     * @return a {@link Location} created from the DTO data
      */
     public Location mapToUserLocation() {
         return new Location(this.getStreetName(),this.getStreetNumber(),this.getLongitude(),this.getLatitude());
@@ -49,7 +43,8 @@ public class AddressDTO {
     /**
      * Root element of the API response.
      * <p>
-     * Used by Jackson to map the top-level JSON object, containing a list of features.
+     * Used by Jackson to map the top-level JSON object containing
+     * a list of address features.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class ApiResponse {
@@ -59,7 +54,7 @@ public class AddressDTO {
     /**
      * Represents a single feature in the API response.
      * <p>
-     * Contains geometry and properties of an address.
+     * Contains geometry and property information for an address.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Feature {
@@ -70,7 +65,7 @@ public class AddressDTO {
     /**
      * Represents the geometry object in the API response.
      * <p>
-     * Contains coordinates [longitude, latitude].
+     * Coordinates are stored as [longitude, latitude].
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Geometry {
@@ -80,13 +75,13 @@ public class AddressDTO {
     /**
      * Represents the properties object in the API response.
      * <p>
-     * Contains street, postal code, and municipality information.
+     * Contains address metadata such as street, postal code and municipality.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Properties {
         public String StreetName;
         public String StreetNumber;
-        //public String PostalCode;
-        //public String Municipality;
+        public String PostalCode;
+        public String Municipality;
     }
 }

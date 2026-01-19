@@ -18,10 +18,10 @@ import java.util.Comparator;
  * Runs asynchronously to avoid blocking the JavaFX UI thread.
  */
 public class AddressLookupService extends Service<ArrayList<Station>> {
-    private String userInputLocation;
+    private String addressQuery;
 
     public AddressLookupService(String userLocation) {
-        this.userInputLocation = userLocation;
+        this.addressQuery = userLocation;
     }
 
     /**
@@ -32,16 +32,15 @@ public class AddressLookupService extends Service<ArrayList<Station>> {
         return new Task<>() {
             @Override
             protected ArrayList<Station> call() throws Exception {
-                AddressAPIClient addressAPIClient = new AddressAPIClient(userInputLocation);
+                AddressAPIClient addressAPIClient = new AddressAPIClient(addressQuery);
                 String apiResponse = addressAPIClient.fetchAPIResponse();
                 AddressDTO addressDTO = addressAPIClient.parseAPIResponse(apiResponse);
                 Location location = addressDTO.mapToUserLocation();
 
-                ArrayList<Station> stations = StationUtils.listStationsByDistanceFrom(location);
+                ArrayList<Station> stations = StationUtils.getStationsSortedByDistanceFrom(location);
 
-                // Sort stations by ascending distance
                 StationUtils.sortAscending(stations, Comparator.comparing(Station::getDistance));
-                return StationUtils.closestStationToLocation(stations);
+                return StationUtils.getClosestStations(stations);
             }
         };
     }

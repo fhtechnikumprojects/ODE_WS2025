@@ -44,6 +44,9 @@ public class Station {
         this.lines = new ArrayList<>();
     }
 
+    /**
+     * Default constructor.
+     */
     public Station () {};
 
     /**
@@ -61,7 +64,7 @@ public class Station {
     }
 
     /**
-     * @return latitude value
+     * @return latitude
      */
     public double getLatitude() {
         return this.latitude;
@@ -90,7 +93,7 @@ public class Station {
 
     /**
      *
-     * @return distance value
+     * @return distance
      */
     public double getDistance() {
         return this.distance;
@@ -104,6 +107,11 @@ public class Station {
         this.distance = distance;
     }
 
+    /**
+     * Returns the station name.
+     *
+     * @return station name
+     */
     @Override
     public String toString() {
         return this.name;

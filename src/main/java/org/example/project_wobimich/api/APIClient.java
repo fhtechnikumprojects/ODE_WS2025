@@ -14,32 +14,50 @@ import java.net.Socket;
  * how the socket is created (e.g., plain TCP or SSL).
  */
 public abstract class APIClient {
+
     /**
-     * @return the host address of the API
-     * */
+     * Returns the host address of the API.
+     *
+     * @return the API host
+     */
     protected abstract String getHost();
 
     /**
-     * @return the port used for the API request
-     * */
+     * Returns the port used for the API request.
+     *
+     * @return the API port
+     */
     protected abstract int getPort();
 
     /**
-     * @return the request path that will be appended to the host
-     * */
+     * Returns the request path that will be appended to the host.
+     *
+     * @return the API request path
+     */
     protected abstract String getPath();
 
     /**
      * Creates a socket connection to the given host and port.
-     * Subclasses define whether the connection is plain or SSL.
+     * <p>
+     * Subclasses define whether the connection is a plain TCP socket
+     * or a secure SSL socket.
+     *
+     * @param host the remote host to connect to
+     * @param port the remote port to connect to
+     * @return an open {@link Socket} connected to the given host and port
+     * @throws IOException if the socket cannot be created
      */
     protected abstract Socket createSocket(String host, int port) throws IOException;
 
     /**
-     * Sends a GET request to the configured API endpoint and returns the
-     * response body as a string.
+     * Sends an HTTP GET request to the configured API endpoint and returns
+     * the response body as a string.
+     * <p>
+     * The HTTP header is skipped and only the response body (JSON) is returned.
+     * Chunk size lines (hexadecimal values) are ignored/skipped.
      *
-     * @return the response body from the API
+     * @return the response body returned by the API
+     * @throws IOException if a network or stream error occurs
      */
     public String fetchAPIResponse() throws IOException {
         StringBuilder response = new StringBuilder();

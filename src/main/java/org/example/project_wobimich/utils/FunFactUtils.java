@@ -15,7 +15,7 @@ public class FunFactUtils {
      *
      * @return fact as string
      */
-    public static String getFact(int id) {
+    public static String getFactById(int id) {
         FunFact funFact = new FunFact();
         File pathToJsonFile = new File("src/main/resources/org/example/project_wobimich/data/wl-fun-facts.json");
 
@@ -26,7 +26,6 @@ public class FunFactUtils {
                     pathToJsonFile,
                     new TypeReference<List<FunFact>>() {}
             );
-
 
             for (FunFact f : funFactJson) {
                 if (f.getId() == id) {
@@ -39,19 +38,21 @@ public class FunFactUtils {
             e.printStackTrace();
         }
 
-        return funFact.getFact();
+        return funFact.toString();
     }
 
     /**
-     *This function return a random fact of wl-fun-facts.json as String
-     * @return random fact of wl-fun-facts.json
+     * Returns a random fun fact from the JSON file "wl-fun-facts.json".
+     * <p>
+     *
+     * @return a random fact string
      */
     public static String getRandomFact() {
         Random random = new Random();
         int numbOfFacts = 46;
         int randNumb = random.nextInt(numbOfFacts) + 1;
 
-        return getFact(randNumb);
+        return getFactById(randNumb);
     }
 
 }

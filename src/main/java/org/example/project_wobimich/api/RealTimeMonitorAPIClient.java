@@ -1,7 +1,6 @@
 package org.example.project_wobimich.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.project_wobimich.ApiException;
 import org.example.project_wobimich.dto.RealTimeMonitorDTO;
 
 import javax.net.ssl.SSLSocket;
@@ -31,23 +30,44 @@ public class RealTimeMonitorAPIClient extends APIClient {
         this.path = "/ogd_realtime/monitor?diva=" + divaID;
     }
 
+    /**
+     * Returns the host address of the Wiener Linien API.
+     *
+     * @return the API host
+     */
     @Override
     protected String getHost() {
         return HOST;
     }
 
+    /**
+     * Returns the port used for the HTTPS connection.
+     *
+     * @return the API port
+     */
     @Override
     protected int getPort() {
         return PORT;
     }
 
+    /**
+     * Returns the HTTP request path including query parameters.
+     *
+     * @return the API request path
+     */
     @Override
     protected String getPath() {
         return this.path;
     }
 
     /**
-     * Creates an SSL-enabled socket connection and performs the TLS handshake.
+     * Creates an SSL-enabled socket connection and performs
+     * the TLS handshake with the remote server.
+     *
+     * @param host the remote host to connect to
+     * @param port the remote port to connect to
+     * @return an initialized {@link Socket} using SSL/TLS
+     * @throws IOException if the socket creation or handshake fails
      */
     @Override
     protected Socket createSocket(String host, int port) throws IOException {
@@ -60,11 +80,14 @@ public class RealTimeMonitorAPIClient extends APIClient {
 
     /**
      * Parses the JSON response and returns a list of real-time monitor entries.
-     * Extracts only relevant fields such as line name, direction, and
-     * planned departure times.
+     * <p>
+     * Extracts relevant transport information such as line ID, line name,
+     * direction, type of transportation, accessibility, real-time support
+     * and planned departure times.
      *
-     * @param response raw JSON response
-     * @return a list of real-time monitor DTOs
+     * @param response raw JSON response returned by the API
+     * @return a list of {@link RealTimeMonitorDTO} objects
+     * @throws ApiException if parsing the JSON response fails
      */
     public List<RealTimeMonitorDTO> parseAPIResponse(String response) throws ApiException {
         ObjectMapper mapper = new ObjectMapper();
@@ -72,37 +95,55 @@ public class RealTimeMonitorAPIClient extends APIClient {
 
         try {
             RealTimeMonitorDTO.ApiResponse api = mapper.readValue(response, RealTimeMonitorDTO.ApiResponse.class);
+
             for (RealTimeMonitorDTO.Monitors monitor : api.data.monitors) {
                 if (monitor != null && monitor.lines != null) {
                     for (RealTimeMonitorDTO.Line line : monitor.lines) {
                         if (line != null) {
-                            RealTimeMonitorDTO lineDTO = new RealTimeMonitorDTO();
-                            lineDTO.setLineID(line.lineId);
-                            lineDTO.setDirection(line.towards);
-                            lineDTO.setLineName(line.name);
-                            lineDTO.setTypeOfTransportation(line.type);
-                            lineDTO.setBarrierFree(line.barrierFree);
-                            lineDTO.setRealTimeSupported(line.realtimeSupported);
-
-                            List<String> departureTimes = new ArrayList<>();
-                            if (line.departures != null && line.departures.departure != null) {
-                                for (RealTimeMonitorDTO.Departure dep : line.departures.departure) {
-                                    departureTimes.add(dep.departureTime.timePlanned);
-                                }
-                            }
-                            lineDTO.setDepartureTime(departureTimes);
+                            RealTimeMonitorDTO lineDTO = getRealTimeMonitorDTO(line);
                             listOfLines.add(lineDTO);
                         }
                     }
                 }
             }
+
         }
          catch(IOException e) {
-            throw new ApiException("Parsing failed", e);
+            throw new ApiException("Parsing of API data failed!", e);
         }
         return listOfLines;
     }
 
+    /**
+     * Maps a {@link RealTimeMonitorDTO.Line} object returned by the API
+     * to a {@link RealTimeMonitorDTO} domain object.
+     * <p>
+     * Extracts relevant line information such as line ID, name, direction,
+     * type of transportation, accessibility, real-time support and
+     * planned departure times.
+     *
+     * @param line the line object received from the Wiener Linien API
+     * @return a populated {@link RealTimeMonitorDTO} containing the extracted data
+     */
+    private RealTimeMonitorDTO getRealTimeMonitorDTO(RealTimeMonitorDTO.Line line) {
+        RealTimeMonitorDTO lineDTO = new RealTimeMonitorDTO();
 
+        lineDTO.setLineID(line.lineId);
+        lineDTO.setDirection(line.towards);
+        lineDTO.setLineName(line.name);
+        lineDTO.setTypeOfTransportation(line.type);
+        lineDTO.setBarrierFree(line.barrierFree);
+        lineDTO.setRealTimeSupported(line.realtimeSupported);
+
+        List<String> departureTimes = new ArrayList<>();
+        if (line.departures != null && line.departures.departure != null) {
+            for (RealTimeMonitorDTO.Departure dep : line.departures.departure) {
+                departureTimes.add(dep.departureTime.timePlanned);
+            }
+        }
+
+        lineDTO.setDepartureTime(departureTimes);
+        return lineDTO;
+    }
 }
 

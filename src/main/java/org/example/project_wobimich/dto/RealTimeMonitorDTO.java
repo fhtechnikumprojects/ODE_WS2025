@@ -8,8 +8,9 @@ import java.util.List;
 /**
  * Data Transfer Object for real-time transport line monitoring.
  * <p>
- * Contains information about line ID, line name, direction, type of transportation,
- * barrier-free accessibility, real-time support, and departure times.
+ * Stores information about a public transport line such as line ID,
+ * line name, direction, type of transportation, accessibility,
+ * real-time support and upcoming departure times.
  */
 public class RealTimeMonitorDTO {
     private String lineID;
@@ -45,9 +46,9 @@ public class RealTimeMonitorDTO {
     public List<String> getDepartureTime() { return this.departureTime; }
 
     /**
-     * Maps this DTO to a {@link LineStation} object.
+     * Maps this DTO to a {@link LineStation} domain object.
      *
-     * @return new LineStation populated with data from this DTO
+     * @return a {@link LineStation} populated with DTO data
      */
     public LineStation mapToLine() {
         return new LineStation(
@@ -93,8 +94,6 @@ public class RealTimeMonitorDTO {
 
     /**
      * Represents a transport line in the API response.
-     * <p>
-     * Contains line name, direction, type, barrier-free status, real-time support, line ID, and departures.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Line {
@@ -109,18 +108,14 @@ public class RealTimeMonitorDTO {
 
     /**
      * Represents departures information in the API response.
-     * <p>
-     * Contains a list of departure entries for the line.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Departures {
-        public List<Departure> departure;;
+        public List<Departure> departure;
     }
 
     /**
-     * Represents a single departure entry in the API response.
-     * <p>
-     * Contains departure time information.
+     * Represents a single departure entry.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class Departure {
@@ -128,9 +123,7 @@ public class RealTimeMonitorDTO {
     }
 
     /**
-     * Represents the departure time object in the API response.
-     * <p>
-     * Contains the planned departure time as a string.
+     * Represents the departure time object.
      */
     @JsonIgnoreProperties(ignoreUnknown = true)
     public static class DepartureTime  {

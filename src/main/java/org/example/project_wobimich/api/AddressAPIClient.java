@@ -1,8 +1,8 @@
 package org.example.project_wobimich.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.example.project_wobimich.ApiException;
 import org.example.project_wobimich.dto.AddressDTO;
+import org.example.project_wobimich.dto.RealTimeMonitorDTO;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -30,16 +30,31 @@ public class AddressAPIClient extends APIClient {
         this.path = "/daten/OGDAddressService.svc/GetAddressInfo?Address=" + address + "&crs=EPSG:4326";
     }
 
+    /**
+     * Returns the host name of the API server.
+     *
+     * @return the API host
+     */
     @Override
     protected String getHost() {
         return HOST;
     }
 
+    /**
+     * Returns the port number used for the API connection.
+     *
+     * @return the API port
+     */
     @Override
     protected int getPort() {
         return PORT;
     }
 
+    /**
+     * Returns the HTTP request path including query parameters.
+     *
+     * @return the API request path
+     */
     @Override
     protected String getPath() {
         return this.path;
@@ -47,19 +62,26 @@ public class AddressAPIClient extends APIClient {
 
     /**
      * Creates a plain TCP socket for HTTP communication.
+     *
+     * @param host the remote host to connect to
+     * @param port the remote port to connect to
+     * @return an open {@link Socket} connected to the given host and port
+     * @throws IOException if the socket cannot be created
      */
-    //    service has to catch the exception!!! ==> need to be considered when implementing the service (-class)
     @Override
     protected Socket createSocket(String host, int port) throws IOException {
         return new Socket(host, port);
     }
 
     /**
-     * Parses the JSON response into an {@link AddressDTO} containing
-     * address-related information.
+     * Parses the JSON response into an {@link AddressDTO}.
+     * <p>
+     * Extracts street name, street number and geographic coordinates
+     * (longitude and latitude) from the API response.
      *
-     * @param response raw JSON response
-     * @return an AddressDTO with extracted address details, or null on error
+     * @param response raw JSON response returned by the API
+     * @return an {@link AddressDTO} containing the parsed address data
+     * @throws ApiException if parsing the JSON response fails
      */
     public AddressDTO parseAPIResponse(String response) throws ApiException {
         ObjectMapper mapper = new ObjectMapper();
@@ -68,16 +90,30 @@ public class AddressAPIClient extends APIClient {
             AddressDTO.ApiResponse api = mapper.readValue(response, AddressDTO.ApiResponse.class);
             AddressDTO.Feature feature = api.features.getFirst();
 
-            AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setStreetName(feature.properties.StreetName);
-            addressDTO.setStreetNumber(feature.properties.StreetNumber);
-            addressDTO.setLongitude(feature.geometry.coordinates.get(0));
-            addressDTO.setLatitude(feature.geometry.coordinates.get(1));
-
-            return addressDTO;
+            return getAddressDTO(feature);
         } catch (IOException e) {
-            throw new ApiException("Parsing failed!", e);
+            throw new ApiException("Parsing of API data failed!", e);
         }
+    }
+
+    /**
+     * Maps an {@link AddressDTO.Feature} object returned by the API
+     * to an {@link AddressDTO} domain object.
+     * <p>
+     * Extracts address-related information such as street name,
+     * street number and geographic coordinates (longitude and latitude).
+     *
+     * @param feature the feature object received from the address API response
+     * @return a populated {@link AddressDTO} containing the extracted address data
+     */
+    private AddressDTO getAddressDTO(AddressDTO.Feature feature) {
+        AddressDTO addressDTO = new AddressDTO();
+        addressDTO.setStreetName(feature.properties.StreetName);
+        addressDTO.setStreetNumber(feature.properties.StreetNumber);
+        addressDTO.setLongitude(feature.geometry.coordinates.get(0));
+        addressDTO.setLatitude(feature.geometry.coordinates.get(1));
+
+        return addressDTO;
     }
 
 }

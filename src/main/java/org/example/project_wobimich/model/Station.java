@@ -44,6 +44,9 @@ public class Station {
         this.lines = new ArrayList<>();
     }
 
+    /**
+     * Default constructor.
+     */
     public Station () {};
 
     /**
@@ -54,13 +57,6 @@ public class Station {
     }
 
     /**
-     * @param id new station ID
-     */
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    /**
      * @return the station name
      */
     public String getName() {
@@ -68,14 +64,7 @@ public class Station {
     }
 
     /**
-     * @param name new station name
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    /**
-     * @return latitude value
+     * @return latitude
      */
     public double getLatitude() {
         return this.latitude;
@@ -104,7 +93,7 @@ public class Station {
 
     /**
      *
-     * @return distance value
+     * @return distance
      */
     public double getDistance() {
         return this.distance;
@@ -119,19 +108,10 @@ public class Station {
     }
 
     /**
-     * @return list of connected transport lines
+     * Returns the station name.
+     *
+     * @return station name
      */
-    public List<LineStation> getLines() {
-        return this.lines;
-    }
-
-    /**
-     * @param lines transport lines belonging to this station
-     */
-    public void setLines(List<LineStation> lines) {
-        this.lines = lines;
-    }
-
     @Override
     public String toString() {
         return this.name;

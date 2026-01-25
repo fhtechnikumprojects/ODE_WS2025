@@ -48,12 +48,16 @@ public class StationUtils {
     }
 
     /**
-     * Returns a list of all public transportation stations in Vienna with their ID
-     * and the distance from given location.
+     * Loads all stations from the JSON file and calculates their distance
+     * from the given location.
+     * <p>
+     * The JSON file "wl-ogd-haltestellen.json" is read using Jackson.
+     * Each station is mapped to a Station object and its distance is computed.
      *
-     * @return list of stations with distance
+     * @param location reference location
+     * @return list of all stations with distance
      */
-    public static ArrayList<Station> listStationsByDistanceFrom(Location location) {
+    public static ArrayList<Station> getStationsSortedByDistanceFrom(Location location) {
         ArrayList<Station> stations = new ArrayList<>();
         File pathToJsonFile = new File("src/main/resources/org/example/project_wobimich/data/wl-ogd-haltestellen.json");
 
@@ -84,6 +88,7 @@ public class StationUtils {
                 currentStation.setDistance(distance);
 
                 stations.add(currentStation);
+                sortAscending(stations,Comparator.comparing(Station::getDistance));
             }
 
         } catch (Exception e) {
@@ -93,19 +98,27 @@ public class StationUtils {
     }
 
     /**
-     * Sort given list of any type in ascending order.
+     * Sorts the provided list in ascending order based on the provided comparator.
+     *
+     * @param list the list to be sorted
+     * @param comparator the comparator defining the sort order
+     * @param <T> type of elements in the list
      */
-    public static <T> void sortAscending(List<T> list, Comparator<T> comparator) {
+    private static <T> void sortAscending(List<T> list, Comparator<T> comparator) {
         list.sort(comparator);
     }
 
     /**
+     * Returns a list of the 5 closest stations from the given list.
+     * <p>
      *
-     * @return a list of 5 closet station to given station
+     * @param stations sorted list of stations
+     * @return a list containing the 5 closest stations
      */
-    public static ArrayList<Station> closestStationToLocation(ArrayList<Station> stations) {
+    public static ArrayList<Station> getClosestStations(ArrayList<Station> stations) {
         ArrayList<Station> closestStations = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        int numberOfStations = 5;
+        for (int i = 0; i < numberOfStations; i++) {
             closestStations.add(stations.get(i));
         }
         return closestStations;

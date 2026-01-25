@@ -2,6 +2,7 @@ package org.example.project_wobimich.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.example.project_wobimich.dto.AddressDTO;
+import org.example.project_wobimich.dto.RealTimeMonitorDTO;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -89,16 +90,30 @@ public class AddressAPIClient extends APIClient {
             AddressDTO.ApiResponse api = mapper.readValue(response, AddressDTO.ApiResponse.class);
             AddressDTO.Feature feature = api.features.getFirst();
 
-            AddressDTO addressDTO = new AddressDTO();
-            addressDTO.setStreetName(feature.properties.StreetName);
-            addressDTO.setStreetNumber(feature.properties.StreetNumber);
-            addressDTO.setLongitude(feature.geometry.coordinates.get(0));
-            addressDTO.setLatitude(feature.geometry.coordinates.get(1));
-
-            return addressDTO;
+            return getAddressDTO(feature);
         } catch (IOException e) {
             throw new ApiException("Parsing of API data failed!", e);
         }
+    }
+
+    /**
+     * Maps an {@link AddressDTO.Feature} object returned by the API
+     * to an {@link AddressDTO} domain object.
+     * <p>
+     * Extracts address-related information such as street name,
+     * street number and geographic coordinates (longitude and latitude).
+     *
+     * @param feature the feature object received from the address API response
+     * @return a populated {@link AddressDTO} containing the extracted address data
+     */
+    private AddressDTO getAddressDTO(AddressDTO.Feature feature) {
+        AddressDTO addressDTO = new AddressDTO();
+        addressDTO.setStreetName(feature.properties.StreetName);
+        addressDTO.setStreetNumber(feature.properties.StreetNumber);
+        addressDTO.setLongitude(feature.geometry.coordinates.get(0));
+        addressDTO.setLatitude(feature.geometry.coordinates.get(1));
+
+        return addressDTO;
     }
 
 }

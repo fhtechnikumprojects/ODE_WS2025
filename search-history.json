@@ -51,3 +51,18 @@
 { "address":"Jägerstraße", "time":"2026-01-19T16:35:30.500702600" }
 { "address":"Wiesengasse 2", "time":"2026-01-19T16:54:21.176182200" }
 { "address":"Friedensbrücke 4", "time":"2026-01-19T17:04:02.665125100" }
+{ "address":"Hochstädtplatz", "time":"2026-01-25T18:30:08.419487800" }
+{ "address":"Hochstädtplatz", "time":"2026-01-25T18:30:08.691521800" }
+{ "address":"Hochstädtplatz", "time":"2026-01-25T18:30:10.935797800" }
+{ "address":"Hochstädtplatz", "time":"2026-01-25T18:30:11.791116900" }
+{ "address":"Karlsplatz", "time":"2026-01-25T18:30:55.258802200" }
+{ "address":"Karlsplatz", "time":"2026-01-25T18:32:27.003981100" }
+{ "address":"Friedensbrücke", "time":"2026-01-25T18:38:28.094470300" }
+{ "address":"Heiligenstadt", "time":"2026-01-25T18:39:04.306060" }
+{ "address":"Heiligenstadt", "time":"2026-01-25T18:39:38.104330200" }
+{ "address":"Franz Josefs Bahnhof", "time":"2026-01-25T19:02:06.903558400" }
+{ "address":"Hütteldorf", "time":"2026-01-25T19:02:31.440102500" }
+{ "address":"Pezzelgasse 44", "time":"2026-01-25T19:07:19.677082" }
+{ "address":"Klosterneuburger Straße", "time":"2026-01-25T19:13:08.028695200" }
+{ "address":"Nußdorf", "time":"2026-01-25T19:19:21.742166700" }
+{ "address":"Engerthstraße 83-97", "time":"2026-01-25T19:19:45.192122700" }

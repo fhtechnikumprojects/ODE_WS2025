@@ -43,13 +43,12 @@ public class AddressLookupService extends Service<ArrayList<Station>> {
 
                     ArrayList<Station> stations = StationUtils.getStationsSortedByDistanceFrom(location);
 
-                    StationUtils.sortAscending(stations, Comparator.comparing(Station::getDistance));
                     return StationUtils.getClosestStations(stations);
+
                 } catch (IOException e) {
                     throw new ApiException("API request f ailed!", e);
                 }
             }
-
         };
     }
     

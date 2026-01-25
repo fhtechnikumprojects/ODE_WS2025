@@ -386,14 +386,16 @@ public class WobimichUI {
         lines.clear();
 
         for (LineStation line : linesForSelectedStation) {
-            String type = line.getTypeOfTransportation().toLowerCase();
+            if (line != null) {
+                String type = line.getTypeOfTransportation().toLowerCase();
 
-            boolean matchesTram = tram.isSelected() && type.contains("pttram");
-            boolean matchesBus = bus.isSelected() && type.contains("ptbuscity");
-            boolean matchesSubway = subway.isSelected() && type.contains("ptmetro");
+                boolean matchesTram = tram.isSelected() && type.contains("pttram");
+                boolean matchesBus = bus.isSelected() && type.contains("ptbuscity");
+                boolean matchesSubway = subway.isSelected() && type.contains("ptmetro");
 
-            if (matchesTram || matchesBus || matchesSubway) {
-                lines.add(line);
+                if (matchesTram || matchesBus || matchesSubway) {
+                    lines.add(line);
+                }
             }
         }
     }

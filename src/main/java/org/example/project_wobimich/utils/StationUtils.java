@@ -88,6 +88,7 @@ public class StationUtils {
                 currentStation.setDistance(distance);
 
                 stations.add(currentStation);
+                sortAscending(stations,Comparator.comparing(Station::getDistance));
             }
 
         } catch (Exception e) {
@@ -103,7 +104,7 @@ public class StationUtils {
      * @param comparator the comparator defining the sort order
      * @param <T> type of elements in the list
      */
-    public static <T> void sortAscending(List<T> list, Comparator<T> comparator) {
+    private static <T> void sortAscending(List<T> list, Comparator<T> comparator) {
         list.sort(comparator);
     }
 
@@ -116,7 +117,8 @@ public class StationUtils {
      */
     public static ArrayList<Station> getClosestStations(ArrayList<Station> stations) {
         ArrayList<Station> closestStations = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
+        int numberOfStations = 5;
+        for (int i = 0; i < numberOfStations; i++) {
             closestStations.add(stations.get(i));
         }
         return closestStations;

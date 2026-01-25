@@ -46,7 +46,7 @@ public class LineLookupService extends Service<List<LineStation>> {
 
                     return lineStations;
                 } catch (IOException e) {
-                    throw new ApiException("API request f ailed!",e);
+                    throw new ApiException("API request failed!",e);
                 }
             }
         };

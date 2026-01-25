@@ -100,23 +100,7 @@ public class RealTimeMonitorAPIClient extends APIClient {
                 if (monitor != null && monitor.lines != null) {
                     for (RealTimeMonitorDTO.Line line : monitor.lines) {
                         if (line != null) {
-                            RealTimeMonitorDTO lineDTO = new RealTimeMonitorDTO();
-
-                            lineDTO.setLineID(line.lineId);
-                            lineDTO.setDirection(line.towards);
-                            lineDTO.setLineName(line.name);
-                            lineDTO.setTypeOfTransportation(line.type);
-                            lineDTO.setBarrierFree(line.barrierFree);
-                            lineDTO.setRealTimeSupported(line.realtimeSupported);
-
-                            List<String> departureTimes = new ArrayList<>();
-                            if (line.departures != null && line.departures.departure != null) {
-                                for (RealTimeMonitorDTO.Departure dep : line.departures.departure) {
-                                    departureTimes.add(dep.departureTime.timePlanned);
-                                }
-                            }
-
-                            lineDTO.setDepartureTime(departureTimes);
+                            RealTimeMonitorDTO lineDTO = getRealTimeMonitorDTO(line);
                             listOfLines.add(lineDTO);
                         }
                     }
@@ -128,6 +112,38 @@ public class RealTimeMonitorAPIClient extends APIClient {
             throw new ApiException("Parsing of API data failed!", e);
         }
         return listOfLines;
+    }
+
+    /**
+     * Maps a {@link RealTimeMonitorDTO.Line} object returned by the API
+     * to a {@link RealTimeMonitorDTO} domain object.
+     * <p>
+     * Extracts relevant line information such as line ID, name, direction,
+     * type of transportation, accessibility, real-time support and
+     * planned departure times.
+     *
+     * @param line the line object received from the Wiener Linien API
+     * @return a populated {@link RealTimeMonitorDTO} containing the extracted data
+     */
+    private RealTimeMonitorDTO getRealTimeMonitorDTO(RealTimeMonitorDTO.Line line) {
+        RealTimeMonitorDTO lineDTO = new RealTimeMonitorDTO();
+
+        lineDTO.setLineID(line.lineId);
+        lineDTO.setDirection(line.towards);
+        lineDTO.setLineName(line.name);
+        lineDTO.setTypeOfTransportation(line.type);
+        lineDTO.setBarrierFree(line.barrierFree);
+        lineDTO.setRealTimeSupported(line.realtimeSupported);
+
+        List<String> departureTimes = new ArrayList<>();
+        if (line.departures != null && line.departures.departure != null) {
+            for (RealTimeMonitorDTO.Departure dep : line.departures.departure) {
+                departureTimes.add(dep.departureTime.timePlanned);
+            }
+        }
+
+        lineDTO.setDepartureTime(departureTimes);
+        return lineDTO;
     }
 }
 

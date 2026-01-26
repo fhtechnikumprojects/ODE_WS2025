@@ -92,87 +92,11 @@ public class WobimichView {
         topVBox.setPadding(new Insets(10));
         topVBox.setStyle("-fx-background-color: #ADD8E6;");
 
-        // Fun Fact display area
-        VBox funFactBox = new VBox(5);
-        funFactBox.setAlignment(Pos.CENTER);
-        funFactBox.setPadding(new Insets(10));
-        funFactBox.getStyleClass().add("fun-fact-box");
-        funFactBox.setStyle("-fx-border-color: darkred; -fx-border-width: 2; -fx-background-color: lightgray;");
+        VBox funFactBox = createFunFactBox();
+        HBox searchBarButton = createSearchBarButton();
 
-        Label funFactHeader = new Label("Hast du gewusst?");
-        Label funFactText = new Label(FunFactUtils.getRandomFact());
-        funFactBox.getChildren().addAll(funFactHeader, funFactText);
-
-        // Search bar setup
-        HBox searchBar = new HBox(10);
-        searchBar.setPadding(new Insets(10));
-        searchBar.setStyle("-fx-border-color: darkred;");
-        searchTextField.setPromptText("Standort eingeben:");
-        HBox.setHgrow(searchTextField, Priority.ALWAYS);
-
-        Button searchButton = new Button("Suche");
-        searchButton.disableProperty().bind(searchTextField.textProperty().isEmpty());
-        searchButton.setOnAction(e ->
-            this.controller.searchAddress(searchTextField.getText())
-        );
-        searchButton.setStyle("-fx-border-color: darkred; -fx-border-width: 2;");
-
-        searchBar.getChildren().addAll(searchTextField, searchButton);
-        topVBox.getChildren().addAll(funFactBox, searchBar);
-
+        topVBox.getChildren().addAll(funFactBox, searchBarButton);
         return topVBox;
-    }
-
-    private VBox centerLeftColumn() {
-        VBox leftColumn = new VBox(15);
-        VBox stationArea = new VBox(5, new Label("Haltestellen"), stationListView);
-        stationListView.setPrefHeight(200);
-        stationArea.setStyle("-fx-border-color: darkred;");
-
-        VBox favoriteArea = new VBox(5, new Label("Favoriten"), favoriteListView);
-        VBox.setVgrow(favoriteListView, Priority.ALWAYS);
-        VBox.setVgrow(favoriteArea, Priority.ALWAYS);
-        favoriteArea.setStyle("-fx-border-color: darkred;");
-
-        leftColumn.getChildren().addAll(stationArea, favoriteArea);
-        HBox.setHgrow(leftColumn, Priority.ALWAYS);
-        setupBoxStyle(leftColumn, 280);
-
-        return leftColumn;
-    }
-
-    private VBox centerRightColumn() {
-        VBox rightColumn = new VBox(5);
-        Label departuresLabel = new Label("Abfahrten & Filter");
-
-        VBox combinedContainer = new VBox(10);
-        combinedContainer.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-border-color: darkred; -fx-padding: 10;");
-
-        VBox filterContent = createFilterSection();
-        filterContent.setStyle("-fx-border-color: darkred;");
-
-        VBox.setVgrow(lineListView, Priority.ALWAYS);
-
-        combinedContainer.getChildren().addAll(filterContent, new Separator(), lineListView);
-        VBox.setVgrow(combinedContainer, Priority.ALWAYS);
-
-        rightColumn.getChildren().addAll(departuresLabel, combinedContainer);
-        HBox.setHgrow(rightColumn, Priority.ALWAYS);
-        setupBoxStyle(rightColumn, 350);
-
-        stationListView.setOnMouseClicked(e -> {
-            if (e.getClickCount() == 2) {
-                Station selectedStation = stationListView.getSelectionModel().getSelectedItem();
-                this.controller.loadLinesForSelectedStation(
-                        selectedStation,
-                        tramCheckbox.isSelected(),
-                        busCheckbox.isSelected(),
-                        subwayCheckbox.isSelected()
-                );
-            }
-        });
-
-        return rightColumn;
     }
 
     /**
@@ -265,17 +189,9 @@ public class WobimichView {
      * @return HBox containing the toggle button
      */
     private HBox createBottomSection(BorderPane root) {
-        Button toggleButton = new Button("Light/Dark Mode");
-        toggleButton.setMaxWidth(Double.MAX_VALUE);
-        HBox.setHgrow(toggleButton, Priority.ALWAYS);
+        Button darkLightButton = createDarkLightButton(root);
 
-        toggleButton.setOnAction(e -> {
-            isDarkMode = this.controller.toggleLightDarkMode(root,isDarkMode);
-        });
-
-        toggleButton.setStyle("-fx-background-color: lightgray; -fx-border-color: darkred; -fx-border-width: 2;");
-
-        return new HBox(10, toggleButton);
+        return new HBox(10, darkLightButton);
     }
 
     /**
@@ -285,6 +201,126 @@ public class WobimichView {
         box.setPrefWidth(prefWidth);
         HBox.setHgrow(box, Priority.ALWAYS);
         VBox.setVgrow(box, Priority.ALWAYS);
+    }
+
+    /**
+     * Creates a UI box displaying a random fun fact.
+     * <p>
+     * The content is generated once during creation and does not update dynamically.
+     *
+     * @return VBox containing the fun fact header and text
+     */
+    private VBox createFunFactBox() {
+        VBox funFactBox = new VBox(5);
+        funFactBox.setAlignment(Pos.CENTER);
+        funFactBox.setPadding(new Insets(10));
+        funFactBox.getStyleClass().add("fun-fact-box");
+        funFactBox.setStyle("-fx-border-color: darkred; -fx-border-width: 2; -fx-background-color: lightgray;");
+
+        Label funFactHeader = new Label("Hast du gewusst?");
+        Label funFactText = new Label(FunFactUtils.getRandomFact());
+
+        funFactBox.getChildren().addAll(funFactHeader, funFactText);
+        return funFactBox;
+    }
+
+    /**
+     * Creates the search bar containing the address input field
+     * and the search button.
+     * <p>
+     * The search button is disabled while the input field is empty.
+     *
+     * @return HBox with search input and search button
+     */
+    private HBox createSearchBarButton() {
+        HBox searchBarButton = new HBox(10);
+        searchBarButton.setPadding(new Insets(10));
+        searchBarButton.setStyle("-fx-border-color: darkred;");
+        searchTextField.setPromptText("Standort eingeben:");
+        HBox.setHgrow(searchTextField, Priority.ALWAYS);
+
+        Button searchButton = new Button("Suche");
+        searchButton.disableProperty().bind(searchTextField.textProperty().isEmpty());
+        searchButton.setOnAction(e ->
+                this.controller.searchAddress(searchTextField.getText())
+        );
+        searchButton.setStyle("-fx-border-color: darkred; -fx-border-width: 2;");
+
+        searchBarButton.getChildren().addAll(searchTextField, searchButton);
+        return searchBarButton;
+    }
+
+    /**
+     * Creates the left column of the center layout.
+     * <p>
+     * Contains the station list and the favorites list.
+     *
+     * @return VBox representing the left center column
+     */
+    private VBox centerLeftColumn() {
+        VBox leftColumn = new VBox(15);
+        VBox stationArea = new VBox(5, new Label("Haltestellen"), stationListView);
+        stationListView.setPrefHeight(200);
+        stationArea.setStyle("-fx-border-color: darkred;");
+
+        VBox favoriteArea = new VBox(5, new Label("Favoriten"), favoriteListView);
+        VBox.setVgrow(favoriteListView, Priority.ALWAYS);
+        VBox.setVgrow(favoriteArea, Priority.ALWAYS);
+        favoriteArea.setStyle("-fx-border-color: darkred;");
+
+        leftColumn.getChildren().addAll(stationArea, favoriteArea);
+        HBox.setHgrow(leftColumn, Priority.ALWAYS);
+        setupBoxStyle(leftColumn, 280);
+
+        return leftColumn;
+    }
+
+    /**
+     * Creates the right column of the center layout.
+     * <p>
+     * This section contains:
+     * <ul>
+     *     <li>The departure list for the selected station</li>
+     *     <li>Transportation type filter controls</li>
+     * </ul>
+     * <p>
+     * A double-click on a station in the station list triggers
+     * loading of departure data for that station.
+     *
+     * @return VBox representing the right center column
+     */
+    private VBox centerRightColumn() {
+        VBox rightColumn = new VBox(5);
+        Label departuresLabel = new Label("Abfahrten & Filter");
+
+        VBox combinedContainer = new VBox(10);
+        combinedContainer.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-border-color: darkred; -fx-padding: 10;");
+
+        VBox filterContent = createFilterSection();
+        filterContent.setStyle("-fx-border-color: darkred;");
+
+        VBox.setVgrow(lineListView, Priority.ALWAYS);
+
+        combinedContainer.getChildren().addAll(filterContent, new Separator(), lineListView);
+        VBox.setVgrow(combinedContainer, Priority.ALWAYS);
+
+        rightColumn.getChildren().addAll(departuresLabel, combinedContainer);
+        HBox.setHgrow(rightColumn, Priority.ALWAYS);
+        setupBoxStyle(rightColumn, 350);
+
+        stationListView.setOnMouseClicked(e -> {
+            if (e.getClickCount() == 2) {
+                Station selectedStation = stationListView.getSelectionModel().getSelectedItem();
+                this.controller.loadLinesForSelectedStation(
+                        selectedStation,
+                        tramCheckbox.isSelected(),
+                        busCheckbox.isSelected(),
+                        subwayCheckbox.isSelected()
+                );
+            }
+        });
+
+        return rightColumn;
     }
 
     /**
@@ -309,7 +345,8 @@ public class WobimichView {
     }
 
     /**
-     *help function to improve readability of code
+     * Applies the currently selected transportation filters
+     * by delegating the filter state to the controller.
      */
     private void applyFilter() {
         this.controller.applyFilter(
@@ -317,6 +354,27 @@ public class WobimichView {
             busCheckbox.isSelected(),
             subwayCheckbox.isSelected()
         );
+    }
+
+    /**
+     * Creates the button for toggling between light and dark mode.
+     * <p>
+     * The actual theme switching logic is handled by the controller.
+     *
+     * @param root the root pane whose style is updated
+     * @return configured toggle button
+     */
+    private Button createDarkLightButton(BorderPane root) {
+        Button darkLightButton = new Button("Light/Dark Mode");
+        darkLightButton.setMaxWidth(Double.MAX_VALUE);
+        darkLightButton.setStyle("-fx-background-color: lightgray; -fx-border-color: darkred; -fx-border-width: 2;");
+        HBox.setHgrow(darkLightButton, Priority.ALWAYS);
+
+        darkLightButton.setOnAction(e -> {
+            isDarkMode = this.controller.toggleLightDarkMode(root,isDarkMode);
+        });
+
+        return darkLightButton;
     }
 
 }

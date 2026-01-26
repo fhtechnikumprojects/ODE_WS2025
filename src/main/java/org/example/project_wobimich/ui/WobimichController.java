@@ -23,6 +23,8 @@ public class WobimichController {
     private ObservableList<Station> stations = FXCollections.observableArrayList();
     private ObservableList<LineStation> lines = FXCollections.observableArrayList();
     private ObservableList<Station> favoriteStations = FXCollections.observableArrayList();
+
+    //Data List for lines of a selected station
     private List<LineStation> linesForSelectedStation = new ArrayList<>();
 
     // Services
@@ -68,11 +70,8 @@ public class WobimichController {
         stations.clear();
 
         addressLookupService = new AddressLookupService(address);
-
         addressLookupService.setOnSucceeded(e -> stations.setAll(addressLookupService.getValue()));
-
-        addressLookupService.setOnFailed(e -> showError("Die eingegebene Adresse konnte nicht verarbeitet werden!")
-        );
+        addressLookupService.setOnFailed(e -> showError("Die eingegebene Adresse konnte nicht verarbeitet werden!"));
 
         addressLookupService.start();
     }
@@ -83,9 +82,9 @@ public class WobimichController {
     private void logSearch(String address) {
         try {
             String logEntry = String.format(
-                "{ \"address\":\"%s\", \"time\":\"%s\" }\n",
-                address,
-                LocalDateTime.now()
+                    "{ \"address\":\"%s\", \"time\":\"%s\" }\n",
+                    address,
+                    LocalDateTime.now()
             );
             Files.writeString(
                     SEARCH_LOG,
@@ -111,9 +110,9 @@ public class WobimichController {
         lineLookupService.setOnSucceeded(e -> {
             linesForSelectedStation = lineLookupService.getValue();
             applyFilter(
-                tramSelected,
-                busSelected,
-                subwaySelected
+                    tramSelected,
+                    busSelected,
+                    subwaySelected
             );
         });
 

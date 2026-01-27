@@ -131,7 +131,8 @@ public class WobimichView {
                 } else {
                     HBox cell = new HBox(10);
                     cell.setAlignment(Pos.CENTER_LEFT);
-                    Label name = new Label(station.getName());
+                    Label name = new Label(station.getName()+ " | Entfernung: " + station.getDistanceMeters() +
+                            "m");
                     Button starButton = new Button("☆");
 
                     starButton.setOnAction(e -> {

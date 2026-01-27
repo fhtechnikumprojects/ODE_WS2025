@@ -117,4 +117,13 @@ public class Station {
         return this.name;
     }
 
+    /**
+     *
+     * @return distance in meters
+     *
+     */
+    public int getDistanceMeters() {
+        return (int) (1000 * distance);
+    }
+
 }

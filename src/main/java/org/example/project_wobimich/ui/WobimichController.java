@@ -1,13 +1,17 @@
 package org.example.project_wobimich.ui;
 
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 import org.example.project_wobimich.model.LineStation;
 import org.example.project_wobimich.model.Station;
 import org.example.project_wobimich.service.AddressLookupService;
 import org.example.project_wobimich.service.LineLookupService;
+import org.example.project_wobimich.utils.LineStationUtils;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -48,6 +52,13 @@ public class WobimichController {
     // Path for search history/favorite stations
     private static final Path SEARCH_LOG = Paths.get("search-history.json");
     private static final Path FAVORITES_FILE = Paths.get("favorites.txt");
+
+    // Variables for updating departure time of lines every 20 seconds
+    private Timeline refreshTimeline;
+    private Station currentStation;
+    private boolean tramSelected;
+    private boolean busSelected;
+    private boolean subwaySelected;
 
     /**
      * Creates a new controller with the given data.
@@ -127,6 +138,11 @@ public class WobimichController {
             return;
         }
 
+        this.currentStation = station;
+        this.tramSelected = tramSelected;
+        this.busSelected = busSelected;
+        this.subwaySelected = subwaySelected;
+
         lineLookupService = new LineLookupService(station.getId());
 
         lineLookupService.setOnSucceeded(e -> {
@@ -141,6 +157,7 @@ public class WobimichController {
         lineLookupService.setOnFailed(e -> showError("Abfahrtszeiten nicht verfügbar!"));
 
         lineLookupService.start();
+        startAutoRefresh();
     }
 
     /**
@@ -230,6 +247,104 @@ public class WobimichController {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    /**
+     * Updates the departure times for all lines of the currently selected station.
+     * <p>
+     * For each line, it calculates the remaining minutes until the next departure.
+     * Past departures (negative minutes) are removed. If a line has no departures
+     * left, the line data is reloaded from the service.
+     * <p>
+     * Uses the internal fields:
+     * <ul>
+     *     <li>{@link #linesForSelectedStation} – list of all lines for the current station</li>
+     *     <li>{@link #tramSelected}, {@link #busSelected}, {@link #subwaySelected} – current filter settings</li>
+     * </ul>
+     */
+    private void updateDepartures() {
+        boolean needReload = false;
+
+        for (LineStation line : linesForSelectedStation) {
+            List<String> departureTimesString = line.getDepartureTimes();
+
+            if (departureTimesString == null || departureTimesString.isEmpty()) {
+                needReload = true;
+                break;
+            }
+
+            String nextDeparture = departureTimesString.getFirst();
+            int minutesUntilDeparture = LineStationUtils.getMinutesUntilDeparture(nextDeparture);
+
+            if (minutesUntilDeparture < 0) {
+                departureTimesString.removeFirst();
+
+                if (departureTimesString.isEmpty()) {
+                    needReload = true;
+                    break;
+                }
+            }
+
+        }
+
+        if (needReload) {
+            reloadLineLookupService();
+        } else {
+            applyFilter(tramSelected, busSelected, subwaySelected);
+        }
+
+    }
+
+    /**
+     * Reloads the departure lines from the backend service for the current station.
+     * <p>
+     * Fetches fresh line data asynchronously, updates the cached list of lines,
+     * and reapplies the current transportation type filters.
+     * <p>
+     * Uses the internal fields:
+     * <ul>
+     *     <li>{@link #currentStation} – the station whose lines are being reloaded</li>
+     *     <li>{@link #linesForSelectedStation} – list to be updated after reloading</li>
+     *     <li>{@link #tramSelected}, {@link #busSelected}, {@link #subwaySelected} – current filter settings</li>
+     * </ul>
+     */
+    private void reloadLineLookupService() {
+        if (currentStation == null) {
+            return;
+        }
+
+        lineLookupService = new LineLookupService(currentStation.getId());
+
+        lineLookupService.setOnSucceeded(e -> {
+            linesForSelectedStation = lineLookupService.getValue();
+            applyFilter(tramSelected, busSelected, subwaySelected);
+        });
+
+        lineLookupService.start();
+    }
+
+    /**
+     * Starts a periodic auto-refresh of departure times every 20 seconds.
+     * <p>
+     * Stops any existing timeline before creating a new one. The timeline runs
+     * indefinitely and calls {@link #updateDepartures()} at each cycle.
+     * <p>
+     * Uses the internal field:
+     * <ul>
+     *     <li>{@link #refreshTimeline} – stores the timeline to control its lifecycle</li>
+     * </ul>
+     */
+    private void startAutoRefresh() {
+        if (refreshTimeline != null) {
+            refreshTimeline.stop();
+        }
+
+        refreshTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(20), e -> updateDepartures())
+        );
+
+        refreshTimeline.setCycleCount(Timeline.INDEFINITE);
+        refreshTimeline.play();
     }
 
 }

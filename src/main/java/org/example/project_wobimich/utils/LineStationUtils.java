@@ -23,4 +23,24 @@ public class LineStationUtils {
         return "" + minutes;
     }
 
+    /**
+     * Calculates the remaining minutes until the given departure time.
+     * <p>
+     * Uses the existing getTimeInMin() method internally and ensures
+     * that negative values are capped at 0, so departures in the past
+     * are reported as 0 minutes.
+     *
+     * @param departureTime ISO-like timestamp string including timezone offset
+     * @return remaining minutes until departure as an int (minimum 0)
+     */
+    public static int getMinutesUntilDeparture(String departureTime) {
+        try {
+            int minutes = Integer.parseInt(getTimeInMin(departureTime));
+            return Math.max(minutes, 0);
+        } catch (NumberFormatException e) {
+            System.err.println("Fehler beim Parsen der Minuten: " + departureTime);
+            return 0;
+        }
+    }
+
 }

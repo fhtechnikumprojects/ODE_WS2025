@@ -15,10 +15,10 @@ public class Location {
     /**
      * Constructs a Location with all fields initialized.
      *
-     * @param streetName street name of the location
+     * @param streetName   street name of the location
      * @param streetNumber street number of the location
-     * @param longitude longitude coordinate
-     * @param latitude latitude coordinate
+     * @param longitude    longitude coordinate
+     * @param latitude     latitude coordinate
      */
     public Location(String streetName, String streetNumber, double longitude, double latitude) {
         this.streetName = streetName;

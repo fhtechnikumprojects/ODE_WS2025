@@ -28,6 +28,8 @@ import org.example.project_wobimich.model.Station;
  * </ul>
  */
 public class WobimichView {
+    // Controller
+    private WobimichController controller;
     // Data Lists (Observable for automatic UI synchronization)
     private ObservableList<Station> stations = FXCollections.observableArrayList();
     private ObservableList<LineStation> lines = FXCollections.observableArrayList();
@@ -49,18 +51,25 @@ public class WobimichView {
     private ListView<LineStation> lineListView = new ListView<>(lines);
     private ListView<Station> favoriteListView = new ListView<>(favoriteStations);
 
-    private WobimichController controller;
+    /**
+     *
+     */
+    public void setController(WobimichController controller) {
+        this.controller = controller;
+    }
 
     /**
      * Initializes and constructs the main application scene.
      * <p>
-     * Sets up the layout structure, loads default stations, favorites,
-     * and configures event listeners for user interaction.
+     * <p>
+     * Sets up the layout structure and configures event listeners for user interaction.
      *
      * @return A configured BorderPane containing the full UI layout.
      */
     public BorderPane createScene() {
-        controller = new WobimichController(stations, lines,favoriteStations);
+        if (controller == null) {
+            throw new IllegalStateException("Controller wurde nicht gesetzt. view.setController(...) fehlt.");
+        }
 
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
@@ -69,7 +78,8 @@ public class WobimichView {
         this.controller.loadDefaultStations();
         this.controller.loadFavorites();
 
-        favoriteStations.addListener((ListChangeListener<Station>) c -> controller.saveFavorites());
+        favoriteStations.addListener((ListChangeListener<Station>)
+                c -> controller.saveFavorites());
 
         root.setTop(createTopSection());
         root.setCenter(createCenterSection());
@@ -100,15 +110,18 @@ public class WobimichView {
     }
 
     /**
-     * Creates the center section containing:
-     * <ul>
-     *     <li>Station list</li>
-     *     <li>Favorites list</li>
-     *     <li>Filters for transportation types</li>
-     *     <li>Departure times list</li>
-     * </ul>
+     * Creates the center section of the main layout.
      *
-     * @return HBox containing the center UI section.
+     * This section consists of two main columns:
+     * - The left column, which includes the station list and the favorites list.
+     * - The right column, which displays departure information and transportation type filters.
+     *
+     * The station list enables users to add stations to their favorites using a star button,
+     * and the favorites list allows users to remove stations from their favorites.
+     * Double-clicking on an item in the favorites list triggers the loading of associated
+     * departure data.
+     *
+     * @return HBox containing the center section layout with left and right columns
      */
     private HBox createCenterSection() {
         HBox centerBox = new HBox(15);
@@ -128,11 +141,12 @@ public class WobimichView {
                 } else {
                     HBox cell = new HBox(10);
                     cell.setAlignment(Pos.CENTER_LEFT);
-                    Label name = new Label(station.getName());
+                    Label name = new Label(station.getName() + " | Entfernung: " + station.getDistanceMeters() +
+                            "m");
                     Button starButton = new Button("☆");
 
                     starButton.setOnAction(e -> {
-                        if (!favoriteStations.contains(station.getName())) {
+                        if (!favoriteStations.contains(station)) {
                             favoriteStations.add(station);
                         }
                     });
@@ -171,14 +185,13 @@ public class WobimichView {
                 Station selectedFav = favoriteListView.getSelectionModel().getSelectedItem();
                 if (selectedFav != null) {
                     this.controller.loadLinesForSelectedStation(
-                        selectedFav,
-                        tramCheckbox.isSelected(),
-                        busCheckbox.isSelected(),
-                        subwayCheckbox.isSelected());
+                            selectedFav,
+                            tramCheckbox.isSelected(),
+                            busCheckbox.isSelected(),
+                            subwayCheckbox.isSelected());
                 }
             }
         });
-
         return centerBox;
     }
 
@@ -241,9 +254,7 @@ public class WobimichView {
 
         Button searchButton = new Button("Suche");
         searchButton.disableProperty().bind(searchTextField.textProperty().isEmpty());
-        searchButton.setOnAction(e ->
-                this.controller.searchAddress(searchTextField.getText())
-        );
+        searchButton.setOnAction(e -> this.controller.searchAddress(searchTextField.getText()));
         searchButton.setStyle("-fx-border-color: darkred; -fx-border-width: 2;");
 
         searchBarButton.getChildren().addAll(searchTextField, searchButton);
@@ -319,7 +330,6 @@ public class WobimichView {
                 );
             }
         });
-
         return rightColumn;
     }
 
@@ -334,13 +344,13 @@ public class WobimichView {
         tramCheckbox.setSelected(true);
         busCheckbox.setSelected(true);
         subwayCheckbox.setSelected(true);
-
         tramCheckbox.setOnAction(e -> applyFilter());
         busCheckbox.setOnAction(e -> applyFilter());
         subwayCheckbox.setOnAction(e -> applyFilter());
 
         HBox checks = new HBox(10, tramCheckbox, busCheckbox, subwayCheckbox);
         filterContainer.getChildren().add(checks);
+
         return filterContainer;
     }
 
@@ -350,9 +360,9 @@ public class WobimichView {
      */
     private void applyFilter() {
         this.controller.applyFilter(
-            tramCheckbox.isSelected(),
-            busCheckbox.isSelected(),
-            subwayCheckbox.isSelected()
+                tramCheckbox.isSelected(),
+                busCheckbox.isSelected(),
+                subwayCheckbox.isSelected()
         );
     }
 
@@ -369,12 +379,36 @@ public class WobimichView {
         darkLightButton.setMaxWidth(Double.MAX_VALUE);
         darkLightButton.setStyle("-fx-background-color: lightgray; -fx-border-color: darkred; -fx-border-width: 2;");
         HBox.setHgrow(darkLightButton, Priority.ALWAYS);
-
         darkLightButton.setOnAction(e -> {
-            isDarkMode = this.controller.toggleLightDarkMode(root,isDarkMode);
+            isDarkMode = this.controller.toggleLightDarkMode(root, isDarkMode);
         });
-
         return darkLightButton;
     }
 
+    /**
+     * Retrieves the collection of available stations.
+     *
+     * @return an observable list containing Station objects
+     */
+    public ObservableList<Station> getStations() {
+        return stations;
+    }
+
+    /**
+     * Retrieves the collection of lines.
+     *
+     * @return an observable list containing LineStation objects
+     */
+    public ObservableList<LineStation> getLines() {
+        return lines;
+    }
+
+    /**
+     * Retrieves the collection of favorite stations.
+     *
+     * @return an observable list containing the user's favorite stations
+     */
+    public ObservableList<Station> getFavoriteStations() {
+        return favoriteStations;
+    }
 }

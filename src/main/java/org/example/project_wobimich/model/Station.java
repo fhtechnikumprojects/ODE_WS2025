@@ -30,9 +30,9 @@ public class Station {
     /**
      * Creates a new station with the given data.
      *
-     * @param id unique station ID
-     * @param name station name
-     * @param latitude latitude coordinate
+     * @param id        unique station ID
+     * @param name      station name
+     * @param latitude  latitude coordinate
      * @param longitude longitude coordinate
      */
     public Station(String id, String name, double latitude, double longitude) {
@@ -47,7 +47,10 @@ public class Station {
     /**
      * Default constructor.
      */
-    public Station () {};
+    public Station() {
+    }
+
+    ;
 
     /**
      * @return the station ID
@@ -106,6 +109,16 @@ public class Station {
     public void setDistance(double distance) {
         this.distance = distance;
     }
+
+    /**
+     *
+     * @return distance in meters
+     *
+     */
+    public int getDistanceMeters() {
+        return (int) (1000 * distance);
+    }
+
 
     /**
      * Returns the station name.

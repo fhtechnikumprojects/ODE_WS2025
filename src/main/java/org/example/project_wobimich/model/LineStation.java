@@ -30,7 +30,8 @@ public class LineStation {
      * @param realTimeSupported whether real-time data is available
      * @param departureTimes list of departure times
      */
-    public LineStation(String id, String name, String direction, String transportType, boolean barrierFree, boolean realTimeSupported, List<String> departureTimes) {
+    public LineStation(String id, String name, String direction, String transportType, boolean barrierFree,
+                       boolean realTimeSupported, List<String> departureTimes) {
         this.id = id;
         this.name = name;
         this.direction = direction;

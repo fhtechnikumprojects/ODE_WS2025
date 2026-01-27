@@ -56,7 +56,7 @@ Durch die Unterscheidung von Haltestellen und Haltepunkten kann WoBimIch nicht n
 ## Funktionen
 
 - **Standorteingabe** über Eingabefeld (Suche wid mit Timestamp gespeichert)
-- Anzeige passender **Haltestellen**
+- Anzeige passender **Haltestellen** mit Distanzangabe
 - Anzeige von **Abfahrts-/Linieninformationen**
 - **Flter** nach Verkehrsmittel (Bus, Straßenbahn, U-Bahn)
 - **Favoriten** speichern und wieder entfernen
@@ -70,7 +70,7 @@ Durch die Unterscheidung von Haltestellen und Haltepunkten kann WoBimIch nicht n
 - **dto**          → AddressDTO, RealTimeMonitorDTO
 - **model**        → Klassen (FunFact, LineStation, Location, LocationHistoryLogger, LocationLogEntry, Station)
 - **service**      → AddressLookupService, FavoriteService
-- **ui**           → WobimichUI
+- **ui**           → WobimichController, WobimichView
 - **utils**        → FunFactUtils, LineStationUtils
 - WobimichApplication
 

@@ -70,7 +70,7 @@ Durch die Unterscheidung von Haltestellen und Haltepunkten kann WoBimIch nicht n
 ##### src/main/java/org.example.project_wobimich
 - **api**          → APIs (AddressAPIClient, APIClient, RealTimeMonitirAPIClient, APIException)
 - **dto**          → AddressDTO, RealTimeMonitorDTO
-- **model**        → Klassen (FunFact, LineStation, Location, LocationHistoryLogger, LocationLogEntry, Station)
+- **model**        → Klassen (FunFact, LineStation, Location, Station)
 - **service**      → AddressLookupService, FavoriteService
 - **ui**           → WobimichView, WobimichController
 - **utils**        → FunFactUtils, LineStationUtils

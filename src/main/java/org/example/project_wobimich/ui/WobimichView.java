@@ -28,20 +28,20 @@ import org.example.project_wobimich.model.Station;
  * </ul>
  */
 public class WobimichView {
-    // Data Lists (Observable for automatic UI synchronization)
+    // Observable lists used for UI data binding
     private ObservableList<Station> stations = FXCollections.observableArrayList();
     private ObservableList<LineStation> lines = FXCollections.observableArrayList();
     private ObservableList<Station> favoriteStations = FXCollections.observableArrayList();
 
-    //User input in search bar
+    // Input field for address search
     private TextField searchTextField = new TextField();
 
-    //Checkbox transportations
+    // Transportation filter checkboxes
     private CheckBox tramCheckbox = new CheckBox("Straßenbahn");
     private CheckBox busCheckbox = new CheckBox("Bus");
     private CheckBox subwayCheckbox = new CheckBox("U-Bahn");
 
-    //State darkmode
+    // Current UI theme state (default light mode)
     private boolean isDarkMode = false;
 
     // UI Controls: List Views
@@ -195,7 +195,12 @@ public class WobimichView {
     }
 
     /**
-     * Applies preferred width and height settings to a VBox container.
+     * Applies consistent layout constraints to a VBox used inside the main layout.
+     * <p>
+     * Sets preferred width and enables horizontal and vertical growing behavior.
+     *
+     * @param box the VBox to configure
+     * @param prefWidth the preferred width of the container
      */
     private void setupBoxStyle(VBox box, double prefWidth) {
         box.setPrefWidth(prefWidth);
@@ -324,7 +329,12 @@ public class WobimichView {
     }
 
     /**
-     * Creates the filter section UI for transportation types.
+     * Creates the filter section for selecting transportation types.
+     * <p>
+     * Changing any checkbox immediately reapplies the filter
+     * to the currently loaded departure list.
+     *
+     * @return VBox containing transportation filter controls
      */
     private VBox createFilterSection() {
         VBox filterContainer = new VBox(5, new Label("Verkehrsmittel filtern:"));

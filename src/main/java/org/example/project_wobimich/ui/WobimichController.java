@@ -18,20 +18,34 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller class for the Wobimich application.
+ * <p>
+ * Handles application logic, data coordination and communication
+ * between the UI layer and backend services.
+ * <p>
+ * Responsibilities include:
+ * <ul>
+ *     <li>Address search and station lookup</li>
+ *     <li>Fetching and filtering departure data</li>
+ *     <li>Managing favorite stations</li>
+ *     <li>Persisting search history and favorites</li>
+ * </ul>
+ */
 public class WobimichController {
     // Data Lists (Observable for automatic UI synchronization)
     private ObservableList<Station> stations = FXCollections.observableArrayList();
     private ObservableList<LineStation> lines = FXCollections.observableArrayList();
     private ObservableList<Station> favoriteStations = FXCollections.observableArrayList();
 
-    //Data List for lines of a selected station
+    // Cached list of all lines for the currently selected station
     private List<LineStation> linesForSelectedStation = new ArrayList<>();
 
-    // Services
+    // Service for resolving addresses into stations/for fetching departure lines for a station
     private AddressLookupService addressLookupService;
     private LineLookupService lineLookupService;
 
-    // Path
+    // Path for search history/favorite stations
     private static final Path SEARCH_LOG = Paths.get("search-history.json");
     private static final Path FAVORITES_FILE = Paths.get("favorites.txt");
 
@@ -62,8 +76,12 @@ public class WobimichController {
     }
 
     /**
-     * Performs a search for the address entered the search bar,
-     * logs the search, and updates the station list.
+     * Performs an asynchronous address search based on user input.
+     * <p>
+     * The search query is logged locally before the station list
+     * is replaced with the search results.
+     *
+     * @param address the address entered by the user
      */
     public void searchAddress(String address) {
         logSearch(address);
@@ -77,7 +95,11 @@ public class WobimichController {
     }
 
     /**
-     * Logs the search query along with timestamp to a local file.
+     * Persists a searched address together with the current timestamp.
+     * <p>
+     * The data is appended to a local JSON-like log file.
+     *
+     * @param address the searched address
      */
     private void logSearch(String address) {
         try {
@@ -183,7 +205,11 @@ public class WobimichController {
     }
 
     /**
-     * Toggles between light and dark mode for the UI.
+     * Toggles between light and dark mode for the application UI.
+     *
+     * @param root the root pane whose style is updated
+     * @param isDarkMode current theme state
+     * @return the updated theme state after toggling
      */
     public boolean toggleLightDarkMode(BorderPane root, boolean isDarkMode) {
         isDarkMode = !isDarkMode;
@@ -196,8 +222,10 @@ public class WobimichController {
     }
 
     /**
-     * Shows an error message in an alert dialog.
-     * */
+     * Displays an error message in a modal alert dialog.
+     *
+     * @param message the error message to display
+     */
     private void showError(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(message);

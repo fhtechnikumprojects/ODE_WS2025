@@ -5,6 +5,7 @@ import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 import org.example.project_wobimich.model.LineStation;
@@ -60,17 +61,28 @@ public class WobimichController {
     private boolean busSelected;
     private boolean subwaySelected;
 
+    // Variables for progress bar with interval of 20 seconds
+    private static final int REFRESH_INTERVAL = 20;
+    private ProgressBar refreshProgressBar;
+    private int progressCounter = 0;
+
+
     /**
-     * Creates a new controller with the given data.
+     * Creates a new controller with the given application data and UI components.
+     * <p>
+     * The controller coordinates interaction between the UI layer and backend
+     * services and manages the application state.
      *
-     * @param stations observablelist of station
-     * @param lines observablelist of lines
-     * @param favoriteStations observablelist of stations that are added to favorite
+     * @param stations observable list of available stations
+     * @param lines observable list of departure lines
+     * @param favoriteStations observable list of stations marked as favorites
+     * @param progressBar progress bar used to visualize the auto-refresh interval
      */
-    public WobimichController(ObservableList<Station> stations, ObservableList<LineStation> lines, ObservableList<Station> favoriteStations) {
+    public WobimichController(ObservableList<Station> stations, ObservableList<LineStation> lines, ObservableList<Station> favoriteStations, ProgressBar progressBar) {
         this.stations = stations;
         this.lines = lines;
         this.favoriteStations = favoriteStations;
+        this.refreshProgressBar = progressBar;
     }
 
     /**
@@ -161,7 +173,14 @@ public class WobimichController {
     }
 
     /**
-     * Applies the selected transportation type filters to the departure list.
+     * Applies the selected transportation type filters to the current list of departures.
+     * <p>
+     * Only lines matching at least one selected transportation type
+     * (tram, bus, or subway) are added to the observable departure list.
+     *
+     * @param tramSelected whether tram lines should be displayed
+     * @param busSelected whether bus lines should be displayed
+     * @param subwaySelected whether subway lines should be displayed
      */
     public void applyFilter(boolean tramSelected, boolean busSelected, boolean subwaySelected) {
         lines.clear();
@@ -262,7 +281,7 @@ public class WobimichController {
      *     <li>{@link #tramSelected}, {@link #busSelected}, {@link #subwaySelected} – current filter settings</li>
      * </ul>
      */
-    private void updateDepartures() {
+    private void updateLineDepartures() {
         boolean needReload = false;
 
         for (LineStation line : linesForSelectedStation) {
@@ -276,7 +295,7 @@ public class WobimichController {
             String nextDeparture = departureTimesString.getFirst();
             int minutesUntilDeparture = LineStationUtils.getMinutesUntilDeparture(nextDeparture);
 
-            if (minutesUntilDeparture < 0) {
+            if (minutesUntilDeparture <= 0) {
                 departureTimesString.removeFirst();
 
                 if (departureTimesString.isEmpty()) {
@@ -327,7 +346,7 @@ public class WobimichController {
      * Starts a periodic auto-refresh of departure times every 20 seconds.
      * <p>
      * Stops any existing timeline before creating a new one. The timeline runs
-     * indefinitely and calls {@link #updateDepartures()} at each cycle.
+     * indefinitely and calls {@link #updateLineDepartures()} at each cycle.
      * <p>
      * Uses the internal field:
      * <ul>
@@ -339,8 +358,28 @@ public class WobimichController {
             refreshTimeline.stop();
         }
 
+        this.progressCounter = 0;
+        if (refreshProgressBar != null) {
+            refreshProgressBar.setProgress(0);
+        }
+
         refreshTimeline = new Timeline(
-                new KeyFrame(Duration.seconds(20), e -> updateDepartures())
+                new KeyFrame(Duration.seconds(1), e -> {
+                    progressCounter++;
+                    if (refreshProgressBar != null) {
+                        refreshProgressBar.setProgress((double) progressCounter / REFRESH_INTERVAL);
+                    }
+
+                    if (progressCounter >= REFRESH_INTERVAL) {
+                        updateLineDepartures();
+                        progressCounter = 0;
+
+                        if (refreshProgressBar != null) {
+                            refreshProgressBar.setProgress(0);
+                        }
+
+                    }
+                })
         );
 
         refreshTimeline.setCycleCount(Timeline.INDEFINITE);

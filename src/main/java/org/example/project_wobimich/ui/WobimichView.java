@@ -11,7 +11,6 @@ import org.example.project_wobimich.model.LineStation;
 import org.example.project_wobimich.utils.FunFactUtils;
 import org.example.project_wobimich.model.Station;
 
-
 /**
  * Main UI class for the "Wobimich" application.
  * <p>
@@ -49,6 +48,10 @@ public class WobimichView {
     private ListView<LineStation> lineListView = new ListView<>(lines);
     private ListView<Station> favoriteListView = new ListView<>(favoriteStations);
 
+    // UI: Progress bar for auto-refresh countdown
+    private ProgressBar refreshProgressBar = new ProgressBar(0);
+
+    // Variable for controller
     private WobimichController controller;
 
     /**
@@ -60,7 +63,7 @@ public class WobimichView {
      * @return A configured BorderPane containing the full UI layout.
      */
     public BorderPane createScene() {
-        controller = new WobimichController(stations, lines,favoriteStations);
+        this.controller = new WobimichController(stations, lines,favoriteStations, refreshProgressBar);
 
         BorderPane root = new BorderPane();
         root.setPadding(new Insets(10));
@@ -69,7 +72,7 @@ public class WobimichView {
         this.controller.loadDefaultStations();
         this.controller.loadFavorites();
 
-        favoriteStations.addListener((ListChangeListener<Station>) c -> controller.saveFavorites());
+        this.favoriteStations.addListener((ListChangeListener<Station>) c -> this.controller.saveFavorites());
 
         root.setTop(createTopSection());
         root.setCenter(createCenterSection());
@@ -132,7 +135,7 @@ public class WobimichView {
                     Button starButton = new Button("☆");
 
                     starButton.setOnAction(e -> {
-                        if (!favoriteStations.contains(station.getName())) {
+                        if (!favoriteStations.contains(station)) {
                             favoriteStations.add(station);
                         }
                     });
@@ -301,12 +304,15 @@ public class WobimichView {
         VBox combinedContainer = new VBox(10);
         combinedContainer.setStyle("-fx-border-color: lightgray; -fx-border-radius: 5; -fx-border-color: darkred; -fx-padding: 10;");
 
+        refreshProgressBar.setPrefWidth(Double.MAX_VALUE);
+        refreshProgressBar.setProgress(0);
+
         VBox filterContent = createFilterSection();
         filterContent.setStyle("-fx-border-color: darkred;");
 
         VBox.setVgrow(lineListView, Priority.ALWAYS);
 
-        combinedContainer.getChildren().addAll(filterContent, new Separator(), lineListView);
+        combinedContainer.getChildren().addAll(refreshProgressBar, filterContent, new Separator(), lineListView);
         VBox.setVgrow(combinedContainer, Priority.ALWAYS);
 
         rightColumn.getChildren().addAll(departuresLabel, combinedContainer);

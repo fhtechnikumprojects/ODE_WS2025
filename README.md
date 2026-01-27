@@ -33,14 +33,16 @@
 - Ziel PP4: 
   - Overkill Features implementieren
   - Overkill Features testen
+  - Kommentare hinzufügen/ergänzen/überarbeiten von Funktionen/Klassen
   - readme.md - Datei überarbeiten
+  - java doc erstellen
 
 ## Projektbeschreibung
 WoBimIch ist ein Smart Mirror, der die fünf nächstgelegensten Haltestellen der Wiener Linien anhand des angegebenen Standords anzeigt. 
 Dafür soll die API der Wiener Linien verwendet werden. Ähnlich wie die Wien Mobil App der Wiener Linien.
 
 Die Anwendung nutzt zwei verschiedene öffentliche APIs, um die benötigten Informationen zu ermitteln:
- 1. Adress-API der Stadt Wien: Benutzer*in gibt einen Straßennamen oder einen Straßennamen mit Hausnummer ein. Die API wandelt diese Adresse in geografische Koordinaten (Längengrad und Breitengrad) um.
+ 1. Address-API der Stadt Wien: Benutzer*in gibt einen Straßennamen oder einen Straßennamen mit Hausnummer ein. Die API wandelt diese Adresse in geografische Koordinaten (Längengrad und Breitengrad) um.
  2. Wiener Linien Echtzeit-Monitoring API: Mit den Koordinaten wird zunächst die nächstgelegene Haltestelle ermittelt. Anschließend werden für diese Haltestelle Abfahrtszeiten, Linieninformationen und Verkehrsmitteltypen (Bus, Straßenbahn, U-Bahn) über die Echtzeit-API abgerufen.
 
 Ein wichtiger Aspekt bei der Nutzung der Wiener Linien API ist der Unterschied zwischen Haltestellen und Haltepunkten:
@@ -56,9 +58,9 @@ Durch die Unterscheidung von Haltestellen und Haltepunkten kann WoBimIch nicht n
 ## Funktionen
 
 - **Standorteingabe** über Eingabefeld (Suche wid mit Timestamp gespeichert)
-- Anzeige passender **Haltestellen**
+- Anzeige von **fünf nächstgelegenen Haltestellen** ausgehend vom eingegebener Standorteingabe
 - Anzeige von **Abfahrts-/Linieninformationen**
-- **Flter** nach Verkehrsmittel (Bus, Straßenbahn, U-Bahn)
+- **Filter** nach Verkehrsmittel (Bus, Straßenbahn, U-Bahn)
 - **Favoriten** speichern und wieder entfernen
 - **Fun-Facts** geben zufällige Fakten 
 - **Light/Dark** Themes anwendbar
@@ -70,7 +72,7 @@ Durch die Unterscheidung von Haltestellen und Haltepunkten kann WoBimIch nicht n
 - **dto**          → AddressDTO, RealTimeMonitorDTO
 - **model**        → Klassen (FunFact, LineStation, Location, LocationHistoryLogger, LocationLogEntry, Station)
 - **service**      → AddressLookupService, FavoriteService
-- **ui**           → WobimichUI
+- **ui**           → WobimichView, WobimichController
 - **utils**        → FunFactUtils, LineStationUtils
 - WobimichApplication
 
@@ -89,21 +91,10 @@ Durch die Unterscheidung von Haltestellen und Haltepunkten kann WoBimIch nicht n
   - Haltepunkte von Wiener Linien
   - Fakten über Wiener Linien
 
-## Starten des Projektes
+## Starten der Anwendung
+`WobimichApplication` (org.example.project_wobimich.WobimichApplication) ausführen
 
-## Voraussetzungen
-- Java JDK 17 oder höher
-- JavaFX installiert und korrekt konfiguriert
-- IDE (z. B. IntelliJ IDEA oder Eclipse)
 
-## Projekt starten
-1. Projekt aus dem Repository klonen
-2. Projekt in der IDE öffnen
-3. Sicherstellen, dass JavaFX als Library eingebunden ist
-4. Die Klasse `WobimichApplication` ausführen
-
-## Startklasse
-org.example.project_wobimich.WobimichApplication
 
 
 
